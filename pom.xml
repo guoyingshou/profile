@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+      <groupId>com.tissue</groupId> 
+      <artifactId>tissue</artifactId>
+      <version>1.0-SNAPSHOT</version>
+  </parent>
+
+  <groupId>com.tissue</groupId>
+  <artifactId>profile</artifactId>
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <modules>
+    <module>profile-dao</module>
+    <module>profile-service</module>
+    <module>profile-comp</module>
+    <module>profile-web</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+          <plugin>
+              <groupId>org.apache.tomcat.maven</groupId>
+              <artifactId>tomcat7-maven-plugin</artifactId>
+              <version>2.0-SNAPSHOT</version>
+          </plugin>
+      </plugins>
+    </pluginManagement>
+
+    <plugins>
+      <plugin>
+        <groupId>org.apache.tomcat.maven</groupId>
+        <artifactId>tomcat7-maven-plugin</artifactId>
+        <version>2.0-SNAPSHOT</version>
+
+        <configuration>
+
+            <port>8001</port>
+            <path>/u1</path>
+
+            <contextFile>conf/context.xml</contextFile>
+            <useTestClasspath>false</useTestClasspath>
+
+        </configuration>
+
+      </plugin>
+    </plugins>
+  </build>
+
+  <name>profile project</name>
+
+</project>

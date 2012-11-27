@@ -1,0 +1,63 @@
+1, /plans
+
+POST
+request:
+
+{
+    topic: {
+        id: "value of topic id",
+    }
+    begins: "date of begins",
+    ends: "date of ends",
+    userId: "creator user id"
+}
+
+response:
+201 Location: /plans/{planId}
+
+2, /plans/{planId}
+
+GET
+response:
+{
+   topic: {
+       id: "value of topic id",
+       title: "value of topic title",
+       content: "value of topic content"
+   },
+   id: "value of plan id",
+   begins: "date of begins",
+   ends: "date of ends",
+   userId: "creator user id"
+}
+
+3, /plans/{planId}/posts
+
+POST
+request:
+
+add a new post to the plan:
+{
+    post: {
+        title: "value of post title", 
+        content: "value of post content",
+        category: "notepad | concept | question",
+        userId: "creator user id" 
+    },
+    userId: "the same as post user id"
+}
+
+add an existing post to the plan:
+
+{
+    post: {
+        id: "value of post id"
+    },
+    userId: "value of creator user id"
+}
+
+4, /plans/{planId}/questions
+5, /plans/{planId}/notes
+6, /plans/{planId}/concepts
+7, /plans/{planId}/tags
+8, /plans/{planid}/members

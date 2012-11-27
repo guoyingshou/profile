@@ -1,0 +1,44 @@
+/topics POST, GET
+/topics/{tid} GET, PUT
+/topics/{tid}/plans POST, GET
+/topics/{tid}/plans/{pid} GET, PUT
+
+/plans POST
+/plans/{pid} GET, PUT
+/plans/{pid}/members POST, GET
+/plans/{pid}/questions POST, GET
+/plans/{pid}/questions/{qid} POST(add question to plan)
+/plans/{pid}/notes POST, GET
+/plans/{pid}/notes/{nid} POST(add note to plan)
+/plans/{pid}/concepts POST, GET
+/plans/{pid}/concepts/{cid} POST(add concept to plan)
+
+/users/{uid}/topics POST, GET   
+/users/{uid}/plans GET, POST(add plan)
+/users/{uid}/plans/{pid} PUT(join plan)
+/users/{uid}/questions POST, GET
+/users/{uid}/notes POST, GET
+/users/{uid}/concepts POST, GET
+
+/questions POST
+/questions/{qid} GET, PUT
+/questions/{qid}/discussions POST
+/questions/{qid}/discussions/{did} PUT, DELETE
+/questions/{qid}/answers POST
+/questions/{qid}/answers/{did} PUT, DELETE
+
+/notes POST
+/notes/{nid} GET, PUT
+/notes/{nid}/comments POST
+/notes/{nid}/comments/{cid} PUT, DELETE
+
+/concepts POST
+/concepts/{id} GET, PUT
+/concepts/{id}/comments POST
+/concepts/{id}/comments/{cid} PUT, DELETE
+
+/tags GET
+/tags/{tid}/questions GET
+/tags/{tid}/notes GET
+/tags/{tid}/concepts GET
+/tags/{tid}/topics GET

@@ -1,0 +1,58 @@
+1, /topics 
+
+POST
+request:
+{
+    title: "value of title",
+    content: "value of conten",
+    userId: "user id"
+}
+
+GET 
+request parameter: 
+  page, size
+
+2, /topics/{topicId}
+
+GET
+response:
+{
+    id: "topic id",
+    title: "value of title",
+    content: "value of content",
+    userId: "creator user id"
+}
+
+PUT
+request: {
+    id: "topic id",
+    title: "value of title",
+    content: value of content",
+    userId: "user id"
+}
+
+3, /topics/{topicId}/plans
+
+GET 
+
+response:
+[{
+    begins: "date of begin",
+    ends: "date of ends",
+    userId: "creator user id"
+}, ...]
+
+4, /topics/{topicId}/questions
+GET
+
+5, /topics/{topicId}/concepts
+GET
+
+6, /topics/{topicId}/notes
+GET
+
+7, /topics/{topicId}/members
+GET
+
+8, /topics/{topicId}/tags
+GET
