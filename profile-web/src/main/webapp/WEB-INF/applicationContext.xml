@@ -27,6 +27,7 @@
   <bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
   -->
 
+  <import resource="commons-dao.xml" />
   <import resource="profile-dao.xml" />
   <import resource="security.xml" />
   <!--

@@ -1,9 +1,11 @@
 package com.tissue.profile.web.spring.controllers;
 
 import com.tissue.profile.service.InvitationService;
+import com.tissue.domain.social.Event;
 import com.tissue.domain.profile.Invitation;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.security.core.userdetails.UserDetailsImpl;
+import com.tissue.commons.service.EventService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -62,8 +64,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class IndexController {
 
     @Autowired
-    //@Qualifier("userService")
     private InvitationService invitationService;
+
+    @Autowired
+    private EventService eventService;
+
 
     @RequestMapping(value="/home")
     public String index(Map model) {
@@ -93,6 +98,9 @@ public class IndexController {
     public String dashboard(Map model) {
 
         String viewerId = SecurityUtil.getUserId();
+
+        //eventService.getFriendsEvents(viewerId);
+
         int count = invitationService.getInvitationsCount(viewerId);
         if(count > 0) {
             model.put("invitationsCount", count);
