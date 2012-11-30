@@ -89,8 +89,7 @@ public class IndexController {
             return "home";
         }
         else {
-            model.put("viewer", viewer);
-            return "dashboard";
+            return "redirect:/profile/dashboard";
         }
     }
 
@@ -99,7 +98,10 @@ public class IndexController {
 
         String viewerId = SecurityUtil.getUserId();
 
-        //eventService.getFriendsEvents(viewerId);
+        List<Event> events = eventService.getRelatedEvents(viewerId);
+        System.out.println("events count: " + events.size());
+
+        model.put("events", events);
 
         int count = invitationService.getInvitationsCount(viewerId);
         if(count > 0) {
