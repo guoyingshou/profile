@@ -10,7 +10,7 @@ public interface InvitationService {
 
     void inviteFriend(String fromId, String toId, String content);
 
-    int getInvitationsCount(String viewerId);
+    //int getInvitationsCount(String viewerId);
 
     List<Invitation> getInvitations(String viewerId);
 

@@ -83,39 +83,53 @@ public class InvitationDaoImpl implements InvitationDao {
         }
     }
 
-    public int getInvitationsCount(String viewerId) {
-         return getInvitationEdges(viewerId).size();
-    }
+    public Invitation getInvitation(String invitationId) {
+        Invitation invitation = null;
 
-    public List<Invitation> getInvitations(String viewerId) {
-        List<Invitation> invitations = new ArrayList();
-
-        Set<OIdentifiable> edges = getInvitationEdges(viewerId);
-        for(OIdentifiable id : edges) {
-            ODocument invitationDoc = new ODocument("Invitation", id.getIdentity());
-            Invitation invitation = InvitationConverter.buildInvitation(invitationDoc);
-            invitations.add(invitation);
-        }
-        return invitations;     
-    }
-
-    private Set<OIdentifiable> getInvitationEdges(String viewerId) {
-        Set<OIdentifiable> inEdges = new HashSet();
-
-        String rid = OrientIdentityUtil.decode(viewerId);
+        String sql = "select from " + OrientIdentityUtil.decode(invitationId);
         OGraphDatabase db = dataSource.getDB();
         try {
-            inEdges = db.getInEdges(new ORecordId(rid), "invitation");
+            OSQLSynchQuery q = new OSQLSynchQuery(sql);
+            List<ODocument> result = db.query(q);
+            if(result.size() > 0) {
+                ODocument invitationDoc = result.get(0);
+                invitation = InvitationConverter.buildInvitation(invitationDoc);
+            }
         }
         catch(Exception exc) {
-           //to do
             exc.printStackTrace();
+           //to do
         }
         finally {
             db.close();
         }
 
-        return inEdges;
+        return invitation;
+    }
+
+    public List<Invitation> getInvitations(String viewerId) {
+        List<Invitation> invitations = new ArrayList();
+
+        String sql = "select from invitation where in in " + 
+                      OrientIdentityUtil.decode(viewerId) +
+                      " and status = 'unread'";
+        OGraphDatabase db = dataSource.getDB();
+        try {
+            OSQLSynchQuery q = new OSQLSynchQuery(sql);
+            List<ODocument> result = db.query(q);
+            for(ODocument invitationDoc : result) {
+                Invitation invitation = InvitationConverter.buildInvitation(invitationDoc);
+                invitations.add(invitation);
+            }
+        }
+        catch(Exception exc) {
+            exc.printStackTrace();
+           //to do
+        }
+        finally {
+            db.close();
+        }
+        return invitations;
     }
 
     public boolean declineInvitation(String invitationId) {
@@ -141,44 +155,46 @@ public class InvitationDaoImpl implements InvitationDao {
         return flag;
     }
 
+    public Invitation acceptInvitation(String invitationId) {
 
-    public boolean acceptInvitation(String invitationId) {
-        boolean flag = true;
+        Invitation invitation = null;
         
-        String rid = OrientIdentityUtil.decode(invitationId);
-
-        String sqlGetRid = "select in.@rid as fromRid, out.@rid as toRid from invitation where @rid = ?";
-        String sqlUpdateInvitation = "update invitation set status = 'accepted', updateTime = sysdate() where @rid = ?"; 
+        String sql = "select from " + OrientIdentityUtil.decode(invitationId);
 
         OGraphDatabase db = dataSource.getDB();
         try {
 
-            OCommandSQL cmdGetRid = new OCommandSQL(sqlGetRid);
-            List<ODocument> rids = db.command(cmdGetRid).execute(rid);
-            if(rids.size() > 0) {
-                ODocument doc = rids.get(0);
-                String fromRid = doc.field("fromRid", String.class);
-                String toRid = doc.field("toRid", String.class);
+            OSQLSynchQuery q = new OSQLSynchQuery(sql);
+            List<ODocument> result = db.query(q);
+            if(result.size() > 0) {
+                ODocument invitationDoc = result.get(0);
+                invitationDoc.field("updateTime", new Date());
+                invitationDoc.field("status", "accepted");
+                invitationDoc.save();
+
+                ODocument invitorDoc = invitationDoc.field("out");
+                ODocument inviteeDoc = invitationDoc.field("in");
 
                  //add friend
-                String sqlAddFriend = "create Edge Friend from " + fromRid + " to " + toRid + " set createTime = sysdate()";
+                String sqlAddFriend = "create Edge Friend from " + 
+                                      invitorDoc.getIdentity().toString() + 
+                                      " to " + 
+                                      inviteeDoc.getIdentity().toString() + 
+                                      " set label = 'friend', createTime = sysdate()";
                 OCommandSQL cmdAddFriend = new OCommandSQL(sqlAddFriend);
                 db.command(cmdAddFriend).execute();
 
-                 //update invitation
-                OCommandSQL cmd = new OCommandSQL(sqlUpdateInvitation);
-                db.command(cmd).execute(OrientIdentityUtil.decode(invitationId));
-            }
+                invitation = InvitationConverter.buildInvitation(invitationDoc);
+           }
         }
         catch(Exception exc) {
-            flag = false;
             //to do
             exc.printStackTrace();
         }
         finally {
             db.close();
         }
-        return flag;
+        return invitation;
     }
-
+ 
 }

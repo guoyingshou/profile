@@ -9,12 +9,14 @@ public interface InvitationDao {
 
     void inviteFriend(String fromId, String toId, String content);
 
-    int getInvitationsCount(String userId);
+    Invitation getInvitation(String invitationid);
+
+    //int getInvitationsCount(String userId);
 
     List<Invitation> getInvitations(String userId);
 
     boolean declineInvitation(String invitationId);
 
-    boolean acceptInvitation(String invitationId);
+    Invitation acceptInvitation(String invitationId);
 
 }

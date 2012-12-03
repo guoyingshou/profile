@@ -15,7 +15,7 @@
         </div>
 
         <div id="content">
-            <@gadgets.showEvents />
+            <@gadgets.showTopicRelatedEvents />
         </div>
     </div>
 </@tissue.layout>

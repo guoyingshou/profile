@@ -42,9 +42,4 @@ public class UserServiceImpl implements UserService {
         return userDao.getFriends(viewerId);
     }
 
-    /**
-    public void getEdges(String fromId, String toId) {
-        userDao.getEdges(fromId, toId);
-    }
-    */
 }

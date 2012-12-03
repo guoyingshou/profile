@@ -1,4 +1,5 @@
 <#import "tissue.ftl" as tissue />
+<#import "gadgets.ftl" as gadgets />
 <#import "spring.ftl" as spring />
 
 <#assign mystyles=["http://www.tissue.com/resources/css/content-2cols.css", "http://www.tissue.com/resources/css/dashboard.css"] in tissue>
@@ -14,8 +15,7 @@
         </div>
 
         <div id="content">
-            content
-
+            <@gadgets.showFriendsEvents />
         </div>
     </div>
 </@tissue.layout>

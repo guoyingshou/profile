@@ -15,32 +15,7 @@
 	       http://www.springframework.org/schema/util 
 	       http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	   
-           <!--
-    <context:property-placeholder location="WEB-INF/conf/profile.properties" />
-    <context:component-scan base-package="com.tissue.profile.dao.mongo" />
-    -->
-
     <context:component-scan base-package="com.tissue.profile.dao.orient" />
 
-    <bean id="mongo" class="com.mongodb.Mongo" />
-<!--
-    <bean id="userDao" class="com.tissue.profile.dao.mongo.UserDaoImpl">
-        <property name="mongo" ref="mongo" />
-        <property name="dbName" value="test" />
-        <property name="collectionName" value="users" />
-    </bean>
-    -->
-
-           <!--
-    <bean id="mapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
-    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="typeAliasesPackage" value="com.tissue.profile.domain" />
-    </bean>
-
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.tissue.profile.mapper" /> 
-    </bean>
-    -->
-   
+  
 </beans>

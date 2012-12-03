@@ -1,11 +1,11 @@
 package com.tissue.profile.web.spring.controllers;
 
-import com.tissue.profile.service.InvitationService;
 import com.tissue.domain.social.Event;
 import com.tissue.domain.profile.Invitation;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.security.core.userdetails.UserDetailsImpl;
 import com.tissue.commons.service.EventService;
+import com.tissue.profile.service.InvitationService;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -76,11 +76,8 @@ public class IndexController {
         String viewerId = SecurityUtil.getUserId();
 
         if(viewerId != null) {
-            //List<Invitation> invitations = invitationService.getInvitations(viewerId);
-            int count = invitationService.getInvitationsCount(viewerId);
-            if(count > 0) {
-                model.put("invitationsCount", count);
-            }
+            List<Invitation> invitations = invitationService.getInvitations(viewerId);
+            model.put("invitationsCount", invitations.size());
         }
 
         UserDetailsImpl viewer = SecurityUtil.getUser();
@@ -97,17 +94,12 @@ public class IndexController {
     public String dashboard(Map model) {
 
         String viewerId = SecurityUtil.getUserId();
-
-        List<Event> events = eventService.getRelatedEvents(viewerId);
-        System.out.println("events count: " + events.size());
-
+        List<Event> events = eventService.getTopicRelatedEvents(viewerId);
         model.put("events", events);
 
-        int count = invitationService.getInvitationsCount(viewerId);
-        if(count > 0) {
-            model.put("invitationsCount", count);
-        }
- 
+        List<Invitation> invitations = invitationService.getInvitations(viewerId);
+        model.put("invitationsCount", invitations.size());
+
         model.put("viewer", SecurityUtil.getUser());
         return "dashboard";
     }

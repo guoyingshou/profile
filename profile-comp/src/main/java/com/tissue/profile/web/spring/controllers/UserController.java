@@ -1,11 +1,14 @@
 package com.tissue.profile.web.spring.controllers;
 
-import com.tissue.commons.security.util.SecurityUtil;
+import com.tissue.domain.social.Event;
 import com.tissue.domain.profile.User;
+import com.tissue.domain.profile.Invitation;
 import com.tissue.profile.web.model.UserForm;
 import com.tissue.profile.web.model.AccountForm;
 import com.tissue.profile.service.UserService;
 import com.tissue.profile.service.InvitationService;
+import com.tissue.commons.service.EventService;
+import com.tissue.commons.security.util.SecurityUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -47,6 +50,10 @@ public class UserController {
 
     @Autowired
     private InvitationService invitationService;
+
+    @Autowired
+    private EventService eventService;
+
 
     @RequestMapping(value="/users/{id}")
     public String getCNA(@PathVariable("id") String id, Map model) {
@@ -112,7 +119,6 @@ public class UserController {
 
         if(viewerId != null) {
             List<User> friends = userService.getFriends(viewerId);
-            System.out.println("In controller: " + friends.size());
             model.put("friends", friends);
         }
 
@@ -123,6 +129,14 @@ public class UserController {
 
     @RequestMapping(value="/actions")
     public String getCNA(Map model) {
+        String viewerId = SecurityUtil.getUserId();
+
+        List<Event> events = eventService.getFriendsEvents(viewerId);
+        model.put("events", events);
+
+        List<Invitation> invitations = invitationService.getInvitations(viewerId);
+        model.put("invitationsCount", invitations.size());
+
         model.put("viewer", SecurityUtil.getUser());
         return "actions";
     }
