@@ -58,13 +58,12 @@ public class UserController {
     @RequestMapping(value="/users/{id}")
     public String getCNA(@PathVariable("id") String id, Map model) {
 
-        boolean canInvite = invitationService.canInvite(SecurityUtil.getUserId(), id);
-        model.put("canInvite", canInvite);
-
-        //put the viewer into the model
-        model.put("viewer", SecurityUtil.getUser());
-
-        //put the owner into the model
+        String viewerId = SecurityUtil.getUserId();
+        if(viewerId != null) {
+            boolean canInvite = invitationService.canInvite(viewerId, id);
+            model.put("canInvite", canInvite);
+            model.put("viewer", userService.getUserById(viewerId));
+        }
         model.put("owner", userService.getUserById(id));
         return "cna";
     }
@@ -85,24 +84,6 @@ public class UserController {
     public String processInvitation(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
 
         invitationService.inviteFriend(SecurityUtil.getUserId(), id, content);
-
-        model.put("viewer", SecurityUtil.getUser());
-        model.put("owner", userService.getUserById(id));
-        return "redirect:/profile/users/" + id;
-    }
-
-    @RequestMapping(value="/users/{id}/messages")
-    public String showMessageForm(@PathVariable("id") String id, Map model) {
-
-        model.put("viewer", SecurityUtil.getUser());
-        model.put("owner", userService.getUserById(id));
-        return "messageForm";
-    }
-
-    @RequestMapping(value="/users/{id}/message", method=POST)
-    public String sendMessage(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
-
-        //userService.sendMessage(SecurityUtil.getUserId(), id, content);
 
         model.put("viewer", SecurityUtil.getUser());
         model.put("owner", userService.getUserById(id));
@@ -140,6 +121,24 @@ public class UserController {
         model.put("viewer", SecurityUtil.getUser());
         return "actions";
     }
+
+
+    /**
+    @RequestMapping(value="/users/{id}/messages")
+    public String showMessageForm(@PathVariable("id") String id, Map model) {
+
+        model.put("viewer", SecurityUtil.getUser());
+        model.put("owner", userService.getUserById(id));
+        return "messageForm";
+    }
+
+    @RequestMapping(value="/users/{id}/message", method=POST)
+    public String sendMessage(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
+        model.put("viewer", SecurityUtil.getUser());
+        model.put("owner", userService.getUserById(id));
+        return "redirect:/profile/users/" + id;
+    }
+    */
 
 }
 

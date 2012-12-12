@@ -38,7 +38,6 @@ public class SignupController {
     @Qualifier("userService")
     private UserService userService;
 
-    //private ObjectMapper mapper = new ObjectMapper();
 
     @RequestMapping(value="/signup")
     public String signupForm(Map model, Locale locale) {
@@ -74,5 +73,3 @@ public class SignupController {
     }
 
 }
-
-
