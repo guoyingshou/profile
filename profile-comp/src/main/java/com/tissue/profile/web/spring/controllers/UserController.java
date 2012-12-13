@@ -3,12 +3,15 @@ package com.tissue.profile.web.spring.controllers;
 import com.tissue.domain.social.Event;
 import com.tissue.domain.profile.User;
 import com.tissue.domain.profile.Invitation;
+import com.tissue.domain.plan.Post;
 import com.tissue.profile.web.model.UserForm;
 import com.tissue.profile.web.model.AccountForm;
 import com.tissue.profile.service.UserService;
 import com.tissue.profile.service.InvitationService;
+import com.tissue.plan.service.PostService;
 import com.tissue.commons.service.EventService;
 import com.tissue.commons.security.util.SecurityUtil;
+import com.tissue.commons.util.Pager;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -54,9 +57,19 @@ public class UserController {
     @Autowired
     private EventService eventService;
 
+    @Autowired
+    private PostService postService;
+
 
     @RequestMapping(value="/users/{id}")
-    public String getCNA(@PathVariable("id") String id, Map model) {
+    public String getCNA(@PathVariable("id") String id, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
+
+        page = (page == null) ? 1 : page;
+        size = (size == null) ? 50 : size;
+        long total = postService.getPostsCountByUserId(id);
+        Pager pager = new Pager(total, page, size);
+        model.put("pager", pager);
+
 
         String viewerId = SecurityUtil.getUserId();
         if(viewerId != null) {
@@ -65,6 +78,10 @@ public class UserController {
             model.put("viewer", userService.getUserById(viewerId));
         }
         model.put("owner", userService.getUserById(id));
+
+        List<Post> posts = postService.getPagedPostsByUserId(id, page, size);
+        model.put("posts", posts);
+
         return "cna";
     }
 

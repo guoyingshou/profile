@@ -1,4 +1,5 @@
 <#import "tissue.ftl" as tissue />
+<#import "gadgets.ftl" as gadgets />
 <#import "spring.ftl" as spring />
 
 <#assign myscripts=["/ckeditor/ckeditor.js", "/ckeditor/adapters/jquery.js"] in tissue>
@@ -14,10 +15,15 @@
         <div id="sidebar">
         </div>
 
-        <ul id="content">
-        </ul>
+       <div id="content">
+           <#if posts??>
+               <@gadgets.showPostList posts />
+           </#if>
+           <@gadgets.showPager />
+       </div>
     </div>
 
+<#--
     <script>
 
         $(document).ready(function() {
@@ -25,6 +31,7 @@
         });
 
     </script>
+    -->
 
 
 </@tissue.layout>
