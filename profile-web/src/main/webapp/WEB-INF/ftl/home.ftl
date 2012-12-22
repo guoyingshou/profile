@@ -2,7 +2,7 @@
 <#import "gadgets.ftl" as gadgets />
 <#import "spring.ftl" as spring />
 
-<#assign mystyles=["http://www.tissue.com/resources/css/common.css", "http://www.tissue.com/resources/css/content-2cols.css", "http://www.tissue.com/resources/css/home.css"] in tissue>
+<#assign mystyles=["/tissue/css/common.css", "/tissue/css/content-2cols.css", "/tissue/css/home.css"] in tissue>
 
 <@tissue.layout "home">
     <div id="logo">

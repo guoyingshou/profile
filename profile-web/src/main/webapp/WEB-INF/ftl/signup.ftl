@@ -1,7 +1,7 @@
 <#import "tissue.ftl" as tissue />
 <#import "spring.ftl" as spring />
 
-<#assign mystyles=["http://www.tissue.com/resources/css/content-2cols.css", "http://www.tissue.com/resources/css/signup.css"] in tissue>
+<#assign mystyles=["/tissue/css/content-2cols.css", "/tissue/css/signup.css"] in tissue>
 
 <@tissue.layout "signup">
     <div id="logo">
