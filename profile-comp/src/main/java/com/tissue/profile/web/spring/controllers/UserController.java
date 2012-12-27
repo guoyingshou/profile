@@ -60,6 +60,10 @@ public class UserController {
     @Autowired
     private PostService postService;
 
+    @ModelAttribute("locale")
+    public String setupLocale(Locale locale) {
+        return locale.toString();
+    }
 
     @RequestMapping(value="/users/{id}")
     public String getCNA(@PathVariable("id") String id, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
@@ -89,7 +93,7 @@ public class UserController {
     public String showInvitationForm(@PathVariable("id") String id, Map model) {
 
         if(!invitationService.canInvite(SecurityUtil.getUserId(), id)) {
-            return "redirect:/profile/users/" + id;
+            return "redirect:/users/" + id;
         }
 
         model.put("viewer", SecurityUtil.getUser());
@@ -104,7 +108,7 @@ public class UserController {
 
         model.put("viewer", SecurityUtil.getUser());
         model.put("owner", userService.getUserById(id));
-        return "redirect:/profile/users/" + id;
+        return "redirect:/users/" + id;
     }
 
     /**

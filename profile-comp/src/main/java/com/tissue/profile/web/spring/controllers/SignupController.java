@@ -38,6 +38,15 @@ public class SignupController {
     @Qualifier("userService")
     private UserService userService;
 
+    @ModelAttribute("locale")
+    public String setupLocale(Locale locale) {
+        return locale.toString();
+    }
+
+    @RequestMapping(value="/login")
+    public String loginForm(Map model, Locale locale) {
+        return "login";
+    }
 
     @RequestMapping(value="/signup")
     public String signupForm(Map model, Locale locale) {
@@ -69,7 +78,7 @@ public class SignupController {
         user.setCreateTime(new Date());
 
         userService.addUser(user);
-        return "redirect:dashboard";
+        return "redirect:/dashboard";
     }
 
 }

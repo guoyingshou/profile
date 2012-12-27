@@ -15,10 +15,22 @@
 	       http://www.springframework.org/schema/util 
 	       http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 		   
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+
+    <!--
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource" p:basenames="common,application" />
+    -->
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basenames="common,application" p:defaultEncoding="utf-8"/>
+        
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="preferFileSystemAccess" value="false" />
         <property name="templateLoaderPaths" value="/WEB-INF/ftl/, classpath:/freemarker/"/>
 	    <property name="defaultEncoding" value="utf-8"/>
+        <property name="freemarkerVariables">
+            <map>
+                <entry key="locale" value="zh_CN" />    
+            </map>
+        </property>
     </bean>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
@@ -28,7 +40,8 @@
 	    <property name="suffix" value=".ftl"/>
     </bean>
 
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+    <mvc:resources mapping="/resources/**" location="/" />
+
     <mvc:annotation-driven />
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 

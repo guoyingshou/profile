@@ -59,7 +59,7 @@
     </bean>
 
     <bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <property name="loginFormUrl" value="/profile/login"/>
+        <property name="loginFormUrl" value="/login"/>
     </bean>
 
     <bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
@@ -81,10 +81,10 @@
         </property>
         <property name="securityMetadataSource">
             <sec:filter-security-metadata-source>
-                <sec:intercept-url pattern="/profile/home" access="ROLE_ANONYMOUS, ROLE_user" />
-                <sec:intercept-url pattern="/profile/dashboard" access="ROLE_user" />
-                <sec:intercept-url pattern="/profile/actions" access="ROLE_user" />
-                <sec:intercept-url pattern="/profile/users/*" access="ROLE_ANONYMOUS, ROLE_user" />
+                <sec:intercept-url pattern="/home" access="ROLE_ANONYMOUS, ROLE_user" />
+                <sec:intercept-url pattern="/dashboard" access="ROLE_user" />
+                <sec:intercept-url pattern="/actions" access="ROLE_user" />
+                <sec:intercept-url pattern="/users/*" access="ROLE_ANONYMOUS, ROLE_user" />
             </sec:filter-security-metadata-source>
         </property>
     </bean>

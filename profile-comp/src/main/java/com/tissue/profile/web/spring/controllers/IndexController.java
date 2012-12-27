@@ -15,9 +15,6 @@ import com.orientechnologies.orient.core.db.document.ODatabaseDocumentPool;
 import com.orientechnologies.orient.core.db.document.ODatabaseDocumentTx;
 import com.orientechnologies.orient.core.record.impl.ODocument;
 
-//import com.orientechnologies.orient.object.db.OObjectDatabasePool;
-//import com.orientechnologies.orient.object.db.OObjectDatabaseTx;
-
 import com.orientechnologies.orient.core.record.ORecord;
 import com.orientechnologies.orient.core.db.record.OIdentifiable;
 import com.orientechnologies.orient.core.sql.query.OSQLSynchQuery;
@@ -27,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,8 +67,14 @@ public class IndexController {
     @Autowired
     private EventService eventService;
 
+    @ModelAttribute("locale")
+    public String setupLocale(Locale locale) {
+        return locale.toString();
+    }
+
     @RequestMapping(value="/home")
-    public String index(Map model) {
+    public String index(Map model, Locale locale) {
+        //model.put("locale", locale.toString());
 
         UserDetailsImpl viewer = SecurityUtil.getUser();
 
@@ -80,12 +84,13 @@ public class IndexController {
             return "home";
         }
         else {
-            return "redirect:/profile/dashboard";
+            return "redirect:/dashboard";
         }
     }
 
     @RequestMapping(value="/dashboard")
-    public String dashboard(Map model) {
+    public String dashboard(Map model, Locale locale) {
+        //model.put("locale", locale.toString());
 
         String viewerId = SecurityUtil.getUserId();
         List<Event> events = eventService.getTopicRelatedEvents(viewerId);

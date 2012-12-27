@@ -23,15 +23,4 @@
        </div>
     </div>
 
-<#--
-    <script>
-
-        $(document).ready(function() {
-            $('#content').load('/u2/plan/users/${owner.id}/posts');
-        });
-
-    </script>
-    -->
-
-
 </@tissue.layout>

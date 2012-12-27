@@ -3,7 +3,7 @@
 
 <#assign myscripts=["/ckeditor/ckeditor.js", "/ckeditor/adapters/jquery.js"] in tissue>
 
-<#assign mystyles=["http://www.tissue.com/resources/css/content-2cols.css", "http://www.tissue.com/resources/css/cna.css"] in tissue>
+<#assign mystyles=["/resources/css/content-2cols.css", "/resources/css/cna.css"] in tissue>
 
 <@tissue.layout "message">
     <div id="logo">
@@ -15,7 +15,7 @@
         </div>
 
         <div id="content">
-            <form method="POST" action="<@spring.url '/profile/users/${owner.id}/messages' />">
+            <form method="POST" action="<@spring.url '/users/${owner.id}/messages' />">
                 
                 <p><label for="message">message content</label></p>
 

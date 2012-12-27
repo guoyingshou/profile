@@ -24,7 +24,7 @@
                        <p>${invitation.invitor.displayName}</p>
                        <p>${invitation.createTime?date}</p>
                        <p>${invitation.content}</p>
-                       <form method="post" action="<@spring.url '/profile/invitations/${invitation.id}' />">
+                       <form method="post" action="<@spring.url '/invitations/${invitation.id}' />">
                             <input type="submit" id="accept" value="accept"/>
                             <input type="submit" id="decline" value="decline"/>
                        </form>

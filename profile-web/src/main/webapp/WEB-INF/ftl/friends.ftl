@@ -21,27 +21,12 @@
             <ul>
                 <#list friends as friend>
                     <li>
-                       <p><a href="<@spring.url '/profile/users/${friend.id}/' />">${friend.displayName}</a></p>
+                       <p><a href="<@spring.url '/users/${friend.id}/' />">${friend.displayName}</a></p>
                     </li>
                 </#list>
             </ul>
             </#if>
         </div>
     </div>
-
-<#--
-    <script>
-        $(document).ready(function() {
-            $('form input[type="submit"]').on('click', function(e) {
-                e.preventDefault();
-                $form = $(this).parent();
-                $action = $form.attr("action");
-                $.post($action, {'action': e.target.id}, function(data) {
-                    $form.replaceWith("<p>ok</p>");
-                });
-            }); 
-        });
-    </script>
--->
 
 </@tissue.layout>

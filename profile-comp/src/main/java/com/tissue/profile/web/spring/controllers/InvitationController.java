@@ -36,6 +36,11 @@ public class InvitationController {
     @Autowired
     private InvitationService invitationService;
 
+    @ModelAttribute("locale")
+    public String setupLocale(Locale locale) {
+        return locale.toString();
+    }
+
     /**
      * Get all unprocessed invitation.
      */

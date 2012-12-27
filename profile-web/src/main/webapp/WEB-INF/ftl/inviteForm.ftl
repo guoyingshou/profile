@@ -21,7 +21,7 @@
         </div>
 
         <div id="content">
-            <form method="POST" action="<@spring.url '/profile/users/${owner.id}/invites' />">
+            <form method="POST" action="<@spring.url '/users/${owner.id}/invites' />">
                 
                 <p><label for="letter">invitation letter</label></p>
 

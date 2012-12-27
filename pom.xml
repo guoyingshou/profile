@@ -46,7 +46,7 @@
 
         <configuration>
             <port>8001</port>
-            <path>/u1</path>
+            <path>/profile</path>
             <contextFile>conf/context.xml</contextFile>
             <useTestClasspath>false</useTestClasspath>
         </configuration>

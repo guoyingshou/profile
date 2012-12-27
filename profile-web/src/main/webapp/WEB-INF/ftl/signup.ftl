@@ -15,7 +15,7 @@
 
         <div id="content">
             <div class="accountForm">
-                <form action="http://www.tissue.com/u1/profile/signup" method="post">
+                <form action="<@spring.url '/signup' />" method="post">
 
                     <fieldset class="post">
                         <legend>Create your free personal account</legend>
