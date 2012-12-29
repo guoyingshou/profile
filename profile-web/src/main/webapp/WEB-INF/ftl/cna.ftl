@@ -1,6 +1,8 @@
-<#import "tissue.ftl" as tissue />
-<#import "gadgets.ftl" as gadgets />
 <#import "spring.ftl" as spring />
+<#import "tissue.ftl" as tissue />
+<#import "personGadgets.ftl" as personGadgets />
+<#import "postGadgets.ftl" as postGadgets />
+<#import "utilGadgets.ftl" as utilGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 
@@ -8,7 +10,7 @@
 
 <@tissue.layout "cna">
     <div id="logo">
-        <@tissue.cnaLogo />
+        <@personGadgets.personLogo />
     </div>
 
     <div id="contentWrapper">
@@ -17,9 +19,9 @@
 
        <div id="content">
            <#if posts??>
-               <@gadgets.showPostList posts />
+               <@postGadgets.showPostList posts />
            </#if>
-           <@gadgets.showPager />
+           <@utilGadgets.showPager />
        </div>
     </div>
 

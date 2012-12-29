@@ -1,6 +1,6 @@
-<#import "tissue.ftl" as tissue />
-<#import "gadgets.ftl" as gadgets />
 <#import "spring.ftl" as spring />
+<#import "tissue.ftl" as tissue />
+<#import "eventGadgets.ftl" as eventGadgets />
 
 <#assign mystyles=["/tissue/css/common.css", "/tissue/css/content-2cols.css", "/tissue/css/home.css"] in tissue>
 
@@ -29,7 +29,7 @@
         </div>
 
         <div id="content">
-            <@gadgets.showLatestEvents />
+            <@eventGadgets.showLatestEvents />
         </div>
     </div>
 </@tissue.layout>

@@ -1,5 +1,5 @@
-<#import "tissue.ftl" as tissue />
 <#import "spring.ftl" as spring />
+<#import "tissue.ftl" as tissue />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 
