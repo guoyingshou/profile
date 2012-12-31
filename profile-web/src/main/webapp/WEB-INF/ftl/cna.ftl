@@ -6,7 +6,9 @@
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 
-<#assign mystyles=["/tissue/css/content-2cols.css", "/tissue/css/cna.css"] in tissue>
+<#--
+<#assign mystyles=["/tissue/css/cna.css"] in tissue>
+-->
 
 <@tissue.layout "cna">
     <div id="logo">

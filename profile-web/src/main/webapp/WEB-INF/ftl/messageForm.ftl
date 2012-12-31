@@ -2,9 +2,11 @@
 <#import "tissue.ftl" as tissue />
 <#import "personGadgets.ftl" as personGadgets />
 
-<#assign myscripts=["/ckeditor/ckeditor.js", "/ckeditor/adapters/jquery.js"] in tissue>
+<#assign myscripts=["/ckeditor/ckeditor.js", "/tissue/js/pos.js"] in tissue>
 
-<#assign mystyles=["/resources/css/content-2cols.css", "/resources/css/cna.css"] in tissue>
+<#--
+<#assign mystyles=["/resources/css/cna.css"] in tissue>
+-->
 
 <@tissue.layout "message">
     <div id="logo">

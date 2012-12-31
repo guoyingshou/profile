@@ -3,7 +3,9 @@
 <#import "personGadgets.ftl" as personGadgets />
 <#import "eventGadgets.ftl" as eventGadgets />
 
-<#assign mystyles=["/tissue/css/content-2cols.css", "/tissue/css/dashboard.css"] in tissue>
+<#--
+<#assign mystyles=["/tissue/css/dashboard.css"] in tissue>
+-->
 
 <@tissue.layout "home">
     <div id="logo">
