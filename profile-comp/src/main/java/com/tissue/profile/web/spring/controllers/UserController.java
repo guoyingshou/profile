@@ -133,7 +133,7 @@ public class UserController {
     public String getCNA(Map model) {
         String viewerId = SecurityUtil.getUserId();
 
-        List<Event> events = eventService.getFriendsEvents(viewerId);
+        List<Event> events = eventService.getFriendsEvents(viewerId, 25);
         model.put("events", events);
 
         List<Invitation> invitations = invitationService.getInvitations(viewerId);

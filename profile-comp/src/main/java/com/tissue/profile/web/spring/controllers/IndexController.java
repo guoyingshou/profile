@@ -79,7 +79,7 @@ public class IndexController {
         UserDetailsImpl viewer = SecurityUtil.getUser();
 
         if(viewer == null) {
-            List<Event> events = eventService.getLatestEvents();
+            List<Event> events = eventService.getLatestEvents(25);
             model.put("events", events);
             return "home";
         }
@@ -93,7 +93,7 @@ public class IndexController {
         //model.put("locale", locale.toString());
 
         String viewerId = SecurityUtil.getUserId();
-        List<Event> events = eventService.getTopicRelatedEvents(viewerId);
+        List<Event> events = eventService.getTopicRelatedEvents(viewerId, 25);
         model.put("events", events);
 
         List<Invitation> invitations = invitationService.getInvitations(viewerId);
