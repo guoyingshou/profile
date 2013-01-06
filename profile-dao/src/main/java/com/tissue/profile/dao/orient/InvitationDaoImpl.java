@@ -62,7 +62,7 @@ public class InvitationDaoImpl implements InvitationDao {
 
     public void inviteFriend(String fromId, String toId, String content) {
         
-        String sql = "create edge Invitation from " + 
+        String sql = "create edge EdgeInvite from " + 
                      OrientIdentityUtil.decode(fromId) + 
                      " to " +
                      OrientIdentityUtil.decode(toId) +
@@ -110,7 +110,7 @@ public class InvitationDaoImpl implements InvitationDao {
     public List<Invitation> getInvitations(String viewerId) {
         List<Invitation> invitations = new ArrayList();
 
-        String sql = "select from invitation where in in " + 
+        String sql = "select from EdgeInvite where in in " + 
                       OrientIdentityUtil.decode(viewerId) +
                       " and status = 'unread'";
         OGraphDatabase db = dataSource.getDB();
@@ -176,7 +176,7 @@ public class InvitationDaoImpl implements InvitationDao {
                 ODocument inviteeDoc = invitationDoc.field("in");
 
                  //add friend
-                String sqlAddFriend = "create Edge Friend from " + 
+                String sqlAddFriend = "create Edge EdgeFriend from " + 
                                       invitorDoc.getIdentity().toString() + 
                                       " to " + 
                                       inviteeDoc.getIdentity().toString() + 

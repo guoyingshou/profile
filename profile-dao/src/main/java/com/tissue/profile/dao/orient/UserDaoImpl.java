@@ -25,7 +25,7 @@ import com.orientechnologies.orient.core.sql.OCommandSQL;
 @Component
 public class UserDaoImpl implements UserDao {
 
-    private static String byEmail = "select from user where email = ?";
+    private static String byEmail = "select from User where email = ?";
 
     @Autowired
     private OrientDataSource dataSource;
@@ -119,7 +119,7 @@ public class UserDaoImpl implements UserDao {
         try {
             Set<OIdentifiable> inEdges = db.getInEdges(new ORecordId(rid), "friend");
             for(OIdentifiable id : inEdges) {
-                ODocument friendDoc = new ODocument("Friend", id.getIdentity());
+                ODocument friendDoc = new ODocument("EdgeFriend", id.getIdentity());
                 ODocument userDoc = friendDoc.field("out");
                 User user = UserConverter.buildUser(userDoc);
                 users.add(user);
@@ -127,7 +127,7 @@ public class UserDaoImpl implements UserDao {
 
             Set<OIdentifiable> outEdges = db.getOutEdges(new ORecordId(rid), "friend");
             for(OIdentifiable id : outEdges) {
-                ODocument friendDoc = new ODocument("Friend", id.getIdentity());
+                ODocument friendDoc = new ODocument("EdgeFriend", id.getIdentity());
                 ODocument userDoc = friendDoc.field("in");
                 User user = UserConverter.buildUser(userDoc);
                 users.add(user);
@@ -173,7 +173,7 @@ public class UserDaoImpl implements UserDao {
             OIdentifiable from = new ORecordId(OrientIdentityUtil.decode(fromId));
             OIdentifiable to = new ORecordId(OrientIdentityUtil.decode(toId));
 
-            String[] classNames11 = {"Invitation", "Friend"};
+            String[] classNames11 = {"EdgeInvite", "EdgeFriend"};
             Set<OIdentifiable> edges11 = db.getEdgesBetweenVertexes(from, to, null, classNames11);
 
             for(OIdentifiable id : edges11) {

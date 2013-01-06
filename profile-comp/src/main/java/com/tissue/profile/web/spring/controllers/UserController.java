@@ -11,6 +11,7 @@ import com.tissue.profile.service.InvitationService;
 import com.tissue.plan.service.PostService;
 import com.tissue.commons.service.EventService;
 import com.tissue.commons.security.util.SecurityUtil;
+import com.tissue.commons.security.core.userdetails.UserDetailsImpl;
 import com.tissue.commons.util.Pager;
 
 import org.springframework.stereotype.Controller;
@@ -63,6 +64,35 @@ public class UserController {
     @ModelAttribute("locale")
     public String setupLocale(Locale locale) {
         return locale.toString();
+    }
+
+    @RequestMapping(value="/home")
+    public String index(Map model, Locale locale) {
+
+        UserDetailsImpl viewer = SecurityUtil.getUser();
+
+        if(viewer == null) {
+            //List<Event> events = eventService.getLatestEvents(25);
+            //model.put("events", events);
+            return "home";
+        }
+        else {
+            return "redirect:/dashboard";
+        }
+    }
+
+    @RequestMapping(value="/dashboard")
+    public String dashboard(Map model, Locale locale) {
+
+        String viewerId = SecurityUtil.getUserId();
+        //List<Event> events = eventService.getTopicRelatedEvents(viewerId, 25);
+        //model.put("events", events);
+
+        List<Invitation> invitations = invitationService.getInvitations(viewerId);
+        model.put("invitationsCount", invitations.size());
+
+        model.put("viewer", SecurityUtil.getUser());
+        return "dashboard";
     }
 
     @RequestMapping(value="/users/{id}")
