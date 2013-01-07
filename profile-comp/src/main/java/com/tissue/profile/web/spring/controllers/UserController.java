@@ -1,6 +1,7 @@
 package com.tissue.profile.web.spring.controllers;
 
-import com.tissue.domain.social.Event;
+//import com.tissue.domain.social.Event;
+import com.tissue.domain.social.Activity;
 import com.tissue.domain.profile.User;
 import com.tissue.domain.profile.Invitation;
 import com.tissue.domain.plan.Post;
@@ -9,7 +10,8 @@ import com.tissue.profile.web.model.AccountForm;
 import com.tissue.profile.service.UserService;
 import com.tissue.profile.service.InvitationService;
 import com.tissue.plan.service.PostService;
-import com.tissue.commons.service.EventService;
+//import com.tissue.commons.service.EventService;
+import com.tissue.commons.service.ActivityService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.security.core.userdetails.UserDetailsImpl;
 import com.tissue.commons.util.Pager;
@@ -55,8 +57,13 @@ public class UserController {
     @Autowired
     private InvitationService invitationService;
 
+    /**
     @Autowired
     private EventService eventService;
+    */
+
+    @Autowired
+    private ActivityService activityService;
 
     @Autowired
     private PostService postService;
@@ -87,6 +94,9 @@ public class UserController {
         String viewerId = SecurityUtil.getUserId();
         //List<Event> events = eventService.getTopicRelatedEvents(viewerId, 25);
         //model.put("events", events);
+
+        List<Activity> activities = activityService.getTopicRelatedActivities(viewerId, 15);
+        model.put("activities", activities);
 
         List<Invitation> invitations = invitationService.getInvitations(viewerId);
         model.put("invitationsCount", invitations.size());
@@ -163,8 +173,10 @@ public class UserController {
     public String getCNA(Map model) {
         String viewerId = SecurityUtil.getUserId();
 
+        /**
         List<Event> events = eventService.getFriendsEvents(viewerId, 25);
         model.put("events", events);
+        */
 
         List<Invitation> invitations = invitationService.getInvitations(viewerId);
         model.put("invitationsCount", invitations.size());
