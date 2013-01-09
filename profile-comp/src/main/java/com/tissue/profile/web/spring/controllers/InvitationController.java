@@ -1,8 +1,8 @@
 package com.tissue.profile.web.spring.controllers;
 
+import com.tissue.core.profile.User;
+import com.tissue.core.profile.Invitation;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.domain.profile.User;
-import com.tissue.domain.profile.Invitation;
 import com.tissue.profile.service.InvitationService;
 
 import org.springframework.stereotype.Controller;

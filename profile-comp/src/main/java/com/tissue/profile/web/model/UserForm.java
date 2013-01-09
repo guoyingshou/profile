@@ -1,6 +1,6 @@
 package com.tissue.profile.web.model;
 
-import com.tissue.domain.profile.User.Gender;
+import com.tissue.core.profile.User.Gender;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;

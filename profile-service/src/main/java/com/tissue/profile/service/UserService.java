@@ -1,7 +1,7 @@
 package com.tissue.profile.service;
 
-import com.tissue.domain.profile.User;
-import com.tissue.profile.dao.DuplicateEmailException;
+import com.tissue.core.profile.User;
+import com.tissue.core.profile.dao.DuplicateEmailException;
 import java.util.List;
 
 public interface UserService {

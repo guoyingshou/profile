@@ -15,7 +15,9 @@
   <version>1.0-SNAPSHOT</version>
 
   <modules>
+      <!--
     <module>profile-dao</module>
+    -->
     <module>profile-service</module>
     <module>profile-comp</module>
     <module>profile-web</module>

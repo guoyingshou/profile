@@ -1,9 +1,9 @@
 package com.tissue.profile.service.impl;
 
+import com.tissue.core.profile.User;
+import com.tissue.core.profile.dao.UserDao;
+import com.tissue.core.profile.dao.DuplicateEmailException;
 import com.tissue.profile.service.UserService;
-import com.tissue.profile.dao.UserDao;
-import com.tissue.profile.dao.DuplicateEmailException;
-import com.tissue.domain.profile.User;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;

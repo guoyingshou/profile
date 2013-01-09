@@ -1,8 +1,8 @@
 package com.tissue.profile.web.spring.controllers;
 
+import com.tissue.core.profile.User;
 import com.tissue.profile.web.model.UserForm;
 import com.tissue.profile.web.model.AccountForm;
-import com.tissue.domain.profile.User;
 import com.tissue.profile.service.UserService;
 
 import org.springframework.stereotype.Controller;

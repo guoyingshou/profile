@@ -1,17 +1,15 @@
 package com.tissue.profile.web.spring.controllers;
 
-//import com.tissue.domain.social.Event;
-import com.tissue.domain.social.Activity;
-import com.tissue.domain.profile.User;
-import com.tissue.domain.profile.Invitation;
-import com.tissue.domain.plan.Post;
+import com.tissue.core.social.Activity;
+import com.tissue.core.profile.User;
+import com.tissue.core.profile.Invitation;
+import com.tissue.core.plan.Post;
 import com.tissue.profile.web.model.UserForm;
 import com.tissue.profile.web.model.AccountForm;
 import com.tissue.profile.service.UserService;
 import com.tissue.profile.service.InvitationService;
 import com.tissue.plan.service.PostService;
-//import com.tissue.commons.service.EventService;
-import com.tissue.commons.service.ActivityService;
+import com.tissue.commons.social.service.ActivityService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.security.core.userdetails.UserDetailsImpl;
 import com.tissue.commons.util.Pager;
