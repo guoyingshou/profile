@@ -5,12 +5,9 @@
 <#import "utilGadgets.ftl" as utilGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
+<#assign mystyles=["/tissue/css/user.css"] in tissue>
 
-<#--
-<#assign mystyles=["/tissue/css/cna.css"] in tissue>
--->
-
-<@tissue.layout "cna">
+<@tissue.layout owner.displayName>
     <div id="logo">
         <@personGadgets.personLogo />
     </div>

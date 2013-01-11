@@ -47,14 +47,14 @@ public class InvitationController {
     @RequestMapping(value="/invitations")
     public String getInvitations(Map model) {
 
-        String viewerId = SecurityUtil.getUserId();
+        String viewerId = SecurityUtil.getViewerId();
 
         if(viewerId != null) {
             List<Invitation> invitations = invitationService.getInvitations(viewerId);
             model.put("invitations", invitations);
         }
 
-        model.put("viewer", SecurityUtil.getUser());
+        model.put("viewer", SecurityUtil.getViewer());
         return "invitationList";
     }
 

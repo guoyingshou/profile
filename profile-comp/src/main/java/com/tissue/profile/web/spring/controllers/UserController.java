@@ -2,6 +2,7 @@ package com.tissue.profile.web.spring.controllers;
 
 import com.tissue.core.social.Activity;
 import com.tissue.core.profile.User;
+import com.tissue.core.profile.Impression;
 import com.tissue.core.profile.Invitation;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
@@ -55,11 +56,6 @@ public class UserController {
     @Autowired
     private InvitationService invitationService;
 
-    /**
-    @Autowired
-    private EventService eventService;
-    */
-
     @Autowired
     private ActivityService activityService;
 
@@ -71,13 +67,15 @@ public class UserController {
         return locale.toString();
     }
 
-    @RequestMapping(value="/home")
-    public String index(Map model, Locale locale) {
+    @ModelAttribute("viewer")
+    public UserDetailsImpl getViewer() {
+        return SecurityUtil.getViewer();
+    }
 
-        UserDetailsImpl viewer = SecurityUtil.getUser();
+    @RequestMapping(value="/home")
+    public String index(Map model, Locale locale, @ModelAttribute("viewer") UserDetailsImpl viewer) {
 
         if(viewer == null) {
-            //List<Event> events = eventService.getLatestEvents(25);
             //model.put("events", events);
             return "home";
         }
@@ -89,22 +87,21 @@ public class UserController {
     @RequestMapping(value="/dashboard")
     public String dashboard(Map model, Locale locale) {
 
-        String viewerId = SecurityUtil.getUserId();
-        //List<Event> events = eventService.getTopicRelatedEvents(viewerId, 25);
-        //model.put("events", events);
+        String viewerId = SecurityUtil.getViewerId();
 
-        List<Activity> activities = activityService.getTopicRelatedActivities(viewerId, 15);
+        List<Activity> activities = activityService.getFriendsActivities(viewerId, 15);
         model.put("activities", activities);
 
         List<Invitation> invitations = invitationService.getInvitations(viewerId);
         model.put("invitationsCount", invitations.size());
 
-        model.put("viewer", SecurityUtil.getUser());
         return "dashboard";
     }
 
     @RequestMapping(value="/users/{id}")
     public String getCNA(@PathVariable("id") String id, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
+
+        model.put("owner", userService.getUserById(id));
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
@@ -113,28 +110,55 @@ public class UserController {
         model.put("pager", pager);
 
 
-        String viewerId = SecurityUtil.getUserId();
+        /**
+        String viewerId = SecurityUtil.getViewerId();
         if(viewerId != null) {
             boolean canInvite = invitationService.canInvite(viewerId, id);
             model.put("canInvite", canInvite);
             model.put("viewer", userService.getUserById(viewerId));
         }
-        model.put("owner", userService.getUserById(id));
+        */
 
         List<Post> posts = postService.getPagedPostsByUserId(id, page, size);
         model.put("posts", posts);
 
-        return "cna";
+        return "user";
+    }
+
+    @RequestMapping(value="/users/{uid}/feed")
+    public String getFeed(@PathVariable("uid") String uid, Map model) {
+
+        model.put("owner", userService.getUserById(uid));
+
+        List<Activity> activities = activityService.getUserActivities(uid, 15);
+        model.put("activities", activities);
+
+        return "feed";
+    }
+
+    @RequestMapping(value="/users/{uid}/resume", method=GET)
+    public String getResume(@PathVariable("uid") String uid, Map model) {
+        model.put("owner", userService.getUserById(uid));
+        return "resume";
+    }
+
+    @RequestMapping(value="/users/{uid}/impressions")
+    public String getImpression(@PathVariable("uid") String uid, Map model) {
+        model.put("owner", userService.getUserById(uid));
+
+        List<Impression> impressions = userService.getImpressions(uid);
+        model.put("impressions", impressions);
+        return "impression";
     }
 
     @RequestMapping(value="/users/{id}/invites")
     public String showInvitationForm(@PathVariable("id") String id, Map model) {
 
-        if(!invitationService.canInvite(SecurityUtil.getUserId(), id)) {
+        if(!invitationService.canInvite(SecurityUtil.getViewerId(), id)) {
             return "redirect:/users/" + id;
         }
 
-        model.put("viewer", SecurityUtil.getUser());
+        //model.put("viewer", SecurityUtil.getViewer());
         model.put("owner", userService.getUserById(id));
         return "inviteForm";
     }
@@ -142,9 +166,8 @@ public class UserController {
     @RequestMapping(value="/users/{id}/invites", method=POST)
     public String processInvitation(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
 
-        invitationService.inviteFriend(SecurityUtil.getUserId(), id, content);
+        invitationService.inviteFriend(SecurityUtil.getViewerId(), id, content);
 
-        model.put("viewer", SecurityUtil.getUser());
         model.put("owner", userService.getUserById(id));
         return "redirect:/users/" + id;
     }
@@ -153,53 +176,15 @@ public class UserController {
      * Get viewer's friends.
      */
     @RequestMapping(value="/friends")
-    public String getFriends(Map model) {
+    public String getFriends(Map model, @ModelAttribute("viewer") UserDetailsImpl viewer) {
 
-        String viewerId = SecurityUtil.getUserId();
-
-        if(viewerId != null) {
-            List<User> friends = userService.getFriends(viewerId);
+        if(viewer != null) {
+            List<User> friends = userService.getFriends(viewer.getId());
             model.put("friends", friends);
         }
 
-        model.put("viewer", SecurityUtil.getUser());
         return "friends";
     }
-
-
-    @RequestMapping(value="/actions")
-    public String getCNA(Map model) {
-        String viewerId = SecurityUtil.getUserId();
-
-        /**
-        List<Event> events = eventService.getFriendsEvents(viewerId, 25);
-        model.put("events", events);
-        */
-
-        List<Invitation> invitations = invitationService.getInvitations(viewerId);
-        model.put("invitationsCount", invitations.size());
-
-        model.put("viewer", SecurityUtil.getUser());
-        return "actions";
-    }
-
-
-    /**
-    @RequestMapping(value="/users/{id}/messages")
-    public String showMessageForm(@PathVariable("id") String id, Map model) {
-
-        model.put("viewer", SecurityUtil.getUser());
-        model.put("owner", userService.getUserById(id));
-        return "messageForm";
-    }
-
-    @RequestMapping(value="/users/{id}/message", method=POST)
-    public String sendMessage(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
-        model.put("viewer", SecurityUtil.getUser());
-        model.put("owner", userService.getUserById(id));
-        return "redirect:/profile/users/" + id;
-    }
-    */
 
 }
 

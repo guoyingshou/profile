@@ -1,6 +1,7 @@
 package com.tissue.profile.service.impl;
 
 import com.tissue.core.profile.User;
+import com.tissue.core.profile.Impression;
 import com.tissue.core.profile.dao.UserDao;
 import com.tissue.core.profile.dao.DuplicateEmailException;
 import com.tissue.profile.service.UserService;
@@ -9,7 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
-import java.util.UUID;
 
 @Component("userService")
 public class UserServiceImpl implements UserService {
@@ -18,13 +18,23 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
 
     public User addUser(User user) {
-        User result = userDao.create(user);
-        return result;
+        return userDao.create(user);
     }
 
     public User updateUser(User user) {
-        User result = userDao.update(user);
-        return result;
+        return userDao.update(user);
+    }
+
+    public void addResume(String userId, String resume) {
+        userDao.addResume(userId, resume);
+    }
+
+    public void addImpression(Impression impression) {
+        userDao.addImpression(impression);
+    }
+
+    public List<Impression> getImpressions(String userId) {
+        return userDao.getImpressions(userId);
     }
 
     /**

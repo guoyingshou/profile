@@ -18,7 +18,7 @@
         </div>
 
         <div id="content">
-            <@activityGadgets.showTopicRelatedActivities />
+            <@activityGadgets.showActivities />
         </div>
     </div>
 </@tissue.layout>
