@@ -10,17 +10,14 @@
   </parent>
 
   <groupId>com.tissue</groupId>
-  <artifactId>profile</artifactId>
+  <artifactId>social</artifactId>
   <packaging>pom</packaging>
   <version>1.0-SNAPSHOT</version>
 
   <modules>
-      <!--
-    <module>profile-dao</module>
-    -->
-    <module>profile-service</module>
-    <module>profile-comp</module>
-    <module>profile-web</module>
+    <module>social-service</module>
+    <module>social-comp</module>
+    <module>social-web</module>
   </modules>
 
   <properties>
@@ -48,7 +45,7 @@
 
         <configuration>
             <port>8001</port>
-            <path>/profile</path>
+            <path>/social</path>
             <contextFile>conf/context.xml</contextFile>
             <useTestClasspath>false</useTestClasspath>
         </configuration>
@@ -64,6 +61,6 @@
     </plugins>
   </build>
 
-  <name>profile project</name>
+  <name>social project</name>
 
 </project>
