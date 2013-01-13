@@ -92,8 +92,10 @@ public class UserController {
         List<Activity> activities = activityService.getFriendsActivities(viewerId, 15);
         model.put("activities", activities);
 
+        /**
         List<Invitation> invitations = invitationService.getInvitations(viewerId);
         model.put("invitationsCount", invitations.size());
+        */
 
         return "dashboard";
     }
@@ -101,23 +103,13 @@ public class UserController {
     @RequestMapping(value="/users/{id}")
     public String getCNA(@PathVariable("id") String id, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
 
-        model.put("owner", userService.getUserById(id));
+        model.put("owner", userService.getUserById(id, false));
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
         long total = postService.getPostsCountByUserId(id);
         Pager pager = new Pager(total, page, size);
         model.put("pager", pager);
-
-
-        /**
-        String viewerId = SecurityUtil.getViewerId();
-        if(viewerId != null) {
-            boolean canInvite = invitationService.canInvite(viewerId, id);
-            model.put("canInvite", canInvite);
-            model.put("viewer", userService.getUserById(viewerId));
-        }
-        */
 
         List<Post> posts = postService.getPagedPostsByUserId(id, page, size);
         model.put("posts", posts);
@@ -128,7 +120,7 @@ public class UserController {
     @RequestMapping(value="/users/{uid}/status")
     public String getFeed(@PathVariable("uid") String uid, Map model) {
 
-        model.put("owner", userService.getUserById(uid));
+        model.put("owner", userService.getUserById(uid, false));
 
         List<Activity> activities = activityService.getUserActivities(uid, 15);
         model.put("activities", activities);
@@ -138,13 +130,13 @@ public class UserController {
 
     @RequestMapping(value="/users/{uid}/resume", method=GET)
     public String getResume(@PathVariable("uid") String uid, Map model) {
-        model.put("owner", userService.getUserById(uid));
+        model.put("owner", userService.getUserById(uid, false));
         return "resume";
     }
 
     @RequestMapping(value="/users/{uid}/impressions")
     public String getImpression(@PathVariable("uid") String uid, Map model) {
-        model.put("owner", userService.getUserById(uid));
+        model.put("owner", userService.getUserById(uid, false));
 
         List<Impression> impressions = userService.getImpressions(uid);
         model.put("impressions", impressions);
@@ -154,12 +146,13 @@ public class UserController {
     @RequestMapping(value="/users/{id}/invites")
     public String showInvitationForm(@PathVariable("id") String id, Map model) {
 
+        /**
         if(!invitationService.canInvite(SecurityUtil.getViewerId(), id)) {
             return "redirect:/users/" + id;
         }
+        */
 
-        //model.put("viewer", SecurityUtil.getViewer());
-        model.put("owner", userService.getUserById(id));
+        model.put("owner", userService.getUserById(id, false));
         return "inviteForm";
     }
 
@@ -168,23 +161,24 @@ public class UserController {
 
         invitationService.inviteFriend(SecurityUtil.getViewerId(), id, content);
 
-        model.put("owner", userService.getUserById(id));
+        model.put("owner", userService.getUserById(id, false));
         return "redirect:/users/" + id;
     }
 
     /**
      * Get viewer's friends.
+     * In this case, viewer is the same as owner.
      */
     @RequestMapping(value="/friends")
-    public String getFriends(Map model, @ModelAttribute("viewer") UserDetailsImpl viewer) {
-
-        if(viewer != null) {
-            List<User> friends = userService.getFriends(viewer.getId());
-            model.put("friends", friends);
-        }
-
+    public String getFriends() {
         return "friends";
     }
+
+    @RequestMapping(value="/invitations")
+    public String getInvitations() {
+        return "invitationList";
+    }
+
 
 }
 

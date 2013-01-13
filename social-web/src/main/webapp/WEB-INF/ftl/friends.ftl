@@ -19,9 +19,9 @@
         </div>
 
         <div id="content">
-            <#if friends??>
+            <#if viewer??>
             <ul>
-                <#list friends as friend>
+                <#list viewer.friends as friend>
                     <li>
                        <p><a href="<@spring.url '/users/${friend.id}/' />">${friend.displayName}</a></p>
                     </li>

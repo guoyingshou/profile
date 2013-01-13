@@ -4,6 +4,7 @@ import com.tissue.core.social.Impression;
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.social.service.UserService;
+import com.tissue.social.service.InvitationService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class UserAjaxController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private InvitationService invitationService;
 
     /**
      * Add/Update resume.
@@ -64,5 +68,20 @@ public class UserAjaxController {
         return "fragments/newImpression";
     }
 
+    /**
+     * Process invitation.
+     */
+    @RequestMapping(value="/invitations/{id}", method=POST)
+    @ResponseBody
+    public String processInvitation(@PathVariable("id") String id, @RequestParam("action") String action, Map model) {
+
+        if("decline".equals(action)) {
+            invitationService.declineInvitation(id);
+        }
+        if("accept".equals(action)) {
+            invitationService.acceptInvitation(id);
+        }
+        return "id: " + id + ", action: " + action;
+    }
 
 }

@@ -1,6 +1,5 @@
 package com.tissue.social.web.model;
 
-import com.tissue.core.social.User.Gender;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -22,14 +21,6 @@ public class UserForm implements Serializable {
     @NotNull(message="password cann't be null")
     @Size(min=6)
     private String password;
-
-    //profile
-    private String name;
-    private String aboutMe;
-    private Gender gender;
-    private Date birthday;
-
-    private String photo;
 
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
@@ -53,46 +44,6 @@ public class UserForm implements Serializable {
 
     public String getPassword() {
         return password;
-    }
-
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
-    }
-
-    public String getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setGender(Gender gender) {
-        this.gender = gender;
-    }
-
-    public Gender getGender() {
-        return gender;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
-    public String getPhoto() {
-        return photo;
     }
 
 }

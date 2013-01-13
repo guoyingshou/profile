@@ -6,16 +6,10 @@ import java.util.List;
 
 public interface InvitationService {
 
-    boolean canInvite(String fromId, String toId);
-
     void inviteFriend(String fromId, String toId, String content);
 
-    //int getInvitationsCount(String viewerId);
+    void declineInvitation(String invitationid);
 
-    List<Invitation> getInvitations(String viewerId);
-
-    boolean declineInvitation(String invitationid);
-
-    boolean acceptInvitation(String invitationid);
+    void acceptInvitation(String invitationid);
 
 }

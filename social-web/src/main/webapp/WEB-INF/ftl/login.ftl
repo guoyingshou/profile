@@ -1,15 +1,24 @@
 <#import "spring.ftl" as spring />
+<#import "tissue.ftl" as tissue />
+<#import "formGadgets.ftl" as formGadgets />
 
-<form action="<@spring.url '/jsc'/>" method="post">
-    name: <input type="text" id="j_username" name="j_username" size="20" maxlength="50" />
-    <br/>
-    pass: <input type="password" id="j_password" name="j_password" size="20" maxlength="50" />
-    <br/>
+<#--
+<#assign mystyles=["/tissue/css/home.css"] in tissue>
+-->
 
-    <!--
-    <input type='checkbox' name='_spring_security_remember_me' id="_spring_security_remember_me" tabindex="3" value="true"/>
-    <br/>
-    -->
+<@tissue.layout "sign in">
+    <div id="logo">
+        <h1>Tissue Network</h1>
+    </div>
 
-    <input type="submit" value="Login"/>
-</form>
+    <div id="contentWrapper">
+        <div id="sidebar">
+            <@tissue.slogan />
+        </div>
+
+        <div id="content">
+            <@formGadgets.signinForm />
+        </div>
+    </div>
+</@tissue.layout>
+

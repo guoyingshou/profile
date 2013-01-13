@@ -19,9 +19,9 @@
         </div>
 
         <div id="content">
-            <#if invitations??>
+            <#if viewer??>
             <ul>
-                <#list invitations as invitation>
+                <#list viewer.invitationsReceived as invitation>
                     <li>
                        <p>${invitation.invitor.displayName}</p>
                        <p>${invitation.createTime?date}</p>

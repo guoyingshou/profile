@@ -17,7 +17,7 @@ public interface UserService {
 
     List<Impression> getImpressions(String userId);
 
-    User getUserById(String id);
+    User getUserById(String id, boolean withFriends);
 
     boolean isFriend(String userId1, String userId2);
     List<User> getFriends(String viewerId);

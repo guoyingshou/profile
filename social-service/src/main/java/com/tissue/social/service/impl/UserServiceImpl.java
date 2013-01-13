@@ -40,8 +40,8 @@ public class UserServiceImpl implements UserService {
     /**
      * @param userId user id
      */
-    public User getUserById(String id) {
-        return userDao.getUserById(id);
+    public User getUserById(String id, boolean withFriends) {
+        return userDao.getUserById(id, withFriends);
     }
 
     public boolean isFriend(String userId1, String userId2) {

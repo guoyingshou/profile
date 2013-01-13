@@ -48,11 +48,13 @@ public class SignupController {
         return "login";
     }
 
+    /**
     @RequestMapping(value="/signup")
     public String signupForm(Map model, Locale locale) {
         model.put("account", new AccountForm());
         return "signup";
     }
+    */
 
     /**
      * Signup.
