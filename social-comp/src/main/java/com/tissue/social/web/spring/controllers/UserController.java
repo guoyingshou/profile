@@ -6,14 +6,15 @@ import com.tissue.core.social.Impression;
 import com.tissue.core.social.Invitation;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
-import com.tissue.social.web.model.UserForm;
-import com.tissue.social.web.model.AccountForm;
-import com.tissue.social.service.UserService;
-import com.tissue.social.service.InvitationService;
-import com.tissue.plan.service.PostService;
+import com.tissue.commons.ViewerSetter;
 import com.tissue.commons.social.service.ActivityService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
+import com.tissue.commons.social.service.UserService;
+import com.tissue.social.web.model.UserForm;
+import com.tissue.social.web.model.AccountForm;
+import com.tissue.social.service.InvitationService;
+import com.tissue.plan.service.PostService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -48,10 +49,12 @@ import java.security.Principal;
 import com.google.common.hash.Hashing;
 
 @Controller
-public class UserController {
+public class UserController extends ViewerSetter {
 
+    /**
     @Autowired
     private UserService userService;
+    */
 
     @Autowired
     private InvitationService invitationService;
@@ -62,21 +65,10 @@ public class UserController {
     @Autowired
     private PostService postService;
 
-    @ModelAttribute("locale")
-    public String setupLocale(Locale locale) {
-        return locale.toString();
-    }
-
-    @ModelAttribute("viewer")
-    public UserDetailsImpl getViewer() {
-        return SecurityUtil.getViewer();
-    }
-
     @RequestMapping(value="/home")
-    public String index(Map model, Locale locale, @ModelAttribute("viewer") UserDetailsImpl viewer) {
+    public String index(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
 
         if(viewer == null) {
-            //model.put("events", events);
             return "home";
         }
         else {
@@ -91,11 +83,6 @@ public class UserController {
 
         List<Activity> activities = activityService.getFriendsActivities(viewerId, 15);
         model.put("activities", activities);
-
-        /**
-        List<Invitation> invitations = invitationService.getInvitations(viewerId);
-        model.put("invitationsCount", invitations.size());
-        */
 
         return "dashboard";
     }
@@ -143,34 +130,18 @@ public class UserController {
         return "impression";
     }
 
-    @RequestMapping(value="/users/{id}/invites")
-    public String showInvitationForm(@PathVariable("id") String id, Map model) {
-
-        /**
-        if(!invitationService.canInvite(SecurityUtil.getViewerId(), id)) {
-            return "redirect:/users/" + id;
-        }
-        */
-
-        model.put("owner", userService.getUserById(id, false));
-        return "inviteForm";
-    }
-
-    @RequestMapping(value="/users/{id}/invites", method=POST)
-    public String processInvitation(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
-
-        invitationService.inviteFriend(SecurityUtil.getViewerId(), id, content);
-
-        model.put("owner", userService.getUserById(id, false));
-        return "redirect:/users/" + id;
-    }
-
     /**
      * Get viewer's friends.
      * In this case, viewer is the same as owner.
      */
-    @RequestMapping(value="/friends")
-    public String getFriends() {
+    @RequestMapping(value="/users/{uid}/friends")
+    public String getFriends(@PathVariable("uid") String uid, Map model, @ModelAttribute("viewer") User viewer) {
+        if(viewer.isSelf(uid)) {
+            model.put("owner", viewer);
+        }
+        else {
+            model.put("owner", userService.getUserById(uid, true));
+        }
         return "friends";
     }
 

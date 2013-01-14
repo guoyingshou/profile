@@ -1,9 +1,9 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
+import com.tissue.commons.social.service.UserService;
 import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
-import com.tissue.social.service.UserService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -47,14 +47,6 @@ public class SignupController {
     public String loginForm(Map model, Locale locale) {
         return "login";
     }
-
-    /**
-    @RequestMapping(value="/signup")
-    public String signupForm(Map model, Locale locale) {
-        model.put("account", new AccountForm());
-        return "signup";
-    }
-    */
 
     /**
      * Signup.

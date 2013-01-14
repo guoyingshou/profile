@@ -3,7 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.Impression;
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.social.service.UserService;
+import com.tissue.commons.social.service.UserService;
 import com.tissue.social.service.InvitationService;
 
 import org.springframework.stereotype.Controller;
@@ -30,6 +30,15 @@ public class UserAjaxController {
 
     @Autowired
     private InvitationService invitationService;
+
+    @RequestMapping(value="/users/{id}/invites", method=POST)
+    @ResponseBody
+    public String invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
+
+        invitationService.inviteFriend(SecurityUtil.getViewerId(), id, content);
+
+        return "ok";
+    }
 
     /**
      * Add/Update resume.
