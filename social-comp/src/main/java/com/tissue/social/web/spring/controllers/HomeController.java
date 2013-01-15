@@ -1,7 +1,10 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
+import com.tissue.core.social.About;
+import com.tissue.commons.ViewerSetter;
 import com.tissue.commons.social.service.UserService;
+import com.tissue.commons.social.service.AboutService;
 import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
 
@@ -32,15 +35,25 @@ import com.google.common.hash.Hashing;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-public class SignupController {
+public class HomeController extends ViewerSetter {
 
     @Autowired
     @Qualifier("userService")
     private UserService userService;
 
+    @Autowired
+    private AboutService aboutService;
+
     @ModelAttribute("locale")
     public String setupLocale(Locale locale) {
         return locale.toString();
+    }
+
+    @RequestMapping(value="/about", method=GET)
+    public String about(Map model, Locale locale) {
+        List<About> abouts = aboutService.getAbouts();
+        model.put("abouts", abouts);
+        return "about";
     }
 
     @RequestMapping(value="/login")

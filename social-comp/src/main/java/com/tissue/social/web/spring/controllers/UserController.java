@@ -69,6 +69,8 @@ public class UserController extends ViewerSetter {
     public String index(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
 
         if(viewer == null) {
+            List<Activity> activities = activityService.getActivitiesForNewUser(15);
+            model.put("activities", activities);
             return "home";
         }
         else {

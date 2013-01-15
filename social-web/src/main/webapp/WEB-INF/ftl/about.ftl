@@ -1,15 +1,16 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
-<#import "personGadgets.ftl" as personGadgets />
-<#import "eventGadgets.ftl" as eventGadgets />
 
+<#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 <#--
 <#assign mystyles=["/tissue/css/dashboard.css"] in tissue>
 -->
 
-<@tissue.layout "action">
+<@tissue.layout "about">
     <div id="logo">
-        <@personGadgets.dashboardLogo />
+        <h1>
+            <@spring.message "i18n.common.sitename" />
+        </h1>
     </div>
 
     <div id="contentWrapper">
@@ -18,7 +19,7 @@
         </div>
 
         <div id="content">
-            <@eventGadgets.showFriendsEvents />
+            <@tissue.showAbout />
         </div>
     </div>
 </@tissue.layout>

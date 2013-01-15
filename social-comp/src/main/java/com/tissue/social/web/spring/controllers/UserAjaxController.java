@@ -2,8 +2,10 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.Impression;
 import com.tissue.core.social.User;
+import com.tissue.core.social.About;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.service.UserService;
+import com.tissue.commons.social.service.AboutService;
 import com.tissue.social.service.InvitationService;
 
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,9 @@ public class UserAjaxController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private AboutService aboutService;
 
     @Autowired
     private InvitationService invitationService;
@@ -92,5 +97,28 @@ public class UserAjaxController {
         }
         return "id: " + id + ", action: " + action;
     }
+
+    /**
+     * Add about.
+     */
+    @RequestMapping(value="/about", method=POST)
+    public String addAbout(@RequestParam("content") String content, Map model) throws Exception {
+
+        About about = new About();
+        
+        User user = new User();
+        user.setId(SecurityUtil.getViewerId());
+        user.setDisplayName(SecurityUtil.getDisplayName());
+        about.setUser(user);
+
+        about.setContent(content);
+
+        about = aboutService.addAbout(about);
+
+        model.put("about", about);
+
+        return "fragments/newAbout";
+    }
+
 
 }

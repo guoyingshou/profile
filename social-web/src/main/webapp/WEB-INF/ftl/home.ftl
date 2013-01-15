@@ -1,6 +1,6 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
-<#import "eventGadgets.ftl" as eventGadgets />
+<#import "activityGadgets.ftl" as activityGadgets />
 
 <#--
 <#assign mystyles=["/tissue/css/home.css"] in tissue>
@@ -8,7 +8,9 @@
 
 <@tissue.layout "home">
     <div id="logo">
-        <h1>Tissue Network</h1>
+        <h1>
+            <@spring.message "i18n.common.sitename" />
+        </h1>
     </div>
 
     <div id="contentWrapper">
@@ -17,7 +19,7 @@
         </div>
 
         <div id="content">
-            <@eventGadgets.showLatestEvents />
+            <@activityGadgets.showActivities />
         </div>
     </div>
 </@tissue.layout>
