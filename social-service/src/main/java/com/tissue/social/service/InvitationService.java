@@ -1,7 +1,7 @@
 package com.tissue.social.service;
 
+import com.tissue.core.orient.dao.DuplicateEmailException;
 import com.tissue.core.social.Invitation;
-import com.tissue.core.social.dao.DuplicateEmailException;
 import java.util.List;
 
 public interface InvitationService {
