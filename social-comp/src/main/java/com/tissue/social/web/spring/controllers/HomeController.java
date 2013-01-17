@@ -2,9 +2,11 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
 import com.tissue.core.social.About;
+import com.tissue.core.social.Activity;
 import com.tissue.commons.ViewerSetter;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.commons.social.service.AboutService;
+import com.tissue.commons.social.service.ActivityService;
 import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
 
@@ -22,6 +24,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.ArrayList;
@@ -44,6 +49,9 @@ public class HomeController extends ViewerSetter {
     @Autowired
     private AboutService aboutService;
 
+    @Autowired
+    private ActivityService activityService;
+
     @ModelAttribute("locale")
     public String setupLocale(Locale locale) {
         return locale.toString();
@@ -60,6 +68,27 @@ public class HomeController extends ViewerSetter {
     public String loginForm(Map model, Locale locale) {
         return "login";
     }
+
+    @RequestMapping(value="/signout")
+    public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
+
+        model.put("viewer", null);
+        List<Activity> activities = activityService.getActivitiesForNewUser(15);
+        model.put("activities", activities);
+ 
+        ses.invalidate();
+        Cookie[] cookies = req.getCookies();
+        if(cookies != null) {
+            for(Cookie cookie : cookies) {
+                cookie.setValue("");
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                res.addCookie(cookie);
+            }
+        }
+       return "signout";
+    }
+
 
     /**
      * Signup.

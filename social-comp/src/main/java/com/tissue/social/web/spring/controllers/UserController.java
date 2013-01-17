@@ -51,10 +51,8 @@ import com.google.common.hash.Hashing;
 @Controller
 public class UserController extends ViewerSetter {
 
-    /**
     @Autowired
     private UserService userService;
-    */
 
     @Autowired
     private InvitationService invitationService;
