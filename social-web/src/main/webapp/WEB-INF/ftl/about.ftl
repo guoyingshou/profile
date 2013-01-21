@@ -8,9 +8,7 @@
 
 <@tissue.layout "about">
     <div id="logo">
-        <h1>
-            <@spring.message "i18n.common.sitename" />
-        </h1>
+        <@tissue.aboutLogo />
     </div>
 
     <div id="contentWrapper">

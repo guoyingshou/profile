@@ -3,7 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.Activity;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Impression;
-import com.tissue.core.social.Invitation;
+//import com.tissue.core.social.Invitation;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
 import com.tissue.commons.ViewerSetter;
@@ -13,7 +13,7 @@ import com.tissue.commons.util.Pager;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
-import com.tissue.social.service.InvitationService;
+//import com.tissue.social.service.InvitationService;
 import com.tissue.plan.service.PostService;
 
 import org.springframework.stereotype.Controller;
@@ -54,8 +54,10 @@ public class UserController extends ViewerSetter {
     @Autowired
     private UserService userService;
 
+    /**
     @Autowired
     private InvitationService invitationService;
+    */
 
     @Autowired
     private ActivityService activityService;
@@ -63,42 +65,23 @@ public class UserController extends ViewerSetter {
     @Autowired
     private PostService postService;
 
-    @RequestMapping(value="/home")
-    public String index(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
+    @RequestMapping(value="/users/{userId}")
+    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewer") User viewer) {
 
-        if(viewer == null) {
-            List<Activity> activities = activityService.getActivitiesForNewUser(15);
-            model.put("activities", activities);
-            return "home";
+        if(viewer.isSelf(userId)) {
+            model.put("owner", viewer);
         }
         else {
-            return "redirect:/dashboard";
+            model.put("owner", userService.getUserById(userId));
         }
-    }
-
-    @RequestMapping(value="/dashboard")
-    public String dashboard(Map model, Locale locale) {
-
-        String viewerId = SecurityUtil.getViewerId();
-
-        List<Activity> activities = activityService.getFriendsActivities(viewerId, 15);
-        model.put("activities", activities);
-
-        return "dashboard";
-    }
-
-    @RequestMapping(value="/users/{id}")
-    public String getCNA(@PathVariable("id") String id, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
-
-        model.put("owner", userService.getUserById(id, false));
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
-        long total = postService.getPostsCountByUserId(id);
+        long total = postService.getPostsCountByUserId(userId);
         Pager pager = new Pager(total, page, size);
         model.put("pager", pager);
 
-        List<Post> posts = postService.getPagedPostsByUserId(id, page, size);
+        List<Post> posts = postService.getPagedPostsByUserId(userId, page, size);
         model.put("posts", posts);
 
         return "user";
@@ -107,7 +90,7 @@ public class UserController extends ViewerSetter {
     @RequestMapping(value="/users/{uid}/status")
     public String getFeed(@PathVariable("uid") String uid, Map model) {
 
-        model.put("owner", userService.getUserById(uid, false));
+        model.put("owner", userService.getUserById(uid));
 
         List<Activity> activities = activityService.getUserActivities(uid, 15);
         model.put("activities", activities);
@@ -117,13 +100,13 @@ public class UserController extends ViewerSetter {
 
     @RequestMapping(value="/users/{uid}/resume", method=GET)
     public String getResume(@PathVariable("uid") String uid, Map model) {
-        model.put("owner", userService.getUserById(uid, false));
+        model.put("owner", userService.getUserById(uid));
         return "resume";
     }
 
     @RequestMapping(value="/users/{uid}/impressions")
     public String getImpression(@PathVariable("uid") String uid, Map model) {
-        model.put("owner", userService.getUserById(uid, false));
+        model.put("owner", userService.getUserById(uid));
 
         List<Impression> impressions = userService.getImpressions(uid);
         model.put("impressions", impressions);
@@ -140,7 +123,7 @@ public class UserController extends ViewerSetter {
             model.put("owner", viewer);
         }
         else {
-            model.put("owner", userService.getUserById(uid, true));
+            model.put("owner", userService.getUserDetailsById(uid));
         }
         return "friends";
     }
@@ -149,7 +132,6 @@ public class UserController extends ViewerSetter {
     public String getInvitations() {
         return "invitationList";
     }
-
 
 }
 

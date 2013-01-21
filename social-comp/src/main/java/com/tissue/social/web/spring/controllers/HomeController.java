@@ -89,7 +89,6 @@ public class HomeController extends ViewerSetter {
        return "signout";
     }
 
-
     /**
      * Signup.
      */
@@ -117,4 +116,42 @@ public class HomeController extends ViewerSetter {
         return "redirect:/dashboard";
     }
 
+    @RequestMapping(value="/home")
+    public String index(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
+
+        List<Activity> activities = activityService.getActivitiesForNewUser(15);
+        model.put("activities", activities);
+        return "home";
+    }
+
+    @RequestMapping(value="/dashboard")
+    public String dashboard(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
+        List<Activity> activities = null;
+
+        if(viewer.getFriends().size() == 0) {
+            activities = activityService.getActivities(25);
+        }
+        else {
+            activities = activityService.getFriendsActivities(viewer.getId(), 15);
+        }
+        model.put("activities", activities);
+
+        return "dashboard";
+    }
+
+    @RequestMapping(value="/watchedfeeds")
+    public String watchedfeeds(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
+        List<Activity> activities = activityService.getFriendsActivities(viewer.getId(), 15);
+        model.put("activities", activities);
+
+        return "dashboard";
+    }
+
+    @RequestMapping(value="/allfeeds")
+    public String allfeeds(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
+        List<Activity> activities = activityService.getActivities(25);
+        model.put("activities", activities);
+
+        return "dashboard";
+    }
 }

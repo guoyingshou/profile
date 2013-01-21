@@ -9,7 +9,7 @@
 
 <@tissue.layout "home">
     <div id="logo">
-        <@personGadgets.dashboardLogo />
+        <@personGadgets.homeLogo />
     </div>
 
     <div id="contentWrapper">
