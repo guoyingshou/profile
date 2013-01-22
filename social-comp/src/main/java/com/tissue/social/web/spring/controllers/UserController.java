@@ -3,7 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.Activity;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Impression;
-//import com.tissue.core.social.Invitation;
+import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
 import com.tissue.commons.ViewerSetter;
@@ -13,8 +13,6 @@ import com.tissue.commons.util.Pager;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
-//import com.tissue.social.service.InvitationService;
-import com.tissue.plan.service.PostService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -54,21 +52,13 @@ public class UserController extends ViewerSetter {
     @Autowired
     private UserService userService;
 
-    /**
-    @Autowired
-    private InvitationService invitationService;
-    */
-
     @Autowired
     private ActivityService activityService;
 
-    @Autowired
-    private PostService postService;
-
-    @RequestMapping(value="/users/{userId}")
+    @RequestMapping(value="/users/{userId}/posts")
     public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewer") User viewer) {
 
-        if(viewer.isSelf(userId)) {
+        if((viewer != null) && viewer.isSelf(userId)) {
             model.put("owner", viewer);
         }
         else {
@@ -77,60 +67,63 @@ public class UserController extends ViewerSetter {
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
-        long total = postService.getPostsCountByUserId(userId);
+        long total = userService.getPostsCountByUserId(userId);
         Pager pager = new Pager(total, page, size);
         model.put("pager", pager);
 
-        List<Post> posts = postService.getPagedPostsByUserId(userId, page, size);
+        List<Post> posts = userService.getPagedPostsByUserId(userId, page, size);
         model.put("posts", posts);
 
-        return "user";
+        return "posts";
     }
 
-    @RequestMapping(value="/users/{uid}/status")
-    public String getFeed(@PathVariable("uid") String uid, Map model) {
+    @RequestMapping(value="/users/{userId}/status")
+    public String getFeed(@PathVariable("userId") String userId, Map model) {
 
-        model.put("owner", userService.getUserById(uid));
+        model.put("owner", userService.getUserById(userId));
 
-        List<Activity> activities = activityService.getUserActivities(uid, 15);
+        List<Activity> activities = activityService.getUserActivities(userId, 15);
         model.put("activities", activities);
 
         return "status";
     }
 
-    @RequestMapping(value="/users/{uid}/resume", method=GET)
-    public String getResume(@PathVariable("uid") String uid, Map model) {
-        model.put("owner", userService.getUserById(uid));
+    @RequestMapping(value="/users/{userId}/resume", method=GET)
+    public String getResume(@PathVariable("userId") String userId, Map model) {
+        model.put("owner", userService.getUserById(userId));
         return "resume";
     }
 
-    @RequestMapping(value="/users/{uid}/impressions")
-    public String getImpression(@PathVariable("uid") String uid, Map model) {
-        model.put("owner", userService.getUserById(uid));
+    @RequestMapping(value="/users/{userId}/impressions")
+    public String getImpression(@PathVariable("userId") String userId, Map model) {
 
-        List<Impression> impressions = userService.getImpressions(uid);
-        model.put("impressions", impressions);
-        return "impression";
+        User owner = userService.getUserContainsImpressions(userId);
+        model.put("owner", owner);
+
+        return "impressions";
     }
 
     /**
      * Get viewer's friends.
      * In this case, viewer is the same as owner.
      */
-    @RequestMapping(value="/users/{uid}/friends")
-    public String getFriends(@PathVariable("uid") String uid, Map model, @ModelAttribute("viewer") User viewer) {
-        if(viewer.isSelf(uid)) {
+    @RequestMapping(value="/users/{userId}/friends")
+    public String getFriends(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+
+        if((viewer != null) && viewer.isSelf(userId)) {
             model.put("owner", viewer);
         }
         else {
-            model.put("owner", userService.getUserDetailsById(uid));
+            model.put("owner", userService.getUserContainsFriends(userId));
         }
         return "friends";
     }
 
     @RequestMapping(value="/invitations")
-    public String getInvitations() {
-        return "invitationList";
+    public String getInvitations(Map model, @ModelAttribute("viewer") User viewer) {
+
+        model.put("owner", viewer);
+        return "invitations";
     }
 
 }

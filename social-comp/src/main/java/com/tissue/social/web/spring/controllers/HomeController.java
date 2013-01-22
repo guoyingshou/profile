@@ -3,6 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.User;
 import com.tissue.core.social.About;
 import com.tissue.core.social.Activity;
+import com.tissue.core.plan.Plan;
 import com.tissue.commons.ViewerSetter;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.commons.social.service.AboutService;
@@ -43,7 +44,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class HomeController extends ViewerSetter {
 
     @Autowired
-    @Qualifier("userService")
     private UserService userService;
 
     @Autowired
@@ -65,7 +65,7 @@ public class HomeController extends ViewerSetter {
     }
 
     @RequestMapping(value="/login")
-    public String loginForm(Map model, Locale locale) {
+    public String loginForm(Map model) {
         return "login";
     }
 
@@ -117,30 +117,34 @@ public class HomeController extends ViewerSetter {
     }
 
     @RequestMapping(value="/home")
-    public String index(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
-
+    public String index(Map model) {
         List<Activity> activities = activityService.getActivitiesForNewUser(15);
         model.put("activities", activities);
         return "home";
     }
 
     @RequestMapping(value="/dashboard")
-    public String dashboard(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
-        List<Activity> activities = null;
+    public String dashboard(Map model, @ModelAttribute("viewer") User viewer) {
+
+        model.put("owner", viewer);
 
         if(viewer.getFriends().size() == 0) {
-            activities = activityService.getActivities(25);
+            List<Activity> activities = activityService.getActivities(25);
+            model.put("activities", activities);
         }
         else {
-            activities = activityService.getFriendsActivities(viewer.getId(), 15);
+            List<Activity> activities = activityService.getFriendsActivities(viewer.getId(), 15);
+            model.put("activities", activities);
         }
-        model.put("activities", activities);
 
         return "dashboard";
     }
 
     @RequestMapping(value="/watchedfeeds")
-    public String watchedfeeds(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
+    public String watchedfeeds(Map model, @ModelAttribute("viewer") User viewer) {
+
+        model.put("owner", viewer);
+
         List<Activity> activities = activityService.getFriendsActivities(viewer.getId(), 15);
         model.put("activities", activities);
 
@@ -148,7 +152,10 @@ public class HomeController extends ViewerSetter {
     }
 
     @RequestMapping(value="/allfeeds")
-    public String allfeeds(Map model, Locale locale, @ModelAttribute("viewer") User viewer) {
+    public String allfeeds(Map model, @ModelAttribute("viewer") User viewer) {
+
+        model.put("owner", viewer);
+
         List<Activity> activities = activityService.getActivities(25);
         model.put("activities", activities);
 

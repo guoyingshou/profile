@@ -2,6 +2,7 @@
 <#import "tissue.ftl" as tissue />
 <#import "personGadgets.ftl" as personGadgets />
 <#import "postGadgets.ftl" as postGadgets />
+<#import "planGadgets.ftl" as planGadgets />
 <#import "utilGadgets.ftl" as utilGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
@@ -14,11 +15,12 @@
 
     <div id="contentWrapper">
         <div id="sidebar">
+            <@planGadgets.showPlans />
         </div>
 
        <div id="content">
            <#if posts??>
-               <@postGadgets.showPostList posts />
+               <@postGadgets.showPosts posts />
            </#if>
            <@utilGadgets.showPager />
        </div>

@@ -2,6 +2,7 @@
 <#import "tissue.ftl" as tissue />
 <#import "personGadgets.ftl" as personGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
+<#import "planGadgets.ftl" as planGadgets />
 
 <#--
 <#assign mystyles=["/tissue/css/dashboard.css"] in tissue>
@@ -14,7 +15,7 @@
 
     <div id="contentWrapper">
         <div id="sidebar">
-            side bar
+            <@planGadgets.showPlans />
         </div>
 
         <div id="content">

@@ -1,5 +1,6 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
+<#import "personGadgets.ftl" as personGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 
@@ -9,9 +10,7 @@
 
 <@tissue.layout "cna">
     <div id="logo">
-        <div>
-            <h1>invitations</h1> 
-        </div>
+        <@personGadgets.personLogo />
     </div>
 
     <div id="contentWrapper">

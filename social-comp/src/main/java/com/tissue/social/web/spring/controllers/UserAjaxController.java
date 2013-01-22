@@ -6,7 +6,6 @@ import com.tissue.core.social.About;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.commons.social.service.AboutService;
-import com.tissue.social.service.InvitationService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,14 +32,11 @@ public class UserAjaxController {
     @Autowired
     private AboutService aboutService;
 
-    @Autowired
-    private InvitationService invitationService;
-
     @RequestMapping(value="/users/{id}/invites", method=POST)
     @ResponseBody
     public String invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
 
-        invitationService.inviteFriend(SecurityUtil.getViewerId(), id, content);
+        userService.inviteFriend(SecurityUtil.getViewerId(), id, content);
 
         return "ok";
     }
@@ -90,10 +86,10 @@ public class UserAjaxController {
     public String processInvitation(@PathVariable("id") String id, @RequestParam("action") String action, Map model) {
 
         if("decline".equals(action)) {
-            invitationService.declineInvitation(id);
+            userService.declineInvitation(id);
         }
         if("accept".equals(action)) {
-            invitationService.acceptInvitation(id);
+            userService.acceptInvitation(id);
         }
         return "id: " + id + ", action: " + action;
     }

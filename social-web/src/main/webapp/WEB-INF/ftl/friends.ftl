@@ -14,14 +14,8 @@
         </div>
 
         <div id="content">
-            <#if viewer??>
-            <ul>
-                <#list owner.friends as friend>
-                    <li>
-                       <p><a href="<@spring.url '/users/${friend.id}/' />">${friend.displayName}</a></p>
-                    </li>
-                </#list>
-            </ul>
+            <#if owner??>
+                <@personGadgets.showFriends />
             </#if>
         </div>
     </div>
