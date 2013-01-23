@@ -15,7 +15,7 @@
 
     <div id="contentWrapper">
         <div id="sidebar">
-            <@planGadgets.showPlans />
+            <@personGadgets.showPlansOwned />
         </div>
 
        <div id="content">
