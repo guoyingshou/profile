@@ -10,7 +10,7 @@
 
 <@tissue.layout "cna">
     <div id="logo">
-        <@personGadgets.personLogo />
+        <@personGadgets.homeLogo />
     </div>
 
     <div id="contentWrapper">

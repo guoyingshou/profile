@@ -13,7 +13,18 @@
 
     <div id="contentWrapper">
         <div id="sidebar">
-            side bar
+            <h4>Main Features</h4>
+            <ul>
+                <li>
+                     create topics
+                </li>
+                <li>
+                     host or join a group
+                </li>
+                <li>
+                     make new friends
+                </li>
+            </ul>
         </div>
 
         <div id="content">

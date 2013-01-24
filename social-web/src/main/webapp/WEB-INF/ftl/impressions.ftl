@@ -15,6 +15,7 @@
     <div id="contentWrapper">
         <div id="sidebar">
             <@personGadgets.showPlansOwned />
+            <@personGadgets.showNewTopics />
         </div>
 
        <div id="content">

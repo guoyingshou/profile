@@ -1,11 +1,9 @@
-package com.tissue.social.web.spring.controllers;
+package com.tissue.social.web.spring.controllers.ajax;
 
 import com.tissue.core.social.Impression;
 import com.tissue.core.social.User;
-import com.tissue.core.social.About;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.service.UserService;
-import com.tissue.commons.social.service.AboutService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +26,6 @@ public class UserAjaxController {
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private AboutService aboutService;
 
     @RequestMapping(value="/users/{id}/invites", method=POST)
     @ResponseBody
@@ -93,28 +88,5 @@ public class UserAjaxController {
         }
         return "id: " + id + ", action: " + action;
     }
-
-    /**
-     * Add about.
-     */
-    @RequestMapping(value="/about", method=POST)
-    public String addAbout(@RequestParam("content") String content, Map model) throws Exception {
-
-        About about = new About();
-        
-        User user = new User();
-        user.setId(SecurityUtil.getViewerId());
-        user.setDisplayName(SecurityUtil.getDisplayName());
-        about.setUser(user);
-
-        about.setContent(content);
-
-        about = aboutService.addAbout(about);
-
-        model.put("about", about);
-
-        return "fragments/newAbout";
-    }
-
 
 }

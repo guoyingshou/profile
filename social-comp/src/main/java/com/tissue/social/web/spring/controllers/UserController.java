@@ -3,6 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.Activity;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Impression;
+import com.tissue.core.plan.Topic;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
@@ -28,22 +29,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.RequestMethod;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.servlet.ModelAndView;
-//import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-//import org.springframework.http.HttpEntity;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.http.HttpStatus;
-
-//import javax.servlet.http.HttpServletRequest;
-//import javax.validation.Valid;
 import java.util.List;
-//import java.util.ArrayList;
-//import java.util.Locale;
-//import java.util.Set;
 import java.util.Map;
-//import java.nio.charset.Charset;
-//import java.security.Principal;
-
 
 /**
  * Controller that present user related infomation.
@@ -52,9 +39,6 @@ import java.util.Map;
  */
 @Controller
 public class UserController extends ViewerAndOwnerSetter {
-
-    @Autowired
-    private UserService userService;
 
     @Autowired
     private ActivityService activityService;
@@ -108,11 +92,6 @@ public class UserController extends ViewerAndOwnerSetter {
         model.put("friends", friends);
 
         return "friends";
-    }
-
-    @RequestMapping(value="/invitations")
-    public String getInvitations(Map model) {
-        return "invitations";
     }
 
 }

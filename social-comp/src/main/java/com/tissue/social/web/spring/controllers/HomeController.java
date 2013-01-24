@@ -1,12 +1,12 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
-import com.tissue.core.social.About;
+//import com.tissue.core.social.About;
 import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
 import com.tissue.commons.ViewerSetter;
 import com.tissue.commons.social.service.UserService;
-import com.tissue.commons.social.service.AboutService;
+//import com.tissue.commons.social.service.AboutService;
 import com.tissue.commons.social.service.ActivityService;
 import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
@@ -47,22 +47,7 @@ public class HomeController extends ViewerSetter {
     private UserService userService;
 
     @Autowired
-    private AboutService aboutService;
-
-    @Autowired
     private ActivityService activityService;
-
-    @ModelAttribute("locale")
-    public String setupLocale(Locale locale) {
-        return locale.toString();
-    }
-
-    @RequestMapping(value="/about", method=GET)
-    public String about(Map model, Locale locale) {
-        List<About> abouts = aboutService.getAbouts();
-        model.put("abouts", abouts);
-        return "about";
-    }
 
     @RequestMapping(value="/login")
     public String loginForm(Map model) {
@@ -161,4 +146,11 @@ public class HomeController extends ViewerSetter {
 
         return "dashboard";
     }
+
+    @RequestMapping(value="/invitations", method=GET)
+    public String getInvitations(Map model, @ModelAttribute("viewer") User viewer) {
+        model.put("owner", viewer);
+        return "invitations";
+    }
+
 }
