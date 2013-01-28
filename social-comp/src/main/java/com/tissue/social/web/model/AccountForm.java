@@ -23,6 +23,8 @@ public class AccountForm {
     @NotEmpty(message="displayName cann't be null")
     private String displayName;
 
+    private String headline;
+
     @NotEmpty(message="email cann't be null")
     @Email
     private String email;
@@ -58,6 +60,14 @@ public class AccountForm {
 
     public String getDisplayName() {
         return displayName;
+    }
+
+    public void setHeadline(String headline) {
+        this.headline = headline;
+    }
+
+    public String getHeadline() {
+        return headline;
     }
 
     public void setEmail(String email) {

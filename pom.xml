@@ -15,7 +15,6 @@
   <version>1.0-SNAPSHOT</version>
 
   <modules>
-    <module>social-service</module>
     <module>social-comp</module>
     <module>social-web</module>
   </modules>

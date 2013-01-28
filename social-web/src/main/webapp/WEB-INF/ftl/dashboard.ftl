@@ -1,20 +1,18 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
-<#import "personGadgets.ftl" as personGadgets />
+<#import "userGadgets.ftl" as userGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
-<#--
-<#assign mystyles=["/tissue/css/dashboard.css"] in tissue>
--->
+<#assign mystyles=["/tissue/css/activity.css"] in tissue>
 
 <@tissue.layout "home">
     <div id="logo">
-        <@personGadgets.homeLogo />
+        <@userGadgets.homeLogo />
     </div>
 
     <div id="contentWrapper">
         <div id="sidebar">
-            <@personGadgets.showPlansOwned />
+            <@userGadgets.showPlansOwned />
         </div>
 
         <div id="content">

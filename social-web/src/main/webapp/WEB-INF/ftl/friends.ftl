@@ -1,23 +1,23 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
-<#import "personGadgets.ftl" as personGadgets />
+<#import "userGadgets.ftl" as userGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 
 <@tissue.layout "cna">
     <div id="logo">
-        <@personGadgets.personLogo />
+        <@userGadgets.personLogo />
     </div>
 
     <div id="contentWrapper">
         <div id="sidebar">
-            <@personGadgets.showPlansOwned />
-            <@personGadgets.showNewTopics />
+            <@userGadgets.showPlansOwned />
+            <@userGadgets.showNewTopics />
         </div>
 
         <div id="content">
             <#if owner??>
-                <@personGadgets.showFriends />
+                <@userGadgets.showFriends />
             </#if>
         </div>
     </div>

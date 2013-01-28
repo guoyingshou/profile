@@ -90,6 +90,7 @@ public class HomeController extends ViewerSetter {
         User user = new User();
         user.setUsername(form.getUsername());
         user.setDisplayName(form.getDisplayName());
+        user.setHeadline(form.getHeadline());
         user.setEmail(form.getEmail());
 
         String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();

@@ -1,6 +1,6 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
-<#import "personGadgets.ftl" as personGadgets />
+<#import "userGadgets.ftl" as userGadgets />
 <#import "postGadgets.ftl" as postGadgets />
 <#import "utilGadgets.ftl" as utilGadgets />
 
@@ -9,17 +9,17 @@
 
 <@tissue.layout "Impression">
     <div id="logo">
-        <@personGadgets.personLogo />
+        <@userGadgets.personLogo />
     </div>
 
     <div id="contentWrapper">
         <div id="sidebar">
-            <@personGadgets.showPlansOwned />
-            <@personGadgets.showNewTopics />
+            <@userGadgets.showPlansOwned />
+            <@userGadgets.showNewTopics />
         </div>
 
        <div id="content">
-           <@personGadgets.showImpressions /> 
+           <@userGadgets.showImpressions /> 
        </div>
     </div>
 
