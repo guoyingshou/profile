@@ -3,7 +3,7 @@
 <#import "userGadgets.ftl" as userGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
-<#assign mystyles=["/tissue/css/activity.css"] in tissue>
+<#assign mystyles=["/tissue/css/activity.css", "/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "home">
     <div id="logo">
@@ -12,7 +12,8 @@
 
     <div id="contentWrapper">
         <div id="sidebar">
-            <@userGadgets.showPlansOwned />
+            <@userGadgets.showOwnedPlans/>
+            <@userGadgets.showArchivedPlans/>
         </div>
 
         <div id="content">

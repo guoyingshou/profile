@@ -3,10 +3,7 @@
 <#import "userGadgets.ftl" as userGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
-
-<#--
-<#assign mystyles=["/tissue/css/cna.css"] in tissue>
--->
+<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "cna">
     <div id="logo">
@@ -15,7 +12,8 @@
 
     <div id="contentWrapper">
         <div id="sidebar">
-            <@userGadgets.showPlansOwned />
+            <@userGadgets.showOwnedPlans/>
+            <@userGadgets.showArchivedPlans/>
         </div>
 
         <div id="content">

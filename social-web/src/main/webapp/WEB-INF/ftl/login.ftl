@@ -2,9 +2,7 @@
 <#import "tissue.ftl" as tissue />
 <#import "formGadgets.ftl" as formGadgets />
 
-<#--
-<#assign mystyles=["/tissue/css/home.css"] in tissue>
--->
+<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "sign in">
     <div id="logo">
