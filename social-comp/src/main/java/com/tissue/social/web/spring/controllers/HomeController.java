@@ -102,6 +102,30 @@ public class HomeController extends ViewerSetter {
         return "redirect:/dashboard";
     }
 
+    @RequestMapping(value="/users/{userId}", method=POST)
+    public String updateUser(@PathVariable("userId") String userId, AccountForm form, Map model) {
+        User user = new User();
+        user.setId(userId);
+        user.setDisplayName(form.getDisplayName());
+        user.setHeadline(form.getHeadline());
+        user.setEmail(form.getEmail());
+        userService.updateUser(user);
+        return "redirect:/dashboard";
+    }
+
+    @RequestMapping(value="/users/{userId}/pass", method=POST)
+    public String changePass(@PathVariable("userId") String userId, AccountForm form, Map model) {
+        User user = new User();
+        user.setId(userId);
+
+        String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
+        user.setPassword(md5);
+
+        userService.changePassword(user);
+
+        return "redirect:/dashboard";
+    }
+
     @RequestMapping(value="/home")
     public String index(Map model) {
         List<Activity> activities = activityService.getActivitiesForNewUser(15);
