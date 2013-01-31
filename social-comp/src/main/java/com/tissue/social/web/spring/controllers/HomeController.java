@@ -1,14 +1,12 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
-//import com.tissue.core.social.About;
 import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
 import com.tissue.commons.ViewerSetter;
 import com.tissue.commons.social.service.UserService;
-//import com.tissue.commons.social.service.AboutService;
 import com.tissue.commons.social.service.ActivityService;
-import com.tissue.social.web.model.UserForm;
+//import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
 
 import org.springframework.stereotype.Controller;

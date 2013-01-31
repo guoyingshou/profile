@@ -6,7 +6,7 @@
 <#import "utilGadgets.ftl" as utilGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
-<#assign mystyles=["/tissue/css/layout2.css", "/tissue/css/user.css"] in tissue>
+<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "Feed">
     <div id="logo">

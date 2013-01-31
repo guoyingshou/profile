@@ -3,7 +3,7 @@
 <#import "userGadgets.ftl" as userGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
-<#assign mystyles=["/tissue/css/layout2.css", "/tissue/css/activity.css"] in tissue>
+<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "home">
     <div id="logo">
