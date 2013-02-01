@@ -2,6 +2,7 @@
 <#import "tissue.ftl" as tissue />
 <#import "userGadgets.ftl" as userGadgets />
 <#import "postGadgets.ftl" as postGadgets />
+<#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 <#import "utilGadgets.ftl" as utilGadgets />
 
@@ -17,7 +18,7 @@
         <div id="sidebar">
             <@userGadgets.showOwnedPlans/>
             <@userGadgets.showArchivedPlans/>
-            <@userGadgets.showNewTopics />
+            <@topicGadgets.showNewTopics />
         </div>
 
        <div id="content">

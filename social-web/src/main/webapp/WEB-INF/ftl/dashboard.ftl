@@ -1,6 +1,7 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
 <#import "userGadgets.ftl" as userGadgets />
+<#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
@@ -14,6 +15,7 @@
         <div id="sidebar">
             <@userGadgets.showOwnedPlans/>
             <@userGadgets.showArchivedPlans/>
+            <@topicGadgets.showNewTopics/>
         </div>
 
         <div id="content">

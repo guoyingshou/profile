@@ -2,7 +2,7 @@
 <#import "tissue.ftl" as tissue />
 <#import "userGadgets.ftl" as userGadgets />
 <#import "postGadgets.ftl" as postGadgets />
-<#import "planGadgets.ftl" as planGadgets />
+<#import "topicGadgets.ftl" as topicGadgets />
 <#import "utilGadgets.ftl" as utilGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
@@ -17,7 +17,7 @@
         <div id="sidebar">
             <@userGadgets.showOwnedPlans/>
             <@userGadgets.showArchivedPlans/>
-            <@userGadgets.showNewTopics />
+            <@topicGadgets.showNewTopics />
         </div>
 
        <div id="content">
