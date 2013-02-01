@@ -7,12 +7,12 @@ import com.tissue.core.plan.Topic;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
-import com.tissue.commons.ViewerAndOwnerSetter;
+import com.tissue.commons.ViewerOwnerTopicSetter;
 import com.tissue.commons.social.service.ActivityService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
 import com.tissue.commons.social.service.UserService;
-import com.tissue.social.web.model.UserForm;
+//import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
 
 import org.springframework.stereotype.Controller;
@@ -38,7 +38,7 @@ import java.util.Map;
  * which are setup in the superclass: ViewerAndOwnerSetter.
  */
 @Controller
-public class UserController extends ViewerAndOwnerSetter {
+public class UserController extends ViewerOwnerTopicSetter {
 
     @Autowired
     private ActivityService activityService;
