@@ -39,9 +39,20 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    @ModelAttribute("locale")
+    public String initLocale(Locale locale) {
+        return locale.toString();
+    }
+
     @RequestMapping(value="/login")
-    public String loginForm(Map model) {
+    public String loginForm(@RequestParam(value="error", required=false) String error, Map model) {
+        model.put("error", error);
         return "login";
+    }
+
+    @RequestMapping(value="/signup", method=GET)
+    public String signupForm(Map model) {
+        return "signup";
     }
 
     /**

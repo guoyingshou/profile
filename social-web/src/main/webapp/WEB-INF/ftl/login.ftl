@@ -1,22 +1,18 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
+<#import "userGadgets.ftl" as userGadgets />
 <#import "formGadgets.ftl" as formGadgets />
 
+<#--
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
+-->
 
 <@tissue.layout "sign in">
     <div id="logo">
-        <h1>Tissue Network</h1>
+        <@userGadgets.homeLogo />
     </div>
 
-    <div id="contentWrapper">
-        <div id="sidebar">
-            <@tissue.slogan />
-        </div>
+    <@formGadgets.signinForm />
 
-        <div id="content">
-            <@formGadgets.signinForm />
-        </div>
-    </div>
 </@tissue.layout>
 
