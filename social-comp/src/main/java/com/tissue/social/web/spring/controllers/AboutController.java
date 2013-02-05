@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import java.util.List;
 import java.util.Map;
+import java.util.Enumeration;
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class AboutController extends ViewerSetter {
@@ -24,4 +27,19 @@ public class AboutController extends ViewerSetter {
         return "about";
     }
 
+    @RequestMapping("/te2")
+    public String test1(HttpServletRequest req) {
+        ServletContext ctx = req.getServletContext();
+
+        Enumeration enu = ctx.getAttributeNames();
+        while(enu.hasMoreElements()) {
+            Object obj = ctx.getAttribute(enu.nextElement().toString());
+            System.out.println("\nname: " + enu.nextElement());
+            System.out.println("obj: " + obj);
+            System.out.println("obj type: " + obj.getClass());
+        }
+
+        return "test1";
+    }
+    
 }

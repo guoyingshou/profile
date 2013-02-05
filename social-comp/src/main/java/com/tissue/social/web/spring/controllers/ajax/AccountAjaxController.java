@@ -1,4 +1,4 @@
-package com.tissue.social.web.spring.controllers;
+package com.tissue.social.web.spring.controllers.ajax;
 
 import com.tissue.core.social.User;
 import com.tissue.commons.social.service.UserService;
@@ -41,7 +41,7 @@ public class AccountAjaxController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="/checkUsername")
+    @RequestMapping(value="/preAddUsername")
     public HttpEntity<?> checkUsername(@RequestParam(value="username") String username, Map model) {
 
         boolean exist = userService.isUsernameExist(username);
@@ -53,7 +53,7 @@ public class AccountAjaxController {
         }
     }
 
-    @RequestMapping(value="/checkEmail")
+    @RequestMapping(value="/preAddEmail")
     public HttpEntity<?> checkEmail(@RequestParam(value="email") String email, Map model) {
 
         boolean exist = userService.isEmailExist(email);
