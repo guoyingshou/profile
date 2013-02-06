@@ -44,7 +44,11 @@ public class AccountAjaxController {
     @RequestMapping(value="/preAddUsername")
     public HttpEntity<?> checkUsername(@RequestParam(value="username") String username, Map model) {
 
-        boolean exist = userService.isUsernameExist(username);
+        boolean usernameValid = ((username == null) || "".equals(username.trim())) ? false : true;
+        System.out.println("username: " + username);
+        System.out.println("valid: " + usernameValid);
+
+        boolean exist = usernameValid && userService.isUsernameExist(username);
         if(exist) {
              return new ResponseEntity(HttpStatus.CONFLICT);
         }
@@ -56,7 +60,12 @@ public class AccountAjaxController {
     @RequestMapping(value="/preAddEmail")
     public HttpEntity<?> checkEmail(@RequestParam(value="email") String email, Map model) {
 
-        boolean exist = userService.isEmailExist(email);
+        boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
+
+        System.out.println("email: " + email);
+        System.out.println("valid: " + emailValid);
+
+        boolean exist = emailValid && userService.isEmailExist(email);
         if(exist) {
              return new ResponseEntity(HttpStatus.CONFLICT);
         }
