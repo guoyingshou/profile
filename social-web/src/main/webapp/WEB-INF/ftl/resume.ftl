@@ -11,7 +11,7 @@
 
 <@tissue.layout "Resume">
     <div id="logo">
-        <@userGadgets.personLogo />
+        <@userGadgets.userLogo />
     </div>
 
     <div id="contentWrapper">

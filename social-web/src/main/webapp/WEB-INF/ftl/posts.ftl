@@ -10,7 +10,7 @@
 
 <@tissue.layout owner.displayName>
     <div id="logo">
-        <@userGadgets.personLogo />
+        <@userGadgets.userLogo />
     </div>
 
     <div id="contentWrapper">
