@@ -4,6 +4,7 @@
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
+<#assign myscripts=["/tissue/js/user.js"] in tissue>
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "home">

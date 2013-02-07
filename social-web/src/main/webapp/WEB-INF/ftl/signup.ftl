@@ -3,7 +3,7 @@
 <#import "userGadgets.ftl" as userGadgets />
 <#import "formGadgets.ftl" as formGadgets />
 
-<#assign myscripts = ['/tissue/js/account.js'] in tissue />
+<#assign myscripts = ['/tissue/js/user.js'] in tissue />
 
 <@tissue.layout "sign up">
     <div id="logo">
