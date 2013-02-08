@@ -84,8 +84,14 @@
         <property name="securityMetadataSource">
             <sec:filter-security-metadata-source>
                 <sec:intercept-url pattern="/dashboard" access="ROLE_user" />
+                <sec:intercept-url pattern="/updateProfile" access="ROLE_user" />
+                <sec:intercept-url pattern="/updateContact" access="ROLE_user" />
+                <sec:intercept-url pattern="/changePass" access="ROLE_user" />
                 <sec:intercept-url pattern="/allfeeds" access="ROLE_user" />
                 <sec:intercept-url pattern="/watchedfeeds" access="ROLE_user" />
+                <sec:intercept-url pattern="/preAddUsername" access="ROLE_user" />
+                <sec:intercept-url pattern="/preAddEmail" access="ROLE_user" />
+                <sec:intercept-url pattern="/preUpdateEmail" access="ROLE_user" />
                 <sec:intercept-url pattern="/home" access="ROLE_ANONYMOUS, ROLE_user" />
                 <sec:intercept-url pattern="/users/*" access="ROLE_ANONYMOUS, ROLE_user" />
             </sec:filter-security-metadata-source>

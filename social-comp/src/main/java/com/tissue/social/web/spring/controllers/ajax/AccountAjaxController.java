@@ -1,6 +1,7 @@
 package com.tissue.social.web.spring.controllers.ajax;
 
 import com.tissue.core.social.User;
+import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.social.web.model.AccountForm;
 
@@ -73,5 +74,20 @@ public class AccountAjaxController {
             return HttpEntity.EMPTY;
         }
     }
+
+    @RequestMapping(value="/preUpdateEmail")
+    public HttpEntity<?> checkEmailOwned(@RequestParam(value="email") String email, Map model) {
+
+        String viewerId = SecurityUtil.getViewerId();
+        boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
+        boolean exist = emailValid && userService.isEmailExist(viewerId, email);
+        if(exist) {
+             return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        else {
+            return HttpEntity.EMPTY;
+        }
+    }
+
 
 }

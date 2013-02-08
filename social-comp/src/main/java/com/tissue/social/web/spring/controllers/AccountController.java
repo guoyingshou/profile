@@ -1,8 +1,11 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
+import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.social.web.model.AccountForm;
+import com.tissue.social.web.model.ProfileForm;
+import com.tissue.social.web.model.EmailForm;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -32,8 +35,13 @@ import java.nio.charset.Charset;
 
 import com.google.common.hash.Hashing;
 
+//import org.slf4j.Logger;
+//import org.slf4j.LoggerFactory;
+import java.security.InvalidParameterException;
+
 @Controller
 public class AccountController {
+//    private static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private UserService userService;
@@ -60,11 +68,7 @@ public class AccountController {
     @RequestMapping(value="/signup", method=POST)
     public String signup(@Valid @ModelAttribute("account") AccountForm form, BindingResult result) {
         if(result.hasErrors()) {
-            List<ObjectError> errors = result.getAllErrors();
-            for(ObjectError error : errors) {
-                System.out.println(error);
-            }
-            return "signup";
+            throw new InvalidParameterException("content invalid");
         }
 
         User user = new User();
@@ -82,21 +86,49 @@ public class AccountController {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/users/{userId}", method=POST)
-    public String updateUser(@PathVariable("userId") String userId, AccountForm form, Map model) {
+    @RequestMapping(value="/updateContact", method=POST)
+    public String updateUser(@Valid EmailForm form, BindingResult result, Map model) {
+
+        if(result.hasErrors()) {
+            throw new InvalidParameterException("content invalid");
+        }
+
+        String viewerId = SecurityUtil.getViewerId();
+
         User user = new User();
-        user.setId(userId);
+        user.setId(viewerId);
+        user.setEmail(form.getEmail());
+        userService.updateEmail(user);
+        return "redirect:/dashboard";
+    }
+
+    @RequestMapping(value="/updateProfile", method=POST)
+    public String updateUser(@Valid ProfileForm form, BindingResult result, Map model) {
+
+        String viewerId = SecurityUtil.getViewerId();
+
+        if(result.hasErrors()) {
+            throw new InvalidParameterException("content invalid");
+        }
+
+        User user = new User();
+        user.setId(viewerId);
         user.setDisplayName(form.getDisplayName());
         user.setHeadline(form.getHeadline());
-        user.setEmail(form.getEmail());
         userService.updateUser(user);
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/users/{userId}/pass", method=POST)
-    public String changePass(@PathVariable("userId") String userId, AccountForm form, Map model) {
+    @RequestMapping(value="/changePass", method=POST)
+    public String changePass(AccountForm form, Map model) {
+        String viewerId = SecurityUtil.getViewerId();
+        
+        if(!form.getPassword().equals(form.getConfirm())) {
+            throw new InvalidParameterException("confirm mismatch");
+        }
+
         User user = new User();
-        user.setId(userId);
+        user.setId(viewerId);
 
         String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
         user.setPassword(md5);
