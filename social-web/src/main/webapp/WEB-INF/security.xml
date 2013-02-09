@@ -34,9 +34,11 @@
 
     <bean id="securityContextPersistenceFilter" class="org.springframework.security.web.context.SecurityContextPersistenceFilter" />
 
-    <bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" p:authenticationManager-ref="authenticationManager" p:filterProcessesUrl="/jsc" p:rememberMeServices-ref="rememberMeServices" p:authenticationFailureHandler-ref="failureHandler" />
+    <bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" p:authenticationManager-ref="authenticationManager" p:filterProcessesUrl="/jsc" p:rememberMeServices-ref="rememberMeServices" p:authenticationFailureHandler-ref="failureHandler" p:authenticationSuccessHandler-ref="successHandler" />
 
     <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" p:defaultFailureUrl="/login?error=t" />
+
+    <bean id="successHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler" p:defaultTargetUrl="/dashboard" />
 
     <bean id="requestCacheAwareFilter" class="org.springframework.security.web.savedrequest.RequestCacheAwareFilter" />
 
