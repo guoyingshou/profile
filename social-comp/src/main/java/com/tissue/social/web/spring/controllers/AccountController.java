@@ -86,7 +86,7 @@ public class AccountController {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/updateContact", method=POST)
+    @RequestMapping(value="/changeContact", method=POST)
     public String updateUser(@Valid EmailForm form, BindingResult result, Map model) {
 
         if(result.hasErrors()) {
@@ -102,7 +102,7 @@ public class AccountController {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/updateProfile", method=POST)
+    @RequestMapping(value="/changeProfile", method=POST)
     public String updateUser(@Valid ProfileForm form, BindingResult result, Map model) {
 
         String viewerId = SecurityUtil.getViewerId();
