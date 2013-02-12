@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -42,6 +44,9 @@ import java.security.InvalidParameterException;
 @Controller
 public class AccountController {
 //    private static Logger logger = LoggerFactory.getLogger(AccountController.class);
+
+    @Autowired
+    private MailSender mailSender;
 
     @Autowired
     private UserService userService;
@@ -76,13 +81,17 @@ public class AccountController {
         user.setDisplayName(form.getDisplayName());
         user.setHeadline(form.getHeadline());
         user.setEmail(form.getEmail());
-
         String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
         user.setPassword(md5);
-
         user.setCreateTime(new Date());
-
         userService.addUser(user);
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setTo("guoyingshou@yahoo.com.cn");
+        msg.setSubject("welcome back");
+        msg.setText(form.getUsername() + ":" + form.getDisplayName() + ":" + form.getEmail());
+        mailSender.send(msg);
+
         return "redirect:/dashboard";
     }
 

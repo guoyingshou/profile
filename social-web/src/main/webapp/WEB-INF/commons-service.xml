@@ -10,6 +10,19 @@
            http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
            http://www.springframework.org/schema/context
            http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+    <context:component-scan base-package="com.tissue.commons.services" />
     <context:component-scan base-package="com.tissue.commons.social.service" />
     <context:component-scan base-package="com.tissue.commons.security.service" />
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="smtp.gmail.com" />
+        <property name="port" value="587" />
+        <property name="username" value="guoyingshou@gmail.com" />
+        <property name="password" value="qaz123wsx" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+            </props>
+        </property>
+    </bean>
 </beans>
