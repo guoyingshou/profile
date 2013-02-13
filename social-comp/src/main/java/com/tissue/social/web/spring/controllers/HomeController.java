@@ -3,6 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
+import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.ViewerTopicSetter;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.commons.social.service.ActivityService;
@@ -68,6 +69,9 @@ public class HomeController extends ViewerTopicSetter {
 
     @RequestMapping(value="/home")
     public String index(Map model) {
+        if(SecurityUtil.getViewerId() != null) {
+            return "redirect:dashboard";
+        }
         List<Activity> activities = activityService.getActivitiesForNewUser(15);
         model.put("activities", activities);
         return "home";

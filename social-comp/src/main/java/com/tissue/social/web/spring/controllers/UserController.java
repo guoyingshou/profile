@@ -12,7 +12,6 @@ import com.tissue.commons.social.service.ActivityService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
 import com.tissue.commons.social.service.UserService;
-//import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.AccountForm;
 
 import org.springframework.stereotype.Controller;

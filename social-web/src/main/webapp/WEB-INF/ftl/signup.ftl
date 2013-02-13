@@ -2,7 +2,9 @@
 <#import "tissue.ftl" as tissue />
 <#import "userGadgets.ftl" as userGadgets />
 
+<#--
 <#assign myscripts = ['/tissue/js/user.js'] in tissue />
+-->
 
 <@tissue.layout "sign up">
     <div id="logo">

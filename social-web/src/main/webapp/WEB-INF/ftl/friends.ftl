@@ -3,7 +3,7 @@
 <#import "userGadgets.ftl" as userGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 
-<#assign myscripts=["/ckeditor/ckeditor.js", "/tissue/js/user.js"] in tissue>
+<#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "cna">
