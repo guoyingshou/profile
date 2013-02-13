@@ -86,11 +86,13 @@ public class AccountController {
         user.setCreateTime(new Date());
         userService.addUser(user);
 
+        /**
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setTo("guoyingshou@yahoo.com.cn");
         msg.setSubject("welcome back");
         msg.setText(form.getUsername() + ":" + form.getDisplayName() + ":" + form.getEmail());
         mailSender.send(msg);
+        */
 
         return "redirect:/dashboard";
     }
