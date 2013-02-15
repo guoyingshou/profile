@@ -4,7 +4,7 @@ import com.tissue.core.social.User;
 import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.commons.ViewerTopicSetter;
+import com.tissue.commons.ViewerNewTopicsSetter;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.commons.social.service.ActivityService;
 import com.tissue.social.web.model.AccountForm;
@@ -39,7 +39,7 @@ import com.google.common.hash.Hashing;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-public class HomeController extends ViewerTopicSetter {
+public class HomeController extends ViewerNewTopicsSetter {
 
     @Autowired
     private UserService userService;
