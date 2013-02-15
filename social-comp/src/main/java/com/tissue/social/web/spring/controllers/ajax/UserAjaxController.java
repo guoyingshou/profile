@@ -6,6 +6,9 @@ import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.service.UserService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +30,9 @@ public class UserAjaxController {
     @Autowired
     private UserService userService;
 
+    /**
+     * send invitation.
+     */
     @RequestMapping(value="/users/{id}/invites", method=POST)
     @ResponseBody
     public String invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
@@ -75,7 +81,6 @@ public class UserAjaxController {
 
     /**
      * Process invitation.
-     */
     @RequestMapping(value="/invitations/{id}", method=POST)
     @ResponseBody
     public String processInvitation(@PathVariable("id") String id, @RequestParam("action") String action, Map model) {
@@ -88,5 +93,18 @@ public class UserAjaxController {
         }
         return "id: " + id + ", action: " + action;
     }
+     */
 
+    @RequestMapping(value="/invitations/{id}/accept", method=POST)
+    public HttpEntity<?> accept(@PathVariable("id") String id, Map model) {
+        userService.acceptInvitation(id);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+ 
+    @RequestMapping(value="/invitations/{id}/decline", method=POST)
+    public HttpEntity<?> decline(@PathVariable("id") String id, Map model) {
+        userService.declineInvitation(id);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+ 
 }

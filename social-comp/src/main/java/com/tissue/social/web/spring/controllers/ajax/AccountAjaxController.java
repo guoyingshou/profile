@@ -66,7 +66,7 @@ public class AccountAjaxController {
         System.out.println("email: " + email);
         System.out.println("valid: " + emailValid);
 
-        boolean exist = emailValid && userService.isEmailExist(email);
+        boolean exist = !emailValid || userService.isEmailExist(email);
         if(exist) {
              return new ResponseEntity(HttpStatus.CONFLICT);
         }
