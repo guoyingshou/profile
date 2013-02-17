@@ -45,6 +45,8 @@ public class UserController extends ViewerOwnerTopicSetter {
     @RequestMapping(value="/users/{userId}/posts")
     public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
 
+        userId = "#" + userId;
+
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
         long total = userService.getPostsCountByUserId(userId);
@@ -60,6 +62,7 @@ public class UserController extends ViewerOwnerTopicSetter {
     @RequestMapping(value="/users/{userId}/status")
     public String getFeed(@PathVariable("userId") String userId, Map model) {
 
+        userId = "#" + userId;
         List<Activity> activities = activityService.getUserActivities(userId, 15);
         model.put("activities", activities);
 
@@ -74,6 +77,7 @@ public class UserController extends ViewerOwnerTopicSetter {
     @RequestMapping(value="/users/{userId}/impressions")
     public String getImpression(@PathVariable("userId") String userId, Map model) {
 
+        userId = "#" + userId;
         List<Impression> impressions = userService.getImpressions(userId);
         model.put("impressions", impressions);
 
@@ -87,6 +91,7 @@ public class UserController extends ViewerOwnerTopicSetter {
     @RequestMapping(value="/users/{userId}/friends")
     public String getFriends(@PathVariable("userId") String userId, Map model) {
 
+        userId = "#" + userId;
         List<User> friends = userService.getFriends(userId);
         model.put("friends", friends);
 

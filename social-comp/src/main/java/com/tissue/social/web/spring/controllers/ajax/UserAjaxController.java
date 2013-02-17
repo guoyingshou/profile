@@ -37,6 +37,7 @@ public class UserAjaxController {
     @ResponseBody
     public String invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
 
+        id = "#" + id;
         userService.inviteFriend(SecurityUtil.getViewerId(), id, content);
 
         return "ok";
@@ -49,7 +50,7 @@ public class UserAjaxController {
     @ResponseBody
     public String updateResume(@PathVariable("userId") String userId, @RequestParam("content") String content, Map model) throws Exception {
 
-        userService.addResume(userId, content);
+        userService.addResume("#" + userId, content);
         return "ok";
     }
 

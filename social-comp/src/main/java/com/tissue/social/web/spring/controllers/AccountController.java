@@ -33,10 +33,6 @@ import java.util.Locale;
 import java.util.Date;
 import java.util.Set;
 import java.util.Map;
-import java.nio.charset.Charset;
-
-import com.google.common.hash.Hashing;
-
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 import java.security.InvalidParameterException;
@@ -76,15 +72,20 @@ public class AccountController {
             throw new InvalidParameterException("content invalid");
         }
 
+        userService.addUser(form);
+
+        /**
         User user = new User();
         user.setUsername(form.getUsername());
         user.setDisplayName(form.getDisplayName());
         user.setHeadline(form.getHeadline());
         user.setEmail(form.getEmail());
+
         String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
         user.setPassword(md5);
         user.setCreateTime(new Date());
         userService.addUser(user);
+        */
 
         /**
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -106,10 +107,13 @@ public class AccountController {
 
         String viewerId = SecurityUtil.getViewerId();
 
+        /**
         User user = new User();
         user.setId(viewerId);
         user.setEmail(form.getEmail());
         userService.updateEmail(user);
+        */
+
         return "redirect:/dashboard";
     }
 
@@ -122,11 +126,13 @@ public class AccountController {
             throw new InvalidParameterException("content invalid");
         }
 
+        /**
         User user = new User();
         user.setId(viewerId);
         user.setDisplayName(form.getDisplayName());
         user.setHeadline(form.getHeadline());
         userService.updateUser(user);
+        */
         return "redirect:/dashboard";
     }
 
@@ -141,10 +147,10 @@ public class AccountController {
         User user = new User();
         user.setId(viewerId);
 
-        String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
-        user.setPassword(md5);
+        //String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
+        //user.setPassword(md5);
 
-        userService.changePassword(user);
+        //userService.changePassword(user);
 
         return "redirect:/dashboard";
     }

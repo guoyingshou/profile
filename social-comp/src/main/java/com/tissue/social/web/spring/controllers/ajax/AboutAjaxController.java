@@ -27,6 +27,7 @@ public class AboutAjaxController {
     @RequestMapping(value="/about", method=POST)
     public String addAbout(@RequestParam("content") String content, Map model) throws Exception {
 
+        /**
         About about = new About();
         
         User user = new User();
@@ -39,6 +40,7 @@ public class AboutAjaxController {
         about = aboutService.addAbout(about);
 
         model.put("about", about);
+        */
 
         return "fragments/newAbout";
     }

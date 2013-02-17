@@ -1,5 +1,8 @@
 package com.tissue.social.web.model;
 
+import com.tissue.core.util.OrientIdentityUtil;
+import com.tissue.core.social.command.UserCommand;
+
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
@@ -8,8 +11,12 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.nio.charset.Charset;
+import com.google.common.hash.Hashing;
 
-public class AccountForm {
+public class AccountForm implements UserCommand, Serializable {
+
+    private String id;
 
     @NotEmpty(message="{account.username}")
     private String username;
@@ -30,6 +37,14 @@ public class AccountForm {
     private String email;
 
     /**-----------------------------*/
+    public void setId(String id) {
+        this.id = OrientIdentityUtil.decode(id);
+    }
+
+    public String getId() {
+        return id;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
@@ -39,7 +54,7 @@ public class AccountForm {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = Hashing.md5().hashString(password, Charset.forName("utf-8")).toString();
     }
 
     public String getPassword() {
