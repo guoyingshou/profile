@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * Controller that present user related infomation.
  * All views returned from each handler method will need two data model named 'viewer' and 'owner',
- * which are setup in the superclass: ViewerAndOwnerSetter.
+ * which are setup in the superclass: ViewerOwnerTopicSetter.
  */
 @Controller
 public class UserController extends ViewerOwnerTopicSetter {
