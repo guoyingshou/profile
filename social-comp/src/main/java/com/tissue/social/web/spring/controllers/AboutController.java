@@ -1,24 +1,48 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.About;
-import com.tissue.commons.ViewerSetter;
+import com.tissue.core.social.User;
+//import com.tissue.commons.ViewerSetter;
 import com.tissue.commons.social.service.AboutService;
+import com.tissue.commons.social.service.UserService;
+import com.tissue.commons.security.util.SecurityUtil;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Enumeration;
+import java.util.Locale;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-public class AboutController extends ViewerSetter {
+//public class AboutController extends ViewerSetter {
+public class AboutController {
+
+    @Autowired
+    protected UserService userService;
 
     @Autowired
     private AboutService aboutService;
+
+    @ModelAttribute("locale")
+    public String setupLocale(Locale locale) {
+        return locale.toString();
+    }
+
+    @ModelAttribute("viewer")
+    public User prefetchViewer(Map model) {
+        String viewerId = SecurityUtil.getViewerId();
+        if(viewerId == null) {
+            return null;    
+        }
+        return userService.getViewer(viewerId);
+    }
+
 
     @RequestMapping(value="/about", method=GET)
     public String about(Map model) {

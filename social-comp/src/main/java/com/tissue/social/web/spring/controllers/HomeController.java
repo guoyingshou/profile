@@ -3,8 +3,9 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
+import com.tissue.core.plan.Topic;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.commons.ViewerNewTopicsSetter;
+//import com.tissue.commons.ViewerNewTopicsSetter;
 import com.tissue.commons.social.service.UserService;
 import com.tissue.commons.social.service.ActivityService;
 import com.tissue.social.web.model.AccountForm;
@@ -39,13 +40,34 @@ import com.google.common.hash.Hashing;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-public class HomeController extends ViewerNewTopicsSetter {
+//public class HomeController extends ViewerNewTopicsSetter {
+public class HomeController {
 
     @Autowired
     private UserService userService;
 
     @Autowired
     private ActivityService activityService;
+
+    @ModelAttribute("locale")
+    public String setupLocale(Locale locale) {
+        return locale.toString();
+    }
+
+    @ModelAttribute("viewer")
+    public User initViewer(Map model) {
+        String viewerId = SecurityUtil.getViewerId();
+        if(viewerId == null) {
+            return null;    
+        }
+        return userService.getViewer(viewerId);
+    }
+
+    @ModelAttribute("newTopics")
+    public List<Topic> initTopics(Map model) {
+        String viewerId = SecurityUtil.getViewerId();
+        return userService.getNewTopics(viewerId, 10);
+    }
 
     @RequestMapping(value="/signout")
     public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
