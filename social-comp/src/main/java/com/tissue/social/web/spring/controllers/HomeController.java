@@ -5,9 +5,8 @@ import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Topic;
 import com.tissue.commons.security.util.SecurityUtil;
-//import com.tissue.commons.ViewerNewTopicsSetter;
-import com.tissue.commons.social.service.UserService;
-import com.tissue.commons.social.service.ActivityService;
+import com.tissue.commons.social.services.UserService;
+import com.tissue.commons.social.services.ActivityService;
 import com.tissue.social.web.model.AccountForm;
 
 import org.springframework.stereotype.Controller;
@@ -49,10 +48,12 @@ public class HomeController {
     @Autowired
     private ActivityService activityService;
 
+    /**
     @ModelAttribute("locale")
     public String setupLocale(Locale locale) {
         return locale.toString();
     }
+    */
 
     @ModelAttribute("viewer")
     public User initViewer(Map model) {

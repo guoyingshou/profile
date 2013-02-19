@@ -3,7 +3,7 @@ package com.tissue.social.web.spring.controllers.ajax;
 import com.tissue.core.social.About;
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.commons.social.service.AboutService;
+import com.tissue.commons.social.services.AboutService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.beans.factory.annotation.Autowired;

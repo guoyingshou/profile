@@ -2,9 +2,8 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.About;
 import com.tissue.core.social.User;
-//import com.tissue.commons.ViewerSetter;
-import com.tissue.commons.social.service.AboutService;
-import com.tissue.commons.social.service.UserService;
+import com.tissue.commons.social.services.AboutService;
+import com.tissue.commons.social.services.UserService;
 import com.tissue.commons.security.util.SecurityUtil;
 
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-//public class AboutController extends ViewerSetter {
 public class AboutController {
 
     @Autowired
@@ -29,10 +27,12 @@ public class AboutController {
     @Autowired
     private AboutService aboutService;
 
+    /**
     @ModelAttribute("locale")
     public String setupLocale(Locale locale) {
         return locale.toString();
     }
+    */
 
     @ModelAttribute("viewer")
     public User prefetchViewer(Map model) {
@@ -42,7 +42,6 @@ public class AboutController {
         }
         return userService.getViewer(viewerId);
     }
-
 
     @RequestMapping(value="/about", method=GET)
     public String about(Map model) {

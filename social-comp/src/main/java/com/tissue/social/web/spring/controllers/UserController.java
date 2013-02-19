@@ -7,11 +7,10 @@ import com.tissue.core.plan.Topic;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
-//import com.tissue.commons.ViewerOwnerTopicSetter;
-import com.tissue.commons.social.service.ActivityService;
+import com.tissue.commons.social.services.ActivityService;
+import com.tissue.commons.social.services.UserService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
-import com.tissue.commons.social.service.UserService;
 import com.tissue.social.web.model.AccountForm;
 
 import org.springframework.stereotype.Controller;
@@ -39,7 +38,6 @@ import java.util.Locale;
  * which are setup in the superclass: ViewerOwnerTopicSetter.
  */
 @Controller
-//public class UserController extends ViewerOwnerTopicSetter {
 public class UserController {
 
     @Autowired
@@ -48,10 +46,12 @@ public class UserController {
     @Autowired
     private ActivityService activityService;
 
+    /**
     @ModelAttribute("locale")
     public String setupLocale(Locale locale) {
         return locale.toString();
     }
+    */
 
     @ModelAttribute("viewer")
     public User initViewer(@PathVariable("userId") String userId, Map model) {

@@ -2,7 +2,7 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.commons.social.service.UserService;
+import com.tissue.commons.social.services.UserService;
 import com.tissue.social.web.model.AccountForm;
 import com.tissue.social.web.model.ProfileForm;
 import com.tissue.social.web.model.EmailForm;
@@ -47,10 +47,12 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
+    /**
     @ModelAttribute("locale")
     public String initLocale(Locale locale) {
         return locale.toString();
     }
+    */
 
     @RequestMapping(value="/login")
     public String loginForm(@RequestParam(value="error", required=false) String error, Map model) {
