@@ -88,7 +88,7 @@
                 <sec:intercept-url pattern="/dashboard.*" access="ROLE_USER" />
                 <sec:intercept-url pattern="/_.*" access="ROLE_USER" />
                 <sec:intercept-url pattern="/allfeeds" access="ROLE_USER" />
-                <sec:intercept-url pattern="/watchedfeeds" access="ROLE_user" />
+                <sec:intercept-url pattern="/watchedfeeds" access="ROLE_USER" />
                 <sec:intercept-url pattern="/.*" access="ROLE_ANONYMOUS, ROLE_USER" />
             </sec:filter-security-metadata-source>
         </property>

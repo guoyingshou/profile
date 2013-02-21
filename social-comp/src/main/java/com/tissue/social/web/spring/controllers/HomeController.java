@@ -48,20 +48,15 @@ public class HomeController {
     @Autowired
     private ActivityService activityService;
 
-    /**
-    @ModelAttribute("locale")
-    public String setupLocale(Locale locale) {
-        return locale.toString();
-    }
-    */
-
     @ModelAttribute("viewer")
     public User initViewer(Map model) {
         String viewerId = SecurityUtil.getViewerId();
         if(viewerId == null) {
             return null;    
         }
-        return userService.getViewer(viewerId);
+        User viewer = userService.getViewer(viewerId);
+        model.put("owner", viewer);
+        return viewer;
     }
 
     @ModelAttribute("newTopics")
@@ -101,37 +96,28 @@ public class HomeController {
     }
 
     @RequestMapping(value="/dashboard")
-    public String dashboard(Map model, @ModelAttribute("viewer") User viewer) {
+    public String dashboard(Map model) {
 
-        model.put("owner", viewer);
-
-        if(viewer.getFriends().size() == 0) {
-            List<Activity> activities = activityService.getActivities(25);
-            model.put("activities", activities);
-        }
-        else {
-            List<Activity> activities = activityService.getFriendsActivities(viewer.getId(), 15);
-            model.put("activities", activities);
-        }
+        List<Activity> activities = activityService.getWatchedActivities(SecurityUtil.getViewerId(), 35);
+        model.put("activities", activities);
 
         return "dashboard";
     }
 
     @RequestMapping(value="/watchedfeeds")
-    public String watchedfeeds(Map model, @ModelAttribute("viewer") User viewer) {
+    public String watchedfeeds(Map model) {
 
-        model.put("owner", viewer);
+        System.out.println(">>>>>>>>>>>>>>>>");
 
-        List<Activity> activities = activityService.getFriendsActivities(viewer.getId(), 15);
+        List<Activity> activities = activityService.getWatchedActivities(SecurityUtil.getViewerId(), 35);
         model.put("activities", activities);
 
         return "dashboard";
     }
 
     @RequestMapping(value="/allfeeds")
-    public String allfeeds(Map model, @ModelAttribute("viewer") User viewer) {
-
-        model.put("owner", viewer);
+    //public String allfeeds(Map model, @ModelAttribute("viewer") User viewer) {
+    public String allfeeds(Map model) {
 
         List<Activity> activities = activityService.getActivities(25);
         model.put("activities", activities);
@@ -140,8 +126,9 @@ public class HomeController {
     }
 
     @RequestMapping(value="/invitations", method=GET)
-    public String getInvitations(Map model, @ModelAttribute("viewer") User viewer) {
-        model.put("owner", viewer);
+    //public String getInvitations(Map model, @ModelAttribute("viewer") User viewer) {
+    public String getInvitations() {
+        //model.put("owner", viewer);
         return "invitations";
     }
 
