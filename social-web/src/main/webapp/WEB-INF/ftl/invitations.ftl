@@ -33,33 +33,11 @@
                         Decline
                     </a>
                 </div>
-
-                       <#--
-                       <form method="post" action="<@spring.url '/invitations/${invitation.id}' />">
-                            <input type="submit" id="accept" value="accept"/>
-                            <input type="submit" id="decline" value="decline"/>
-                       </form>
-                       -->
             </li>
          </#list>
          </ul>
          </#if>
     </div>
 </div>
-
-<#--
-    <script>
-        $(document).ready(function() {
-            $('form input[type="submit"]').on('click', function(e) {
-                e.preventDefault();
-                $form = $(this).parent();
-                $action = $form.attr("action");
-                $.post($action, {'action': e.target.id}, function(data) {
-                    $form.replaceWith("<p>ok</p>");
-                });
-            }); 
-        });
-    </script>
-    -->
 
 </@tissue.layout>

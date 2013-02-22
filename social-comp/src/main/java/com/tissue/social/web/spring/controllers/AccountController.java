@@ -47,13 +47,6 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
-    /**
-    @ModelAttribute("locale")
-    public String initLocale(Locale locale) {
-        return locale.toString();
-    }
-    */
-
     @RequestMapping(value="/login")
     public String loginForm(@RequestParam(value="error", required=false) String error, Map model) {
         model.put("error", error);
@@ -75,19 +68,6 @@ public class AccountController {
         }
 
         userService.addUser(form);
-
-        /**
-        User user = new User();
-        user.setUsername(form.getUsername());
-        user.setDisplayName(form.getDisplayName());
-        user.setHeadline(form.getHeadline());
-        user.setEmail(form.getEmail());
-
-        String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
-        user.setPassword(md5);
-        user.setCreateTime(new Date());
-        userService.addUser(user);
-        */
 
         /**
         SimpleMailMessage msg = new SimpleMailMessage();

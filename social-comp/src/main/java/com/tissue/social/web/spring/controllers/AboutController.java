@@ -27,20 +27,13 @@ public class AboutController {
     @Autowired
     private AboutService aboutService;
 
-    /**
-    @ModelAttribute("locale")
-    public String setupLocale(Locale locale) {
-        return locale.toString();
-    }
-    */
-
     @ModelAttribute("viewer")
     public User prefetchViewer(Map model) {
         String viewerId = SecurityUtil.getViewerId();
         if(viewerId == null) {
             return null;    
         }
-        return userService.getViewer(viewerId);
+        return userService.getUser(viewerId);
     }
 
     @RequestMapping(value="/about", method=GET)

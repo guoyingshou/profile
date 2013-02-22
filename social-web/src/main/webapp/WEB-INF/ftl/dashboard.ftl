@@ -13,13 +13,19 @@
 
     <div id="contentWrapper">
         <div id="sidebar">
-            <@userGadgets.showOwnedPlans/>
-            <@userGadgets.showArchivedPlans/>
+            <@userGadgets.showLearningPlans/>
+            <@userGadgets.showLearnedPlans/>
+            <#--
             <@topicGadgets.showNewTopics/>
+            -->
         </div>
 
         <div id="content">
+        <#if activities??>
             <@activityGadgets.showActivities />
+        <#elseif invitationsReceived??>
+            <@userGadgets.showInvitations />
+        </#if>
         </div>
     </div>
 </@tissue.layout>
