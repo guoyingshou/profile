@@ -1,7 +1,7 @@
 package com.tissue.social.web.model;
 
+import com.tissue.core.command.UserCommand;
 import com.tissue.core.util.OrientIdentityUtil;
-import com.tissue.core.social.command.UserCommand;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;

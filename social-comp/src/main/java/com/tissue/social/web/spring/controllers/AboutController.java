@@ -1,5 +1,6 @@
 package com.tissue.social.web.spring.controllers;
 
+import com.tissue.core.social.Account;
 import com.tissue.core.social.About;
 import com.tissue.core.social.User;
 import com.tissue.commons.social.services.AboutService;
@@ -28,12 +29,12 @@ public class AboutController {
     private AboutService aboutService;
 
     @ModelAttribute("viewer")
-    public User prefetchViewer(Map model) {
+    public Account prefetchViewer(Map model) {
         String viewerId = SecurityUtil.getViewerId();
         if(viewerId == null) {
             return null;    
         }
-        return userService.getUser(viewerId);
+        return userService.getUserAccount(viewerId);
     }
 
     @RequestMapping(value="/about", method=GET)

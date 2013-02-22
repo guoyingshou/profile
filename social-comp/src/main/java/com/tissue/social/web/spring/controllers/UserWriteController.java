@@ -1,9 +1,10 @@
-package com.tissue.social.web.spring.controllers.ajax;
+package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.Impression;
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
+import com.tissue.commons.controllers.AccessController;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -25,7 +26,7 @@ import java.util.HashSet;
 import java.util.Arrays;
 
 @Controller
-public class UserAjaxController {
+public class UserWriteController extends AccessController {
 
     @Autowired
     private UserService userService;
@@ -33,31 +34,29 @@ public class UserAjaxController {
     /**
      * send invitation.
      */
-    @RequestMapping(value="/users/{id}/invites", method=POST)
-    @ResponseBody
-    public String invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
+    @RequestMapping(value="/users/{id}/invites/_create", method=POST)
+    public HttpEntity<?> invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
 
         id = "#" + id;
         userService.inviteFriend(SecurityUtil.getViewerId(), id, content);
 
-        return "ok";
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     /**
      * Add/Update resume.
      */
-    @RequestMapping(value="/users/{userId}/resume", method=POST)
-    @ResponseBody
-    public String updateResume(@PathVariable("userId") String userId, @RequestParam("content") String content, Map model) throws Exception {
+    @RequestMapping(value="/users/{userId}/resume/_create", method=POST)
+    public HttpEntity<?> updateResume(@PathVariable("userId") String userId, @RequestParam("content") String content, Map model) throws Exception {
 
         userService.addResume("#" + userId, content);
-        return "ok";
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     /**
      * Add impression.
      */
-    @RequestMapping(value="/users/{userId}/impressions", method=POST)
+    @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
     public String addImpression(@PathVariable("userId") String userId, @RequestParam("content") String content, Map model) throws Exception {
 
         Impression impression = new Impression();
@@ -80,32 +79,37 @@ public class UserAjaxController {
         return "fragments/newImpression";
     }
 
-    /**
-     * Process invitation.
-    @RequestMapping(value="/invitations/{id}", method=POST)
-    @ResponseBody
-    public String processInvitation(@PathVariable("id") String id, @RequestParam("action") String action, Map model) {
-
-        if("decline".equals(action)) {
-            userService.declineInvitation(id);
-        }
-        if("accept".equals(action)) {
-            userService.acceptInvitation(id);
-        }
-        return "id: " + id + ", action: " + action;
-    }
-     */
-
-    @RequestMapping(value="/invitations/{id}/accept", method=POST)
+    @RequestMapping(value="/invitations/{id}/_accept", method=POST)
     public HttpEntity<?> accept(@PathVariable("id") String id, Map model) {
         userService.acceptInvitation(id);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
  
-    @RequestMapping(value="/invitations/{id}/decline", method=POST)
+    @RequestMapping(value="/invitations/{id}/_decline", method=POST)
     public HttpEntity<?> decline(@PathVariable("id") String id, Map model) {
         userService.declineInvitation(id);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
  
+    @RequestMapping(value="/about/_create", method=POST)
+    public String addAbout(@RequestParam("content") String content, Map model) throws Exception {
+
+        /**
+        About about = new About();
+        
+        User user = new User();
+        user.setId(SecurityUtil.getViewerId());
+        user.setDisplayName(SecurityUtil.getDisplayName());
+        about.setUser(user);
+
+        about.setContent(content);
+
+        about = aboutService.addAbout(about);
+
+        model.put("about", about);
+        */
+
+        return "fragments/newAbout";
+    }
+
 }

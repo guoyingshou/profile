@@ -67,7 +67,7 @@
     </bean>
 
     <bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
-        <property name="errorPage" value="/accessDenied.htm"/> 
+        <property name="errorPage" value="/accessDenied"/> 
     </bean>
 
     <bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
@@ -88,7 +88,6 @@
                 <sec:intercept-url pattern="/dashboard.*" access="ROLE_USER" />
                 <sec:intercept-url pattern="/_.*" access="ROLE_USER" />
                 <sec:intercept-url pattern="/allfeeds" access="ROLE_USER" />
-                <sec:intercept-url pattern="/watchedfeeds" access="ROLE_USER" />
                 <sec:intercept-url pattern="/.*" access="ROLE_ANONYMOUS, ROLE_USER" />
             </sec:filter-security-metadata-source>
         </property>

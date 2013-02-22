@@ -1,5 +1,6 @@
 package com.tissue.social.web.spring.controllers;
 
+import com.tissue.core.social.Account;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Invitation;
 import com.tissue.core.social.Activity;
@@ -49,12 +50,12 @@ public class HomeController {
     private ActivityService activityService;
 
     @ModelAttribute("viewer")
-    public User initViewer(Map model) {
+    public Account initViewer(Map model) {
         String viewerId = SecurityUtil.getViewerId();
         if(viewerId == null) {
             return null;    
         }
-        User viewer = userService.getUser(viewerId);
+        Account viewer = userService.getUserAccount(viewerId);
         List<Plan> plans = userService.getPlans(viewerId);
         model.put("plans", plans);
         return viewer;

@@ -1,5 +1,6 @@
 package com.tissue.social.web.spring.controllers;
 
+import com.tissue.core.social.Account;
 import com.tissue.core.social.Activity;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Impression;
@@ -43,12 +44,12 @@ public class UserController {
     private ActivityService activityService;
 
     @ModelAttribute("viewer")
-    public User getViewer() {
+    public Account getViewer() {
         String viewerId = SecurityUtil.getViewerId();
         if(viewerId == null) {
             return null;
         }
-        return userService.getUser(viewerId);
+        return userService.getUserAccount(viewerId);
     }
 
     @ModelAttribute("invitable")
@@ -76,7 +77,7 @@ public class UserController {
     */
 
     @RequestMapping(value="/users/{userId}/posts")
-    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewer") Account viewer) {
 
         userId = "#" + userId;
         setupOwner(userId, viewer, model);
@@ -94,7 +95,7 @@ public class UserController {
     }
 
     @RequestMapping(value="/users/{userId}/status")
-    public String getFeed(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getFeed(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") Account viewer) {
 
         userId = "#" + userId;
         setupOwner(userId, viewer, model);
@@ -106,14 +107,14 @@ public class UserController {
     }
 
     @RequestMapping(value="/users/{userId}/resume", method=GET)
-    public String getResume(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getResume(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") Account viewer) {
         userId = "#" + userId;
         setupOwner(userId, viewer, model);
         return "user";
     }
 
     @RequestMapping(value="/users/{userId}/impressions")
-    public String getImpression(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getImpression(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") Account viewer) {
 
         userId = "#" + userId;
         setupOwner(userId, viewer, model);
@@ -129,7 +130,7 @@ public class UserController {
      * In this case, viewer is the same as owner.
      */
     @RequestMapping(value="/users/{userId}/friends")
-    public String getFriends(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getFriends(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") Account viewer) {
 
         userId = "#" + userId;
         setupOwner(userId, viewer, model);
@@ -140,13 +141,13 @@ public class UserController {
         return "user";
     }
 
-    private void setupOwner(String userId, User viewer, Map model) {
-        User owner = null;
+    private void setupOwner(String userId, Account viewer, Map model) {
+        Account owner = null;
         if(userId.equals(viewer.getId())) {
             owner = viewer;
         }
         else {
-            owner = userService.getUser(userId);
+            owner = userService.getUserAccount(userId);
         }
         model.put("owner", owner);
     }

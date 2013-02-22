@@ -4,9 +4,12 @@ import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
 import com.tissue.social.web.model.AccountForm;
-import com.tissue.social.web.model.ProfileForm;
-import com.tissue.social.web.model.EmailForm;
+//import com.tissue.social.web.model.ProfileForm;
+//import com.tissue.social.web.model.EmailForm;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -80,27 +83,22 @@ public class AccountController {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/changeContact", method=POST)
-    public String updateUser(@Valid EmailForm form, BindingResult result, Map model) {
+    @RequestMapping(value="/_updateEmail", method=POST)
+    public String updateEmail(@Valid AccountForm form, BindingResult result, Map model) {
 
+        /**
         if(result.hasErrors()) {
             throw new InvalidParameterException("content invalid");
         }
 
         String viewerId = SecurityUtil.getViewerId();
-
-        /**
-        User user = new User();
-        user.setId(viewerId);
-        user.setEmail(form.getEmail());
-        userService.updateEmail(user);
         */
 
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/changeProfile", method=POST)
-    public String updateUser(@Valid ProfileForm form, BindingResult result, Map model) {
+    @RequestMapping(value="/_updateProfile", method=POST)
+    public String updateProfile(@Valid AccountForm form, BindingResult result, Map model) {
 
         String viewerId = SecurityUtil.getViewerId();
 
@@ -108,17 +106,10 @@ public class AccountController {
             throw new InvalidParameterException("content invalid");
         }
 
-        /**
-        User user = new User();
-        user.setId(viewerId);
-        user.setDisplayName(form.getDisplayName());
-        user.setHeadline(form.getHeadline());
-        userService.updateUser(user);
-        */
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/changePass", method=POST)
+    @RequestMapping(value="/_updatePassword", method=POST)
     public String changePass(AccountForm form, Map model) {
         String viewerId = SecurityUtil.getViewerId();
         
@@ -126,14 +117,53 @@ public class AccountController {
             throw new InvalidParameterException("confirm mismatch");
         }
 
+        /**
         User user = new User();
         user.setId(viewerId);
-
-        //String md5 = Hashing.md5().hashString(form.getPassword(), Charset.forName("utf-8")).toString();
-        //user.setPassword(md5);
-
-        //userService.changePassword(user);
+        */
 
         return "redirect:/dashboard";
     }
+
+    @RequestMapping(value="/preAddUsername", method=POST)
+    public HttpEntity<?> checkUsername(@RequestParam(value="username") String username, Map model) {
+
+        boolean usernameValid = ((username == null) || "".equals(username.trim())) ? false : true;
+        boolean exist = usernameValid && userService.isUsernameExist(username);
+        if(exist) {
+             return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        else {
+            return HttpEntity.EMPTY;
+        }
+    }
+
+    @RequestMapping(value="/preAddEmail", method=POST)
+    public HttpEntity<?> checkEmail(@RequestParam(value="email") String email, Map model) {
+
+        boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
+
+        boolean exist = !emailValid || userService.isEmailExist(email);
+        if(exist) {
+             return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        else {
+            return HttpEntity.EMPTY;
+        }
+    }
+
+    @RequestMapping(value="/preUpdateEmail", method=POST)
+    public HttpEntity<?> checkEmailOwned(@RequestParam(value="email") String email, Map model) {
+
+        String viewerId = SecurityUtil.getViewerId();
+        boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
+        boolean exist = emailValid && userService.isEmailExist(viewerId, email);
+        if(exist) {
+             return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        else {
+            return HttpEntity.EMPTY;
+        }
+    }
+
 }
