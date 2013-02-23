@@ -38,7 +38,7 @@ public class UserWriteController extends AccessController {
     public HttpEntity<?> invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
 
         id = "#" + id;
-        userService.inviteFriend(SecurityUtil.getViewerId(), id, content);
+        userService.inviteFriend(SecurityUtil.getViewerAccountId(), id, content);
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -62,8 +62,8 @@ public class UserWriteController extends AccessController {
         Impression impression = new Impression();
         
         User from = new User();
-        from.setId(SecurityUtil.getViewerId());
-        from.setDisplayName(SecurityUtil.getDisplayName());
+        from.setId(SecurityUtil.getViewerAccountId());
+        //from.setDisplayName(SecurityUtil.getDisplayName());
         impression.setFrom(from);
 
         User to = new User();
@@ -81,13 +81,13 @@ public class UserWriteController extends AccessController {
 
     @RequestMapping(value="/invitations/{id}/_accept", method=POST)
     public HttpEntity<?> accept(@PathVariable("id") String id, Map model) {
-        userService.acceptInvitation(id);
+        userService.acceptInvitation("#"+id);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
  
     @RequestMapping(value="/invitations/{id}/_decline", method=POST)
     public HttpEntity<?> decline(@PathVariable("id") String id, Map model) {
-        userService.declineInvitation(id);
+        userService.declineInvitation("#"+id);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
  

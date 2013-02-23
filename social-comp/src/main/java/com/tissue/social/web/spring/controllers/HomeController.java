@@ -50,23 +50,25 @@ public class HomeController {
     private ActivityService activityService;
 
     @ModelAttribute("viewer")
-    public Account initViewer(Map model) {
-        String viewerId = SecurityUtil.getViewerId();
-        if(viewerId == null) {
+    public User setupViewer(Map model) {
+        String viewerAccountId = SecurityUtil.getViewerAccountId();
+        if(viewerAccountId == null) {
             return null;    
         }
-        Account viewer = userService.getUserAccount(viewerId);
-        List<Plan> plans = userService.getPlans(viewerId);
+        List<Plan> plans = userService.getPlansByAccount(viewerAccountId);
         model.put("plans", plans);
+
+        User viewer = userService.getUserByAccount(viewerAccountId);
         return viewer;
     }
 
     @ModelAttribute("invitationsReceived")
     public List<Invitation> getInvitationsReceived() {
-        String userId = SecurityUtil.getViewerId();
-        if(userId == null) {
+        String accountId = SecurityUtil.getViewerAccountId();
+        if(accountId == null) {
             return null;
         }
+        String userId = userService.getUserIdByAccount(accountId);
         return userService.getInvitationsReceived(userId);
     }
 
@@ -100,7 +102,7 @@ public class HomeController {
 
     @RequestMapping(value="/home")
     public String index(Map model) {
-        if(SecurityUtil.getViewerId() != null) {
+        if(SecurityUtil.getViewerAccountId() != null) {
             return "redirect:dashboard";
         }
         List<Activity> activities = activityService.getActivitiesForNewUser(15);
@@ -111,23 +113,12 @@ public class HomeController {
     @RequestMapping(value="/dashboard")
     public String dashboard(Map model) {
 
-        String userId = SecurityUtil.getViewerId();
-        List<Activity> activities = activityService.getWatchedActivities(userId, 35);
+        String accountId = SecurityUtil.getViewerAccountId();
+        List<Activity> activities = activityService.getWatchedActivities(accountId, 35);
         model.put("activities", activities);
 
         return "dashboard";
     }
-
-    /**
-    @RequestMapping(value="/watchedfeeds")
-    public String watchedfeeds(Map model) {
-
-        List<Activity> activities = activityService.getWatchedActivities(SecurityUtil.getViewerId(), 35);
-        model.put("activities", activities);
-
-        return "dashboard";
-    }
-    */
 
     @RequestMapping(value="/allfeeds")
     public String allfeeds(Map model) {

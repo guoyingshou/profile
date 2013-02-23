@@ -100,7 +100,7 @@ public class AccountController {
     @RequestMapping(value="/_updateProfile", method=POST)
     public String updateProfile(@Valid AccountForm form, BindingResult result, Map model) {
 
-        String viewerId = SecurityUtil.getViewerId();
+        String viewerAccountId = SecurityUtil.getViewerAccountId();
 
         if(result.hasErrors()) {
             throw new InvalidParameterException("content invalid");
@@ -111,7 +111,7 @@ public class AccountController {
 
     @RequestMapping(value="/_updatePassword", method=POST)
     public String changePass(AccountForm form, Map model) {
-        String viewerId = SecurityUtil.getViewerId();
+        String viewerAccountId = SecurityUtil.getViewerAccountId();
         
         if(!form.getPassword().equals(form.getConfirm())) {
             throw new InvalidParameterException("confirm mismatch");
@@ -155,9 +155,9 @@ public class AccountController {
     @RequestMapping(value="/preUpdateEmail", method=POST)
     public HttpEntity<?> checkEmailOwned(@RequestParam(value="email") String email, Map model) {
 
-        String viewerId = SecurityUtil.getViewerId();
+        String viewerAccountId = SecurityUtil.getViewerAccountId();
         boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
-        boolean exist = emailValid && userService.isEmailExist(viewerId, email);
+        boolean exist = emailValid && userService.isEmailExist(viewerAccountId, email);
         if(exist) {
              return new ResponseEntity(HttpStatus.CONFLICT);
         }

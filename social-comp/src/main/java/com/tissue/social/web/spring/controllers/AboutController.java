@@ -29,12 +29,12 @@ public class AboutController {
     private AboutService aboutService;
 
     @ModelAttribute("viewer")
-    public Account prefetchViewer(Map model) {
-        String viewerId = SecurityUtil.getViewerId();
-        if(viewerId == null) {
+    public User setupViewer(Map model) {
+        String viewerAccountId = SecurityUtil.getViewerAccountId();
+        if(viewerAccountId == null) {
             return null;    
         }
-        return userService.getUserAccount(viewerId);
+        return userService.getUserByAccount(viewerAccountId);
     }
 
     @RequestMapping(value="/about", method=GET)
