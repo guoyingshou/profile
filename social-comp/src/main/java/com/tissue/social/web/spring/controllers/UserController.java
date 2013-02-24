@@ -43,29 +43,29 @@ public class UserController {
     @Autowired
     private ActivityService activityService;
 
-    @ModelAttribute("viewer")
-    public User setupViewer() {
+    private User init(String userId, Map model) {
+        List<Plan> plans = userService.getPlans(userId);
+        model.put("plans", plans);
+
         String viewerAccountId = SecurityUtil.getViewerAccountId();
-        if(viewerAccountId == null) {
-            return null;
+        User viewer = null;
+        if(viewerAccountId != null) {
+             viewer = userService.getUserByAccount(viewerAccountId);
+             model.put("viewer", viewer);
+
+             Boolean invitable = false;
+             User owner;
+             if(!userId.equals(viewer.getId())) {
+                 invitable = userService.isInvitable(viewer.getId(), userId);
+                 owner = userService.getUser(userId);
+             }
+             else {
+                 owner = viewer;
+             }
+             model.put("invitable", invitable);
+             model.put("owner", owner);
         }
-        return userService.getUserByAccount(viewerAccountId);
-    }
-
-    @ModelAttribute("invitable")
-    public Boolean isInvitable(@PathVariable("userId") String userId) {
-        return userService.isInvitable(SecurityUtil.getViewerAccountId(), "#" + userId);
-    }
-
-    @ModelAttribute("isFriend")
-    public Boolean isFriend(@PathVariable("userId") String userId) {
-        return true;
-    }
-
-
-    @ModelAttribute("plans")
-    public List<Plan> getPlans(@PathVariable("userId") String userId) {
-        return userService.getPlans("#"+userId);
+        return viewer;
     }
 
     /**
@@ -77,10 +77,10 @@ public class UserController {
     */
 
     @RequestMapping(value="/users/{userId}/posts")
-    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
 
         userId = "#" + userId;
-        setupOwner(userId, viewer, model);
+        init(userId, model);
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
@@ -95,29 +95,32 @@ public class UserController {
     }
 
     @RequestMapping(value="/users/{userId}/status")
-    public String getFeed(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getFeed(@PathVariable("userId") String userId, Map model) {
 
         userId = "#" + userId;
-        setupOwner(userId, viewer, model);
+        init(userId, model);
 
-        List<Activity> activities = activityService.getUserActivities(userId, 15);
+        List<Activity> activities = userService.getUserActivities(userId, 15);
         model.put("activities", activities);
 
         return "user";
     }
 
     @RequestMapping(value="/users/{userId}/resume", method=GET)
-    public String getResume(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getResume(@PathVariable("userId") String userId, Map model) {
         userId = "#" + userId;
-        setupOwner(userId, viewer, model);
+        init(userId, model);
         return "user";
     }
 
     @RequestMapping(value="/users/{userId}/impressions")
-    public String getImpression(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getImpression(@PathVariable("userId") String userId, Map model) {
 
         userId = "#" + userId;
-        setupOwner(userId, viewer, model);
+        User viewer = init(userId, model);
+
+        Boolean isFriend = userService.isFriend(viewer.getId(), userId);
+        model.put("isFriend", isFriend);
 
         List<Impression> impressions = userService.getImpressions(userId);
         model.put("impressions", impressions);
@@ -130,26 +133,15 @@ public class UserController {
      * In this case, viewer is the same as owner.
      */
     @RequestMapping(value="/users/{userId}/friends")
-    public String getFriends(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewer") User viewer) {
+    public String getFriends(@PathVariable("userId") String userId, Map model) {
 
         userId = "#" + userId;
-        setupOwner(userId, viewer, model);
+        init(userId, model);
 
         List<User> friends = userService.getFriends(userId);
         model.put("friends", friends);
 
         return "user";
-    }
-
-    private void setupOwner(String userId, User viewer, Map model) {
-        User owner = null;
-        if(userId.equals(viewer.getId())) {
-            owner = viewer;
-        }
-        else {
-            owner = userService.getUser(userId);
-        }
-        model.put("owner", owner);
     }
 }
 

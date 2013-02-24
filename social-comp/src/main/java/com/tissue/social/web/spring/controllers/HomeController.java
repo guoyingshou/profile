@@ -8,7 +8,6 @@ import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Topic;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
-import com.tissue.commons.social.services.ActivityService;
 import com.tissue.social.web.model.AccountForm;
 
 import org.springframework.stereotype.Controller;
@@ -46,30 +45,19 @@ public class HomeController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ActivityService activityService;
-
-    @ModelAttribute("viewer")
-    public User setupViewer(Map model) {
+    private User init(Map model) {
         String viewerAccountId = SecurityUtil.getViewerAccountId();
-        if(viewerAccountId == null) {
-            return null;    
-        }
+
         List<Plan> plans = userService.getPlansByAccount(viewerAccountId);
         model.put("plans", plans);
 
         User viewer = userService.getUserByAccount(viewerAccountId);
-        return viewer;
-    }
+        model.put("viewer", viewer);
 
-    @ModelAttribute("invitationsReceived")
-    public List<Invitation> getInvitationsReceived() {
-        String accountId = SecurityUtil.getViewerAccountId();
-        if(accountId == null) {
-            return null;
-        }
-        String userId = userService.getUserIdByAccount(accountId);
-        return userService.getInvitationsReceived(userId);
+        List<Invitation> invitations = userService.getInvitationsReceived(viewer.getId());
+        model.put("invitationsReceived", invitations);
+
+        return viewer;
     }
 
     /**
@@ -84,7 +72,8 @@ public class HomeController {
     public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
 
         model.put("viewer", null);
-        List<Activity> activities = activityService.getActivitiesForNewUser(15);
+
+        List<Activity> activities = userService.getActivitiesForNewUser(35);
         model.put("activities", activities);
  
         ses.invalidate();
@@ -102,19 +91,23 @@ public class HomeController {
 
     @RequestMapping(value="/home")
     public String index(Map model) {
+
         if(SecurityUtil.getViewerAccountId() != null) {
             return "redirect:dashboard";
         }
-        List<Activity> activities = activityService.getActivitiesForNewUser(15);
+
+        List<Activity> activities = userService.getActivitiesForNewUser(35);
         model.put("activities", activities);
+
         return "home";
     }
 
     @RequestMapping(value="/dashboard")
     public String dashboard(Map model) {
 
-        String accountId = SecurityUtil.getViewerAccountId();
-        List<Activity> activities = activityService.getWatchedActivities(accountId, 35);
+        User viewer = init(model);
+
+        List<Activity> activities = userService.getWatchedActivities(viewer.getId(), 35);
         model.put("activities", activities);
 
         return "dashboard";
@@ -123,14 +116,18 @@ public class HomeController {
     @RequestMapping(value="/allfeeds")
     public String allfeeds(Map model) {
 
-        List<Activity> activities = activityService.getActivities(25);
+        User viewer = init(model);
+
+        //to do
+        List<Activity> activities = userService.getActivities(35);
         model.put("activities", activities);
 
         return "dashboard";
     }
 
     @RequestMapping(value="/invitations", method=GET)
-    public String getInvitations() {
+    public String getInvitations(Map model) {
+        init(model);
         return "dashboard";
     }
 
