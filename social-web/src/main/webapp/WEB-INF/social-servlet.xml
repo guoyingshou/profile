@@ -46,11 +46,13 @@
                 <bean class="com.tissue.core.spring.converters.TagsConverter" />
             </set>
         </property>
+        <!--
         <property name="formatters">
             <set>
                 <bean class="com.tissue.core.spring.formatters.IDAnnotationFormatterFactory" />
             </set>
         </property>
+        -->
     </bean>
 
     <mvc:annotation-driven conversion-service="conversionService" />
