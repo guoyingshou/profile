@@ -36,42 +36,27 @@ import java.util.Set;
 import java.util.Map;
 import java.nio.charset.Charset;
 
-import com.google.common.hash.Hashing;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 @Controller
 public class HomeController {
 
     @Autowired
     private UserService userService;
 
-    private User init(Map model) {
-        String viewerAccountId = SecurityUtil.getViewerAccountId();
-
-        List<Plan> plans = userService.getPlansByAccount(viewerAccountId);
+    private void init(Account viewerAccount, Map model) {
+        List<Plan> plans = userService.getPlansByAccount(viewerAccount.getId());
         model.put("plans", plans);
 
-        User viewer = userService.getUserByAccount(viewerAccountId);
-        model.put("viewer", viewer);
+        model.put("owner", viewerAccount.getUser());
 
-        List<Invitation> invitations = userService.getInvitationsReceived(viewer.getId());
+        List<Invitation> invitations = userService.getInvitationsReceived(viewerAccount.getUser().getId());
         model.put("invitationsReceived", invitations);
 
-        return viewer;
     }
-
-    /**
-    @ModelAttribute("newTopics")
-    public List<Topic> initTopics(Map model) {
-        String viewerId = SecurityUtil.getViewerId();
-        return userService.getNewTopics(viewerId, 10);
-    }
-    */
 
     @RequestMapping(value="/signout")
     public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
 
-        model.put("viewer", null);
+        model.put("viewerAccount", null);
 
         List<Activity> activities = userService.getActivitiesForNewUser(35);
         model.put("activities", activities);
@@ -103,20 +88,20 @@ public class HomeController {
     }
 
     @RequestMapping(value="/dashboard")
-    public String dashboard(Map model) {
+    public String dashboard(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        User viewer = init(model);
+        init(viewerAccount, model);
 
-        List<Activity> activities = userService.getWatchedActivities(viewer.getId(), 35);
+        List<Activity> activities = userService.getWatchedActivities(viewerAccount.getId(), 35);
         model.put("activities", activities);
 
         return "dashboard";
     }
 
     @RequestMapping(value="/allfeeds")
-    public String allfeeds(Map model) {
+    public String allfeeds(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        User viewer = init(model);
+        init(viewerAccount, model);
 
         //to do
         List<Activity> activities = userService.getActivities(35);
@@ -126,8 +111,8 @@ public class HomeController {
     }
 
     @RequestMapping(value="/invitations", method=GET)
-    public String getInvitations(Map model) {
-        init(model);
+    public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+        init(viewerAccount, model);
         return "dashboard";
     }
 

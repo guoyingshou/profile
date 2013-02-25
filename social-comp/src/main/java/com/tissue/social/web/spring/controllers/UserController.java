@@ -4,14 +4,15 @@ import com.tissue.core.social.Account;
 import com.tissue.core.social.Activity;
 import com.tissue.core.social.User;
 import com.tissue.core.social.Impression;
+import com.tissue.core.social.About;
 import com.tissue.core.plan.Topic;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
-import com.tissue.commons.social.services.ActivityService;
 import com.tissue.commons.social.services.UserService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
+import com.tissue.commons.services.CommonService;
 import com.tissue.social.web.model.AccountForm;
 
 import org.springframework.stereotype.Controller;
@@ -41,46 +42,32 @@ public class UserController {
     protected UserService userService;
 
     @Autowired
-    private ActivityService activityService;
+    protected CommonService commonService;
 
-    private User init(String userId, Map model) {
-        List<Plan> plans = userService.getPlans(userId);
+    private void init(Account viewerAccount, String ownerUserId, Map model) {
+        List<Plan> plans = userService.getPlans(ownerUserId);
         model.put("plans", plans);
 
-        String viewerAccountId = SecurityUtil.getViewerAccountId();
-        User viewer = null;
-        if(viewerAccountId != null) {
-             viewer = userService.getUserByAccount(viewerAccountId);
-             model.put("viewer", viewer);
-
+        if(viewerAccount != null) {
              Boolean invitable = false;
              User owner;
-             if(!userId.equals(viewer.getId())) {
-                 invitable = userService.isInvitable(viewer.getId(), userId);
-                 owner = userService.getUser(userId);
+             if(ownerUserId.equals(viewerAccount.getUser().getId())) {
+                 invitable = userService.isInvitable(viewerAccount.getUser().getId(), ownerUserId);
+                 owner = viewerAccount.getUser();
              }
              else {
-                 owner = viewer;
+                 owner = userService.getUser(ownerUserId);
              }
              model.put("invitable", invitable);
              model.put("owner", owner);
         }
-        return viewer;
     }
-
-    /**
-    @ModelAttribute("newTopics")
-    public List<Topic> initTopics(Map model) {
-        String viewerId = SecurityUtil.getViewerId();
-        return userService.getNewTopics(viewerId, 10);
-    }
-    */
 
     @RequestMapping(value="/users/{userId}/posts")
-    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
+    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         userId = "#" + userId;
-        init(userId, model);
+        init(viewerAccount, userId, model);
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
@@ -95,10 +82,10 @@ public class UserController {
     }
 
     @RequestMapping(value="/users/{userId}/status")
-    public String getFeed(@PathVariable("userId") String userId, Map model) {
+    public String getFeed(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         userId = "#" + userId;
-        init(userId, model);
+        init(viewerAccount, userId, model);
 
         List<Activity> activities = userService.getUserActivities(userId, 15);
         model.put("activities", activities);
@@ -107,20 +94,24 @@ public class UserController {
     }
 
     @RequestMapping(value="/users/{userId}/resume", method=GET)
-    public String getResume(@PathVariable("userId") String userId, Map model) {
+    public String getResume(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         userId = "#" + userId;
-        init(userId, model);
+        init(viewerAccount, userId, model);
         return "user";
     }
 
     @RequestMapping(value="/users/{userId}/impressions")
-    public String getImpression(@PathVariable("userId") String userId, Map model) {
+    public String getImpression(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         userId = "#" + userId;
+        init(viewerAccount, userId, model);
+
+        /**
         User viewer = init(userId, model);
 
         Boolean isFriend = userService.isFriend(viewer.getId(), userId);
         model.put("isFriend", isFriend);
+        */
 
         List<Impression> impressions = userService.getImpressions(userId);
         model.put("impressions", impressions);
@@ -133,16 +124,25 @@ public class UserController {
      * In this case, viewer is the same as owner.
      */
     @RequestMapping(value="/users/{userId}/friends")
-    public String getFriends(@PathVariable("userId") String userId, Map model) {
+    public String getFriends(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         userId = "#" + userId;
-        init(userId, model);
+        init(viewerAccount, userId, model);
 
         List<User> friends = userService.getFriends(userId);
         model.put("friends", friends);
 
         return "user";
     }
+
+    @RequestMapping(value="/about", method=GET)
+    public String about(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        List<About> abouts = userService.getAbouts();
+        model.put("abouts", abouts);
+        return "about";
+    }
+
 }
 
 

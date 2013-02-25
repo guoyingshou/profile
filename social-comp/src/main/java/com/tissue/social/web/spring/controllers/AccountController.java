@@ -4,8 +4,6 @@ import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
 import com.tissue.social.web.model.AccountForm;
-//import com.tissue.social.web.model.ProfileForm;
-//import com.tissue.social.web.model.EmailForm;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -36,13 +34,15 @@ import java.util.Locale;
 import java.util.Date;
 import java.util.Set;
 import java.util.Map;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-import java.security.InvalidParameterException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+//import java.security.InvalidParameterException;
 
 @Controller
 public class AccountController {
-//    private static Logger logger = LoggerFactory.getLogger(AccountController.class);
+
+    private static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
     private MailSender mailSender;
@@ -67,7 +67,7 @@ public class AccountController {
     @RequestMapping(value="/signup", method=POST)
     public String signup(@Valid @ModelAttribute("account") AccountForm form, BindingResult result) {
         if(result.hasErrors()) {
-            throw new InvalidParameterException("content invalid");
+            //throw new InvalidParameterException("content invalid");
         }
 
         userService.addUser(form);
@@ -103,7 +103,7 @@ public class AccountController {
         String viewerAccountId = SecurityUtil.getViewerAccountId();
 
         if(result.hasErrors()) {
-            throw new InvalidParameterException("content invalid");
+            //throw new InvalidParameterException("content invalid");
         }
 
         return "redirect:/dashboard";
@@ -114,7 +114,7 @@ public class AccountController {
         String viewerAccountId = SecurityUtil.getViewerAccountId();
         
         if(!form.getPassword().equals(form.getConfirm())) {
-            throw new InvalidParameterException("confirm mismatch");
+            //throw new InvalidParameterException("confirm mismatch");
         }
 
         /**

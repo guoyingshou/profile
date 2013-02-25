@@ -1,12 +1,13 @@
 package com.tissue.social.web.spring.controllers;
 
-import com.tissue.core.social.Impression;
+import com.tissue.core.command.Command;
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
 import com.tissue.commons.controllers.AccessController;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMethod;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -26,7 +28,7 @@ import java.util.HashSet;
 import java.util.Arrays;
 
 @Controller
-public class UserWriteController extends AccessController {
+public class UserWriteController {
 
     @Autowired
     private UserService userService;
@@ -35,10 +37,12 @@ public class UserWriteController extends AccessController {
      * send invitation.
      */
     @RequestMapping(value="/users/{id}/invites/_create", method=POST)
-    public HttpEntity<?> invite(@PathVariable("id") String id, @RequestParam("content") String content, Map model) {
+    public HttpEntity<?> invite(@PathVariable("id") String id, @Valid Command command, Map model) {
 
+        /**
         id = "#" + id;
-        userService.inviteFriend(SecurityUtil.getViewerAccountId(), id, content);
+        userService.inviteFriend(SecurityUtil.getViewerAccountId(), id, comand.getContent());
+        */
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -47,9 +51,8 @@ public class UserWriteController extends AccessController {
      * Add/Update resume.
      */
     @RequestMapping(value="/users/{userId}/resume/_create", method=POST)
-    public HttpEntity<?> updateResume(@PathVariable("userId") String userId, @RequestParam("content") String content, Map model) throws Exception {
-
-        userService.addResume("#" + userId, content);
+    public HttpEntity<?> updateResume(@PathVariable("userId") String userId, @Valid Command command, BindingResult result, Map model) {
+        userService.addResume("#" + userId, command.getContent());
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
@@ -57,13 +60,13 @@ public class UserWriteController extends AccessController {
      * Add impression.
      */
     @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
-    public String addImpression(@PathVariable("userId") String userId, @RequestParam("content") String content, Map model) throws Exception {
+    public String addImpression(@PathVariable("userId") String userId, @Valid Command command, Map model) throws Exception {
 
+        /**
         Impression impression = new Impression();
         
         User from = new User();
         from.setId(SecurityUtil.getViewerAccountId());
-        //from.setDisplayName(SecurityUtil.getDisplayName());
         impression.setFrom(from);
 
         User to = new User();
@@ -75,6 +78,7 @@ public class UserWriteController extends AccessController {
         userService.addImpression(impression);
 
         model.put("impression", impression);
+        */
 
         return "fragments/newImpression";
     }
@@ -92,7 +96,7 @@ public class UserWriteController extends AccessController {
     }
  
     @RequestMapping(value="/about/_create", method=POST)
-    public String addAbout(@RequestParam("content") String content, Map model) throws Exception {
+    public String addAbout(@Valid Command command, BindingResult result, Map model) {
 
         /**
         About about = new About();
