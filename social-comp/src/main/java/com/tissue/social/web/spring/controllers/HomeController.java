@@ -92,7 +92,7 @@ public class HomeController {
 
         init(viewerAccount, model);
 
-        List<Activity> activities = userService.getWatchedActivities(viewerAccount.getId(), 35);
+        List<Activity> activities = userService.getWatchedActivities(viewerAccount.getUser().getId(), 35);
         model.put("activities", activities);
 
         return "dashboard";

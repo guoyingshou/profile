@@ -81,6 +81,10 @@ public class UserController {
 
         User owner = getOwner(userId, viewerAccount);
         model.put("owner", owner);
+        System.out.println("==========");
+        System.out.println("owner: " + owner);
+        System.out.println("owner displayname: " + owner.getDisplayName());
+        System.out.println("==========");
 
         Boolean invitable = isOwnerInvitable(userId, viewerAccount);
         model.put("invitable", invitable);
