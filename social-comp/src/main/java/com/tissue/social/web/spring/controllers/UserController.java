@@ -81,10 +81,6 @@ public class UserController {
 
         User owner = getOwner(userId, viewerAccount);
         model.put("owner", owner);
-        System.out.println("==========");
-        System.out.println("owner: " + owner);
-        System.out.println("owner displayname: " + owner.getDisplayName());
-        System.out.println("==========");
 
         Boolean invitable = isOwnerInvitable(userId, viewerAccount);
         model.put("invitable", invitable);
@@ -125,6 +121,7 @@ public class UserController {
         return "user";
     }
 
+    /**
     @RequestMapping(value="/users/{userId}/resume", method=GET)
     public String getResume(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         userId = "#" + userId;
@@ -139,6 +136,7 @@ public class UserController {
 
         return "user";
     }
+    */
 
     @RequestMapping(value="/users/{userId}/impressions")
     public String getImpression(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
@@ -163,91 +161,6 @@ public class UserController {
         return "user";
     }
 
-    /**
-     * Get viewer's friends.
-     * In this case, viewer is the same as owner.
-     */
-    @RequestMapping(value="/users/{userId}/friends")
-    public String getFriends(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        userId = "#" + userId;
-
-        User owner = getOwner(userId, viewerAccount);
-        model.put("owner", owner);
-
-        Boolean invitable = isOwnerInvitable(userId, viewerAccount);
-        model.put("invitable", invitable);
-
-        List<Plan> plans = getPlans(userId);
-        model.put("plans", plans);
-
-        List<User> friends = userService.getFriends(userId);
-        model.put("friends", friends);
-
-        return "user";
-    }
-
-    /**
-     * send invitation.
-     */
-    @RequestMapping(value="/users/{id}/invites/_create", method=POST)
-    public HttpEntity<?> invite(@PathVariable("id") String id, @Valid Command command, Map model) {
-
-        /**
-        id = "#" + id;
-        userService.inviteFriend(SecurityUtil.getViewerAccountId(), id, comand.getContent());
-        */
-
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
-
-    /**
-     * Add/Update resume.
-     */
-    @RequestMapping(value="/users/{userId}/resume/_create", method=POST)
-    public HttpEntity<?> updateResume(@PathVariable("userId") String userId, @Valid Command command, BindingResult result, Map model) {
-        userService.addResume("#" + userId, command.getContent());
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
-
-    /**
-     * Add impression.
-     */
-    @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
-    public String addImpression(@PathVariable("userId") String userId, @Valid Command command, Map model) throws Exception {
-
-        /**
-        Impression impression = new Impression();
-        
-        User from = new User();
-        from.setId(SecurityUtil.getViewerAccountId());
-        impression.setFrom(from);
-
-        User to = new User();
-        to.setId(userId);
-        impression.setTo(to);
-
-        impression.setContent(content);
-
-        userService.addImpression(impression);
-
-        model.put("impression", impression);
-        */
-
-        return "fragments/newImpression";
-    }
-
-    @RequestMapping(value="/users/{userId}/invitations/{id}/_accept", method=POST)
-    public HttpEntity<?> accept(@PathVariable("id") String id, Map model) {
-        userService.acceptInvitation("#"+id);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
- 
-    @RequestMapping(value="/users/{userId}/invitations/{id}/_decline", method=POST)
-    public HttpEntity<?> decline(@PathVariable("id") String id, Map model) {
-        userService.declineInvitation("#"+id);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
 }
 
 

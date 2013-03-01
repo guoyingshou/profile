@@ -12,6 +12,7 @@ import com.tissue.social.web.model.AccountForm;
 import com.tissue.social.web.model.ProfileForm;
 import com.tissue.social.web.model.EmailForm;
 import com.tissue.social.web.model.PasswordForm;
+import com.tissue.social.web.model.InvitationForm;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -42,8 +43,13 @@ import java.util.Set;
 import java.util.Map;
 import java.nio.charset.Charset;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Controller
 public class HomeController {
+
+    private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
     @Autowired
     private UserService userService;
@@ -116,63 +122,143 @@ public class HomeController {
         return "dashboard";
     }
 
+    /**
+     * Get viewer's friends.
+     * In this case, viewer is the same as owner.
+     */
+    @RequestMapping(value="/friends")
+    public String getFriends(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        init(viewerAccount, model);
+
+        List<User> friends = userService.getFriends(viewerAccount.getUser().getId());
+        model.put("friends", friends);
+
+        return "dashboard";
+    }
+
     @RequestMapping(value="/invitations", method=GET)
     public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         init(viewerAccount, model);
         return "dashboard";
     }
 
-    @RequestMapping(value="/preUpdateEmail", method=POST)
-    public HttpEntity<?> checkEmailOwned(@RequestParam(value="email") String email, Map model) {
-
-        String viewerAccountId = SecurityUtil.getViewerAccountId();
-        boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
-        boolean exist = emailValid && userService.isEmailExist(viewerAccountId, email);
-        if(exist) {
-             return new ResponseEntity(HttpStatus.CONFLICT);
-        }
-        else {
-            return HttpEntity.EMPTY;
-        }
-    }
-
     @RequestMapping(value="/_updateEmail", method=POST)
-    public String updateEmail(@Valid EmailForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public HttpEntity<?> updateEmail(@Valid EmailForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         if(result.hasErrors()) {
-            //to do
+            logger.warn(result.getAllErrors().toString());
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         form.setAccount(viewerAccount);
-        userService.updateEmail(form);
+        try {
+            userService.updateEmail(form);
+        }
+        catch(Exception exc) {
+            logger.warn(exc.getMessage());
+            throw exc;
+        }
 
-        return "redirect:/dashboard";
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value="/_updateProfile", method=POST)
-    public String updateProfile(@Valid ProfileForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public HttpEntity<?> updateProfile(@Valid ProfileForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         if(result.hasErrors()) {
-            //to do
+            logger.warn(result.getAllErrors().toString());
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         form.setAccount(viewerAccount);
         userService.updateProfile(form);
 
-        return "redirect:/dashboard";
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value="/_updatePassword", method=POST)
-    public String changePass(@Valid PasswordForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public HttpEntity<?> updatePassword(@Valid PasswordForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         
         if(result.hasErrors()) {
-            //to do
+            logger.warn(result.getAllErrors().toString());
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        if(!form.getPassword().equals(form.getConfirm())) {
+            logger.warn("confirm mis match");
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
         form.setAccount(viewerAccount);
         userService.updatePassword(form);
 
-        return "redirect:/dashboard";
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * send invitation.
+     */
+    @RequestMapping(value="/users/{userId}/invitations/_create", method=POST)
+    public HttpEntity<?> invite(@PathVariable("userId") String userId, @Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        if(result.hasErrors()) {
+            logger.warn(result.getAllErrors().toString());
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+
+        form.setUserId("#"+userId);
+        form.setAccount(viewerAccount);
+
+        userService.inviteFriend(form);
+
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Add/Update resume.
+    @RequestMapping(value="/users/{userId}/resume/_create", method=POST)
+    public HttpEntity<?> updateResume(@PathVariable("userId") String userId, @Valid Command command, BindingResult result, Map model) {
+        userService.addResume("#" + userId, command.getContent());
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+     */
+
+    /**
+     * Add impression.
+    @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
+    public String addImpression(@PathVariable("userId") String userId, @Valid Command command, Map model) throws Exception {
+
+        Impression impression = new Impression();
+        
+        User from = new User();
+        from.setId(SecurityUtil.getViewerAccountId());
+        impression.setFrom(from);
+
+        User to = new User();
+        to.setId(userId);
+        impression.setTo(to);
+
+        impression.setContent(content);
+
+        userService.addImpression(impression);
+
+        model.put("impression", impression);
+
+        return "fragments/newImpression";
+    }
+        */
+
+    @RequestMapping(value="/invitations/{id}/_accept", method=POST)
+    public HttpEntity<?> accept(@PathVariable("id") String id, Map model) {
+        userService.acceptInvitation("#"+id);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+ 
+    @RequestMapping(value="/invitations/{id}/_decline", method=POST)
+    public HttpEntity<?> decline(@PathVariable("id") String id, Map model) {
+        userService.declineInvitation("#"+id);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
 }

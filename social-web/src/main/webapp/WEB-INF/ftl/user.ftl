@@ -27,8 +27,6 @@
            <#if posts??>
                <@postGadgets.showPosts posts />
                <@utilGadgets.showPager />
-           <#elseif friends??>
-                <@userGadgets.showFriends />
            <#elseif activities??>
                <@activityGadgets.showActivities />
            <#elseif impressions??>

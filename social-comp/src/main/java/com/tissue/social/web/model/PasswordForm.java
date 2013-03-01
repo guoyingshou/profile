@@ -14,13 +14,13 @@ import com.google.common.hash.Hashing;
 public class PasswordForm implements PasswordCommand, Serializable {
 
     @NotEmpty(message="password cann't be null")
-    @Size(min=6)
+    @Size(min=6, max=16)
     private String password;
     private String confirm;
     private Account account;
 
     public void setPassword(String password) {
-        this.password = Hashing.md5().hashString(password, Charset.forName("utf-8")).toString();
+        this.password = password;
     }
 
     public String getPassword() {

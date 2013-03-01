@@ -21,9 +21,11 @@
         </div>
 
         <div id="content">
-        <#if activities??>
+        <#if friends??>
+            <@userGadgets.showFriends />
+        <#elseif activities??>
             <@activityGadgets.showActivities />
-        <#elseif invitationsReceived??>
+        <#else>
             <@userGadgets.showInvitations />
         </#if>
         </div>
