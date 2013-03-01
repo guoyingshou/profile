@@ -1,7 +1,6 @@
 package com.tissue.social.web.model;
 
 import com.tissue.core.command.UserCommand;
-import com.tissue.core.util.OrientIdentityUtil;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -11,34 +10,36 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+/**
 import java.nio.charset.Charset;
 import com.google.common.hash.Hashing;
+*/
 
 public class AccountForm implements UserCommand, Serializable {
 
     private String id;
 
-    @NotEmpty(message="{account.username}")
+    @NotEmpty(message="{Username cann't by empty}")
     private String username;
 
-    @NotEmpty(message="password cann't be null")
-    @Size(min=6)
+    @Size(min=6, max=16)
     private String password;
 
     private String confirm;
 
-    @NotEmpty(message="displayName cann't be null")
+    @NotEmpty(message="DisplayName cann't by empty")
     private String displayName;
 
+    @NotEmpty(message="Headline cann't by empty")
     private String headline;
 
-    @NotEmpty(message="email cann't be null")
-    @Email
+    @NotEmpty(message="Email cann't by empty")
+    @Email(message="Email is invalid or already taken")
     private String email;
 
     /**-----------------------------*/
     public void setId(String id) {
-        this.id = OrientIdentityUtil.decode(id);
+        this.id = id;
     }
 
     public String getId() {
@@ -54,7 +55,8 @@ public class AccountForm implements UserCommand, Serializable {
     }
 
     public void setPassword(String password) {
-        this.password = Hashing.md5().hashString(password, Charset.forName("utf-8")).toString();
+        //this.password = Hashing.md5().hashString(password, Charset.forName("utf-8")).toString();
+        this.password = password;
     }
 
     public String getPassword() {

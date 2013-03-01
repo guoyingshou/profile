@@ -6,7 +6,7 @@
   </appender>
 
   <logger name="com.tissue" level="DEBUG"/>
-  <logger name="org.springframework.format" level="DEBUG"/>
+  <logger name="org.springframework.security" level="DEBUG"/>
 
   <root level="INFO">
     <appender-ref ref="STDOUT" />

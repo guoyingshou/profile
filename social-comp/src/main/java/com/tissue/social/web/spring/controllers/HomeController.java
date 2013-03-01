@@ -9,8 +9,14 @@ import com.tissue.core.plan.Topic;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
 import com.tissue.social.web.model.AccountForm;
+import com.tissue.social.web.model.ProfileForm;
+import com.tissue.social.web.model.EmailForm;
+import com.tissue.social.web.model.PasswordForm;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -114,6 +120,59 @@ public class HomeController {
     public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         init(viewerAccount, model);
         return "dashboard";
+    }
+
+    @RequestMapping(value="/preUpdateEmail", method=POST)
+    public HttpEntity<?> checkEmailOwned(@RequestParam(value="email") String email, Map model) {
+
+        String viewerAccountId = SecurityUtil.getViewerAccountId();
+        boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
+        boolean exist = emailValid && userService.isEmailExist(viewerAccountId, email);
+        if(exist) {
+             return new ResponseEntity(HttpStatus.CONFLICT);
+        }
+        else {
+            return HttpEntity.EMPTY;
+        }
+    }
+
+    @RequestMapping(value="/_updateEmail", method=POST)
+    public String updateEmail(@Valid EmailForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        if(result.hasErrors()) {
+            //to do
+        }
+
+        form.setAccount(viewerAccount);
+        userService.updateEmail(form);
+
+        return "redirect:/dashboard";
+    }
+
+    @RequestMapping(value="/_updateProfile", method=POST)
+    public String updateProfile(@Valid ProfileForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        if(result.hasErrors()) {
+            //to do
+        }
+
+        form.setAccount(viewerAccount);
+        userService.updateProfile(form);
+
+        return "redirect:/dashboard";
+    }
+
+    @RequestMapping(value="/_updatePassword", method=POST)
+    public String changePass(@Valid PasswordForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+        
+        if(result.hasErrors()) {
+            //to do
+        }
+
+        form.setAccount(viewerAccount);
+        userService.updatePassword(form);
+
+        return "redirect:/dashboard";
     }
 
 }

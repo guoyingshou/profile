@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.FieldError;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +22,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.mail.MailSender;
 import org.springframework.mail.SimpleMailMessage;
+
+import org.springframework.web.servlet.support.RequestContext;
+import org.springframework.web.servlet.support.BindStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,8 +40,6 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//import java.security.InvalidParameterException;
-
 @Controller
 public class AccountController {
 
@@ -50,14 +51,10 @@ public class AccountController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="/login")
-    public String loginForm(@RequestParam(value="error", required=false) String error, Map model) {
-        model.put("error", error);
-        return "login";
-    }
-
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
+        AccountForm account = new AccountForm();
+        model.put("account", account);
         return "signup";
     }
 
@@ -66,11 +63,30 @@ public class AccountController {
      */
     @RequestMapping(value="/signup", method=POST)
     public String signup(@Valid @ModelAttribute("account") AccountForm form, BindingResult result) {
+
         if(result.hasErrors()) {
-            //throw new InvalidParameterException("content invalid");
+            logger.warn(result.getAllErrors().toString());
+            return "signup";
+        }
+        if(!form.getConfirm().equals(form.getPassword())) {
+            result.rejectValue("confirm", "Mismatch.confirm", "confirm mismatch");
+            logger.warn(result.getAllErrors().toString());
+            return "signup";
         }
 
-        userService.addUser(form);
+        try {
+            userService.addUser(form);
+        }
+        catch(Exception exc) {
+            if(exc.getMessage().contains("account.username")) {
+                result.rejectValue("username", "Taken.username", "username is already taken");
+            }
+            if(exc.getMessage().contains("account.email")) {
+                result.rejectValue("email", "Taken.email", "email is already taken");
+            }
+            logger.warn(result.getAllErrors().toString());
+            return "signup";
+        }
 
         /**
         SimpleMailMessage msg = new SimpleMailMessage();
@@ -83,49 +99,7 @@ public class AccountController {
         return "redirect:/dashboard";
     }
 
-    @RequestMapping(value="/_updateEmail", method=POST)
-    public String updateEmail(@Valid AccountForm form, BindingResult result, Map model) {
-
-        /**
-        if(result.hasErrors()) {
-            throw new InvalidParameterException("content invalid");
-        }
-
-        String viewerId = SecurityUtil.getViewerId();
-        */
-
-        return "redirect:/dashboard";
-    }
-
-    @RequestMapping(value="/_updateProfile", method=POST)
-    public String updateProfile(@Valid AccountForm form, BindingResult result, Map model) {
-
-        String viewerAccountId = SecurityUtil.getViewerAccountId();
-
-        if(result.hasErrors()) {
-            //throw new InvalidParameterException("content invalid");
-        }
-
-        return "redirect:/dashboard";
-    }
-
-    @RequestMapping(value="/_updatePassword", method=POST)
-    public String changePass(AccountForm form, Map model) {
-        String viewerAccountId = SecurityUtil.getViewerAccountId();
-        
-        if(!form.getPassword().equals(form.getConfirm())) {
-            //throw new InvalidParameterException("confirm mismatch");
-        }
-
-        /**
-        User user = new User();
-        user.setId(viewerId);
-        */
-
-        return "redirect:/dashboard";
-    }
-
-    @RequestMapping(value="/preAddUsername", method=POST)
+    @RequestMapping(value="/checkUsername", method=POST)
     public HttpEntity<?> checkUsername(@RequestParam(value="username") String username, Map model) {
 
         boolean usernameValid = ((username == null) || "".equals(username.trim())) ? false : true;
@@ -138,7 +112,7 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value="/preAddEmail", method=POST)
+    @RequestMapping(value="/checkEmail", method=POST)
     public HttpEntity<?> checkEmail(@RequestParam(value="email") String email, Map model) {
 
         boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
@@ -152,18 +126,9 @@ public class AccountController {
         }
     }
 
-    @RequestMapping(value="/preUpdateEmail", method=POST)
-    public HttpEntity<?> checkEmailOwned(@RequestParam(value="email") String email, Map model) {
-
-        String viewerAccountId = SecurityUtil.getViewerAccountId();
-        boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
-        boolean exist = emailValid && userService.isEmailExist(viewerAccountId, email);
-        if(exist) {
-             return new ResponseEntity(HttpStatus.CONFLICT);
-        }
-        else {
-            return HttpEntity.EMPTY;
-        }
+    @RequestMapping(value="/login")
+    public String loginForm(@RequestParam(value="error", required=false) String error, Map model) {
+        model.put("error", error);
+        return "login";
     }
-
 }
