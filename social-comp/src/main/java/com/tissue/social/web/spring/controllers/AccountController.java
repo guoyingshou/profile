@@ -3,7 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
-import com.tissue.social.web.model.AccountForm;
+import com.tissue.social.web.model.UserForm;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -53,8 +53,8 @@ public class AccountController {
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
-        AccountForm account = new AccountForm();
-        model.put("account", account);
+        UserForm user = new UserForm();
+        model.put("user", user);
         return "signup";
     }
 
@@ -62,7 +62,7 @@ public class AccountController {
      * Signup.
      */
     @RequestMapping(value="/signup", method=POST)
-    public String signup(@Valid @ModelAttribute("account") AccountForm form, BindingResult result) {
+    public String signup(@Valid @ModelAttribute("user") UserForm form, BindingResult result) {
 
         if(result.hasErrors()) {
             logger.warn(result.getAllErrors().toString());

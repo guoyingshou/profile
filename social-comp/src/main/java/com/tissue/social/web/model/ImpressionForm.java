@@ -1,9 +1,9 @@
 package com.tissue.social.web.model;
 
-import com.tissue.core.command.InvitationCommand;
-//import com.tissue.core.social.User;
+import com.tissue.core.command.ImpressionCommand;
+import com.tissue.core.social.User;
 import com.tissue.core.social.Account;
-import com.tissue.core.social.Invitation;
+import com.tissue.core.social.Impression;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -11,31 +11,20 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 
-public class InvitationForm implements InvitationCommand, Serializable {
-
-    private String id;
+public class ImpressionForm implements ImpressionCommand, Serializable {
 
     @NotEmpty(message="letter cann't be empty")
-    private String letter;
+    private String content;
 
     private String userId;
-
     private Account account;
 
-    public void setId(String id) {
-        this.id = id;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setLetter(String letter) {
-        this.letter = letter;
-    }
-
-    public String getLetter() {
-        return letter;
+    public String getContent() {
+        return content;
     }
 
     public void setUserId(String userId) {
@@ -45,7 +34,6 @@ public class InvitationForm implements InvitationCommand, Serializable {
     public String getUserId() {
         return userId;
     }
-
     public void setAccount(Account account) {
         this.account = account;
     }

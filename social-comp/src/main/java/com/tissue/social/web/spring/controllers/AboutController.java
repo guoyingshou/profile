@@ -1,13 +1,14 @@
 package com.tissue.social.web.spring.controllers;
 
-import com.tissue.core.command.Command;
 import com.tissue.core.social.Account;
 import com.tissue.core.social.User;
 import com.tissue.core.social.About;
 import com.tissue.commons.social.services.UserService;
+import com.tissue.commons.social.services.AboutService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
-import com.tissue.commons.services.CommonService;
+import com.tissue.social.web.model.AboutForm;
+//import com.tissue.commons.services.CommonService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -38,26 +39,26 @@ public class AboutController {
     @Autowired
     protected UserService userService;
 
-    @RequestMapping(value="/about", method=GET)
-    public String about(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    @Autowired
+    protected AboutService aboutService;
 
-        List<About> abouts = userService.getAbouts();
+    @RequestMapping(value="/about", method=GET)
+    public String listAbouts(Map model) {
+
+        List<About> abouts = aboutService.getAbouts();
         model.put("abouts", abouts);
         return "about";
     }
 
 
     @RequestMapping(value="/about/_create", method=POST)
-    public String addAbout(@Valid Command command, BindingResult result, Map model) {
+    public String addAbout(@Valid AboutForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        /**
-        About about = new About();
-        about = aboutService.addAbout(about);
+        form.setAccount(viewerAccount);
+        aboutService.addAbout(form);
 
-        model.put("about", about);
-        */
-
-        return "fragments/newAbout";
+        return "redirect:/about";
+        //return "fragments/newAbout";
     }
 
 }

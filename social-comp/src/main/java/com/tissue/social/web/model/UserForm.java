@@ -1,6 +1,8 @@
 package com.tissue.social.web.model;
 
 import com.tissue.core.command.UserCommand;
+import com.tissue.core.social.User;
+import com.tissue.core.social.Account;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -10,12 +12,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-/**
-import java.nio.charset.Charset;
-import com.google.common.hash.Hashing;
-*/
 
-public class AccountForm implements UserCommand, Serializable {
+public class UserForm implements UserCommand, Serializable {
 
     private String id;
 
@@ -37,6 +35,9 @@ public class AccountForm implements UserCommand, Serializable {
     @Email(message="Email is invalid or already taken")
     private String email;
 
+    private User user;
+    private Account account;
+
     /**-----------------------------*/
     public void setId(String id) {
         this.id = id;
@@ -55,7 +56,6 @@ public class AccountForm implements UserCommand, Serializable {
     }
 
     public void setPassword(String password) {
-        //this.password = Hashing.md5().hashString(password, Charset.forName("utf-8")).toString();
         this.password = password;
     }
 
@@ -94,4 +94,32 @@ public class AccountForm implements UserCommand, Serializable {
     public String getEmail() {
         return email;
     }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        if(user != null) {
+            return user;
+        }
+
+        user = new User();
+        user.setDisplayName(displayName);
+        user.setHeadline(headline);
+        return user;
+    }
+
+    public Account getAccount() {
+        if(account != null) {
+            return account;
+        }
+
+        account = new Account();
+        account.setUsername(username);
+        account.setPassword(password);
+        account.setEmail(email);
+        return account;
+    }
+
 }
