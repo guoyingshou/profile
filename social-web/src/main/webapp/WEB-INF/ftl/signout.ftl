@@ -6,7 +6,7 @@
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "home">
-    <iframe src="/group/signout" style="display:none"></iframe>
+    <iframe src="/group/logout" style="display:none"></iframe>
     <div id="logo">
         <@userGadgets.homeLogo />
     </div>
