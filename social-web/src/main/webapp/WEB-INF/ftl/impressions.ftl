@@ -10,17 +10,17 @@
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout owner.displayName>
-    <div id="logo">
+    <div id="page-logo">
         <@userGadgets.userLogo />
     </div>
 
-    <div id="contentWrapper">
+    <div id="page-content-wrapper">
         <div id="sidebar">
             <@userGadgets.showLearningPlans/>
             <@userGadgets.showLearnedPlans/>
         </div>
 
-       <div id="content">
+       <div id="page-content">
            <@userGadgets.showImpressions />
        </div>
     </div>

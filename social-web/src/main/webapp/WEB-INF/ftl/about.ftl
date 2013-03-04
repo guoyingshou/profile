@@ -5,12 +5,12 @@
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "about">
-    <div id="logo">
+    <div id="page-logo">
         <@tissue.aboutLogo />
     </div>
 
-    <div id="contentWrapper">
-        <div id="sidebar">
+    <div id="page-content-wrapper">
+        <div id="page-sidebar">
             <h4>Main Features</h4>
             <ul>
                 <li>
@@ -25,7 +25,7 @@
             </ul>
         </div>
 
-        <div id="content">
+        <div id="page-content">
             <@tissue.showAbout />
         </div>
     </div>

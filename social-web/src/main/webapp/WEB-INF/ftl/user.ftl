@@ -10,12 +10,12 @@
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout owner.displayName>
-    <div id="logo">
+    <div id="page-logo">
         <@userGadgets.userLogo />
     </div>
 
-    <div id="contentWrapper">
-        <div id="sidebar">
+    <div id="page-content-wrapper">
+        <div id="page-sidebar">
             <@userGadgets.showLearningPlans/>
             <@userGadgets.showLearnedPlans/>
             <#--
@@ -23,7 +23,7 @@
             -->
         </div>
 
-       <div id="content">
+       <div id="page-content">
            <#if posts??>
                <@postGadgets.showPosts posts />
                <@utilGadgets.showPager />

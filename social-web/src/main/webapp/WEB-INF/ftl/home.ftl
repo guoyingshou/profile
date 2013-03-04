@@ -6,15 +6,15 @@
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
 <@tissue.layout "home">
-    <div id="logo">
+    <div id="page-logo">
         <@userGadgets.homeLogo />
     </div>
-    <div id="contentWrapper">
-        <div id="sidebar">
+    <div id="page-content-wrapper">
+        <div id="page-sidebar">
            <@tissue.slogan />
         </div>
 
-        <div id="content">
+        <div id="page-content">
             <@activityGadgets.showActivities />
         </div>
     </div>

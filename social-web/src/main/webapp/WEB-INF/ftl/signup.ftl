@@ -7,7 +7,7 @@
 -->
 
 <@tissue.layout "sign up">
-    <div id="logo">
+    <div id="page-logo">
         <@userGadgets.homeLogo />
     </div>
     <@userGadgets.signupForm />

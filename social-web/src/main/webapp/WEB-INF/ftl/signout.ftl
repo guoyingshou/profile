@@ -7,15 +7,15 @@
 
 <@tissue.layout "home">
     <iframe src="/group/logout" style="display:none"></iframe>
-    <div id="logo">
+    <div id="page-logo">
         <@userGadgets.homeLogo />
     </div>
-    <div id="contentWrapper">
-        <div id="sidebar">
+    <div id="page-content-wrapper">
+        <div id="page-sidebar">
            <@tissue.slogan />
         </div>
 
-        <div id="content">
+        <div id="page-content">
             <@activityGadgets.showActivities />
         </div>
     </div>
