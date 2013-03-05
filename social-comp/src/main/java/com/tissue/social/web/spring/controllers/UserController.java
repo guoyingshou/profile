@@ -64,13 +64,11 @@ public class UserController {
 
     private User getOwner(String userId,  Account viewerAccount) {
         User owner = null;
-        if(viewerAccount != null) {
-             if(userId.equals(viewerAccount.getUser().getId())) {
-                 owner = viewerAccount.getUser();
-             }
-             else {
-                 owner = userService.getUser(userId);
-             }
+        if((viewerAccount != null) && userId.equals(viewerAccount.getUser().getId())) {
+            owner = viewerAccount.getUser();
+        }
+        else {
+            owner = userService.getUser(userId);
         }
         return owner;
     }
