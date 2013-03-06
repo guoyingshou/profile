@@ -9,20 +9,32 @@
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
-<@tissue.layout owner.displayName>
-    <div id="page-logo">
-        <@userGadgets.userLogo />
+<#assign title = owner.displayName in tissue>
+
+<@tissue.layout>
+    <div id="page-logo-wrapper">
+        <div id="page-logo">
+            <@userGadgets.userLogo />
+        </div>
     </div>
 
-    <div id="page-content-wrapper">
-        <div id="sidebar">
-            <@userGadgets.showLearningPlans/>
-            <@userGadgets.showLearnedPlans/>
+    <div id="page-menu-wrapper">
+        <div id="page-menu">
+            <@userGadgets.userMenu />
         </div>
+    </div>
 
-       <div id="page-content">
-           <@userGadgets.showImpressions />
-       </div>
+    <div id="page-main-wrapper">
+        <div id="page-main">
+            <div id="main-sidebar">
+                <@userGadgets.showLearningPlans/>
+                <@userGadgets.showLearnedPlans/>
+            </div>
+
+           <div id="main-content">
+               <@userGadgets.showImpressions />
+           </div>
+        </div>
     </div>
 
 </@tissue.layout>

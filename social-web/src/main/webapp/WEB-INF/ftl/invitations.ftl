@@ -6,19 +6,25 @@
 
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
-<@tissue.layout "home">
-    <div id="page-logo">
-        <@userGadgets.homeLogo />
+<#assign title="invitation" in tissue>
+
+<@tissue.layout>
+    <div id="page-logo-wrapper">
+        <div id="page-logo">
+            <@userGadgets.homeLogo />
+        </div>
     </div>
 
-    <div id="page-content-wrapper">
-        <div id="page-sidebar">
-            <@userGadgets.showLearningPlans/>
-            <@userGadgets.showLearnedPlans/>
-        </div>
+    <div id="page-main-wrapper">
+        <div id="page-main">
+            <div id="main-sidebar">
+                <@userGadgets.showLearningPlans/>
+                <@userGadgets.showLearnedPlans/>
+            </div>
 
-        <div id="page-content">
-            <@userGadgets.showInvitations />
+            <div id="main-content">
+                <@userGadgets.showInvitations />
+            </div>
         </div>
     </div>
 </@tissue.layout>

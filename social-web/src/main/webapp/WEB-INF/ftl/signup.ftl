@@ -2,14 +2,17 @@
 <#import "tissue.ftl" as tissue />
 <#import "userGadgets.ftl" as userGadgets />
 
-<#--
-<#assign myscripts = ['/tissue/js/user.js'] in tissue />
--->
+<#assign title = "sign up" in tissue />
 
-<@tissue.layout "sign up">
-    <div id="page-logo">
-        <@userGadgets.homeLogo />
+<@tissue.layout>
+    <div id="page-logo-wrapper">
+        <div id="page-logo">
+            <@userGadgets.homeLogo />
+        </div>
     </div>
-    <@userGadgets.signupForm />
+
+    <div id="page-main-wrapper">
+        <@userGadgets.signupForm />
+    <div>
 </@tissue.layout>
 

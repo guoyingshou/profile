@@ -2,16 +2,18 @@
 <#import "tissue.ftl" as tissue />
 <#import "userGadgets.ftl" as userGadgets />
 
-<#--
-<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
--->
+<#assign title="signin" in tissue>
 
-<@tissue.layout "sign in">
-    <div id="page-logo">
-        <@userGadgets.homeLogo />
+<@tissue.layout>
+    <div id="page-logo-wrapper">
+        <div id="page-logo">
+            <@userGadgets.homeLogo />
+        </div>
     </div>
 
-    <@userGadgets.signinForm />
+    <div id="page-main-wrapper">
+        <@userGadgets.signinForm />
+    </div>
 
 </@tissue.layout>
 

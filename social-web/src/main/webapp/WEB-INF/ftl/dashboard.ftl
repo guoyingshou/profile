@@ -5,29 +5,37 @@
 <#import "activityGadgets.ftl" as activityGadgets />
 
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
+<#assign title = "dashboard" in tissue>
 
-<@tissue.layout "home">
-    <div id="page-logo">
-        <@userGadgets.homeLogo />
+<@tissue.layout>
+    <div id="page-logo-wrapper">
+        <div id="page-logo">
+            <@userGadgets.homeLogo />
+        </div>
     </div>
 
-    <div id="page-content-wrapper">
-        <div id="page-sidebar">
-            <@userGadgets.showLearningPlans/>
-            <@userGadgets.showLearnedPlans/>
-            <#--
-            <@topicGadgets.showNewTopics/>
-            -->
+    <div id="page-menu-wrapper">
+        <div id="page-menu">
+            <@userGadgets.homeMenu />
         </div>
+    </div>
 
-        <div id="page-content">
-        <#if friends??>
-            <@userGadgets.showFriends />
-        <#elseif activities??>
-            <@activityGadgets.showActivities />
-        <#else>
-            <@userGadgets.showInvitations />
-        </#if>
+    <div id="page-main-wrapper">
+        <div id="page-main">
+            <div id="main-sidebar">
+                <@userGadgets.showLearningPlans/>
+                <@userGadgets.showLearnedPlans/>
+            </div>
+
+            <div id="main-content">
+            <#if friends??>
+                <@userGadgets.showFriends />
+            <#elseif activities??>
+                <@activityGadgets.showActivities />
+            <#else>
+                <@userGadgets.showInvitations />
+            </#if>
+            </div>
         </div>
     </div>
 </@tissue.layout>

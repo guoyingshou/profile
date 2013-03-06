@@ -9,21 +9,29 @@
 <#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
 <#assign mystyles=["/tissue/css/layout2.css"] in tissue>
 
-<@tissue.layout owner.displayName>
-    <div id="page-logo">
-        <@userGadgets.userLogo />
+<#assign title= owner.displayName in tissue>
+
+<@tissue.layout>
+    <div id="page-logo-wrapper">
+        <div id="page-logo">
+            <@userGadgets.userLogo />
+        </div>
     </div>
 
-    <div id="page-content-wrapper">
-        <div id="page-sidebar">
-            <@userGadgets.showLearningPlans/>
-            <@userGadgets.showLearnedPlans/>
-            <#--
-            <@topicGadgets.showNewTopics />
-            -->
+    <div id="page-menu-wrapper">
+        <div id="page-menu">
+            <@userGadgets.userMenu />
         </div>
+    </div>
 
-       <div id="page-content">
+    <div id="page-main-wrapper">
+        <div id="page-main">
+            <div id="main-sidebar">
+                <@userGadgets.showLearningPlans/>
+                <@userGadgets.showLearnedPlans/>
+            </div>
+
+           <div id="main-content">
            <#if posts??>
                <@postGadgets.showPosts posts />
                <@utilGadgets.showPager />
@@ -34,6 +42,7 @@
            <#else>
                <@userGadgets.showResume />
            </#if>
+           </div>
        </div>
     </div>
 
