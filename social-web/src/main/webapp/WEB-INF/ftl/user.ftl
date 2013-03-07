@@ -1,7 +1,7 @@
 <#import "spring.ftl" as spring />
 <#import "tissue.ftl" as tissue />
 <#import "userGadgets.ftl" as userGadgets />
-<#import "utilGadgets.ftl" as utilGadgets />
+<#import "commonGadgets.ftl" as commonGadgets />
 <#import "postGadgets.ftl" as postGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
@@ -34,7 +34,7 @@
            <div id="main-content">
            <#if posts??>
                <@postGadgets.showPosts posts />
-               <@utilGadgets.showPager />
+               <@commonGadgets.showPager />
            <#elseif activities??>
                <@activityGadgets.showActivities />
            <#elseif impressions??>

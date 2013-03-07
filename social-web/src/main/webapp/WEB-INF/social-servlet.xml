@@ -17,7 +17,7 @@
 		   
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basenames="errorMessage, commonMessage,userMessage, activityMessage, topicMessage" p:defaultEncoding="utf-8"/>
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basenames="header, gadget" p:defaultEncoding="utf-8"/>
         
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="preferFileSystemAccess" value="false" />
