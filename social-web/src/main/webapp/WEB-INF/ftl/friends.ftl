@@ -28,7 +28,7 @@
             </div>
 
             <div id="main-content">
-                <@activityGadgets.showActivities />
+                <@userGadgets.showFriends />
             </div>
         </div>
     </div>

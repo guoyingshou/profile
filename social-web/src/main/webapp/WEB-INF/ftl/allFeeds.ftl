@@ -16,7 +16,7 @@
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@userGadgets.homeMenu selected/>
+            <@userGadgets.homeMenu selected />
         </div>
     </div>
 

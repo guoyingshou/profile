@@ -3,7 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.User;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
-import com.tissue.social.web.model.UserForm;
+import com.tissue.social.web.model.SignupForm;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -53,8 +53,8 @@ public class AccountController {
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
-        UserForm user = new UserForm();
-        model.put("user", user);
+        SignupForm signupForm = new SignupForm();
+        model.put("signupForm", signupForm);
         return "signup";
     }
 
@@ -62,15 +62,16 @@ public class AccountController {
      * Signup.
      */
     @RequestMapping(value="/signup", method=POST)
-    public String signup(@Valid @ModelAttribute("user") UserForm form, BindingResult result) {
+    public String signup(@Valid @ModelAttribute("signupForm") SignupForm form, BindingResult result) {
 
         if(result.hasErrors()) {
             logger.warn(result.getAllErrors().toString());
             return "signup";
         }
         if(!form.getConfirm().equals(form.getPassword())) {
-            result.rejectValue("confirm", "Mismatch.confirm", "confirm mismatch");
-            logger.warn(result.getAllErrors().toString());
+            logger.warn("confirm mis match");
+
+            result.rejectValue("confirm", "Mismatch.signupForm.confirm", "confirm mismatch");
             return "signup";
         }
 
@@ -78,13 +79,14 @@ public class AccountController {
             userService.addUser(form);
         }
         catch(Exception exc) {
-            if(exc.getMessage().contains("account.username")) {
-                result.rejectValue("username", "Taken.username", "username is already taken");
+            logger.warn(exc.getMessage());
+
+            if(exc.getMessage().contains("Account.username")) {
+                result.rejectValue("username", "Taken.signupForm.username", "username is already taken");
             }
-            if(exc.getMessage().contains("account.email")) {
-                result.rejectValue("email", "Taken.email", "email is already taken");
+            if(exc.getMessage().contains("Account.email")) {
+                result.rejectValue("email", "Taken.signupForm.email", "email is already taken");
             }
-            logger.warn(result.getAllErrors().toString());
             return "signup";
         }
 

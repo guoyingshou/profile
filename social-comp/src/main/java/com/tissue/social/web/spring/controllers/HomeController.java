@@ -10,12 +10,10 @@ import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.social.services.UserService;
 import com.tissue.commons.social.services.InvitationService;
 import com.tissue.commons.social.services.ActivityService;
-import com.tissue.social.web.model.UserForm;
 import com.tissue.social.web.model.ProfileForm;
 import com.tissue.social.web.model.EmailForm;
 import com.tissue.social.web.model.PasswordForm;
 import com.tissue.social.web.model.InvitationForm;
-//import com.tissue.social.web.model.ImpressionForm;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -115,6 +113,7 @@ public class HomeController {
         List<Activity> activities = userService.getActivities(viewerAccount.getUser().getId(), 35);
         model.put("activities", activities);
 
+        model.put("selected", "watchedFeeds");
         return "dashboard";
     }
 
@@ -127,6 +126,7 @@ public class HomeController {
         List<Activity> activities = activityService.getActivities(35);
         model.put("activities", activities);
 
+        model.put("selected", "allFeeds");
         return "dashboard";
     }
 
@@ -142,13 +142,16 @@ public class HomeController {
         List<User> friends = userService.getFriends(viewerAccount.getUser().getId());
         model.put("friends", friends);
 
-        return "dashboard";
+        model.put("selected", "friends");
+        return "friends";
     }
 
     @RequestMapping(value="/invitations", method=GET)
     public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         init(viewerAccount, model);
-        return "dashboard";
+
+        model.put("selected", "invitations");
+        return "invitations";
     }
 
     @RequestMapping(value="/invitations/{invitationId}/_accept", method=POST)

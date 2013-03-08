@@ -1,17 +1,22 @@
 <#import "spring.ftl" as spring />
-<#import "tissue.ftl" as tissue />
+<#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
-<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
+<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
+<#assign title = "dashboard" in commonGadgets>
 
-<#assign title="invitation" in tissue>
-
-<@tissue.layout>
+<@commonGadgets.layout>
     <div id="page-logo-wrapper">
         <div id="page-logo">
             <@userGadgets.homeLogo />
+        </div>
+    </div>
+
+    <div id="page-menu-wrapper">
+        <div id="page-menu">
+            <@userGadgets.homeMenu selected/>
         </div>
     </div>
 
@@ -23,9 +28,9 @@
             </div>
 
             <div id="main-content">
-                <@userGadgets.showInvitations />
+                <@userGadgets.showInvitations/>
             </div>
         </div>
     </div>
-</@tissue.layout>
+</@commonGadgets.layout>
 

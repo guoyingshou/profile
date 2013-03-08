@@ -1,10 +1,10 @@
 <#import "spring.ftl" as spring />
-<#import "tissue.ftl" as tissue />
+<#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
 
-<#assign title = "sign up" in tissue />
+<#assign title = "sign up" in commonGadgets />
 
-<@tissue.layout>
+<@commonGadgets.layout>
     <div id="page-logo-wrapper">
         <div id="page-logo">
             <@userGadgets.homeLogo />
@@ -14,5 +14,5 @@
     <div id="page-main-wrapper">
         <@userGadgets.signupForm />
     <div>
-</@tissue.layout>
+</@commonGadgets.layout>
 

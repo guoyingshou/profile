@@ -1,17 +1,17 @@
 <#import "spring.ftl" as spring />
-<#import "tissue.ftl" as tissue />
+<#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
 <#import "commonGadgets.ftl" as commonGadgets />
 <#import "postGadgets.ftl" as postGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
-<#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
-<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
+<#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
+<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 
-<#assign title= owner.displayName in tissue>
+<#assign title= owner.displayName in commonGadgets>
 
-<@tissue.layout>
+<@commonGadgets.layout>
     <div id="page-logo-wrapper">
         <div id="page-logo">
             <@userGadgets.userLogo />
@@ -20,7 +20,7 @@
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@userGadgets.userMenu />
+            <@userGadgets.userMenu selected/>
         </div>
     </div>
 
@@ -32,18 +32,9 @@
             </div>
 
            <div id="main-content">
-           <#if posts??>
-               <@postGadgets.showPosts posts />
-               <@commonGadgets.showPager />
-           <#elseif activities??>
                <@activityGadgets.showActivities />
-           <#elseif impressions??>
-               <@userGadgets.showImpressions />
-           <#else>
-               <@userGadgets.showResume />
-           </#if>
            </div>
        </div>
     </div>
 
-</@tissue.layout>
+</@commonGadgets.layout>

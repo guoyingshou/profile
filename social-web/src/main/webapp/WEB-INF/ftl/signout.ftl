@@ -1,14 +1,14 @@
 <#import "spring.ftl" as spring />
-<#import "tissue.ftl" as tissue />
+<#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 <#import "commonGadgets.ftl" as commonGadgets />
 
-<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
+<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 
-<#assign title="signout" in tissue>
+<#assign title="signout" in commonGadgets>
 
-<@tissue.layout>
+<@commonGadgets.layout>
 
     <iframe src="/group/logout" style="display:none"></iframe>
 
@@ -28,5 +28,5 @@
             </div>
         </div>
     </div>
-</@tissue.layout>
+</@commonGadgets.layout>
 

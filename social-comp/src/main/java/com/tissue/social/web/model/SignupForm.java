@@ -13,7 +13,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class UserForm implements UserCommand, Serializable {
+public class SignupForm implements UserCommand, Serializable {
 
     private String id;
 

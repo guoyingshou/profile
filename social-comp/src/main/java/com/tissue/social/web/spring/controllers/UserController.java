@@ -109,7 +109,8 @@ public class UserController {
         List<Post> posts = userService.getPagedPosts(userId, page, size);
         model.put("posts", posts);
 
-        return "user";
+        model.put("selected", "posts");
+        return "posts";
     }
 
     @RequestMapping(value="/users/{userId}/status")
@@ -129,7 +130,8 @@ public class UserController {
         List<Activity> activities = activityService.getActivities(userId, 15);
         model.put("activities", activities);
 
-        return "user";
+        model.put("selected", "status");
+        return "status";
     }
 
     @RequestMapping(value="/users/{userId}/impressions")
@@ -152,6 +154,7 @@ public class UserController {
         List<Impression> impressions = impressionService.getImpressions(userId);
         model.put("impressions", impressions);
 
+        model.put("selected", "impressions");
         return "impressions";
     }
 

@@ -1,12 +1,12 @@
 <#import "spring.ftl" as spring />
-<#import "tissue.ftl" as tissue />
+<#import "commonGadgets.ftl" as commonGadgets />
 <#import "commonGadgets.ftl" as commonGadgets />
 
-<#assign myscripts=["/ckeditor/ckeditor.js"] in tissue>
-<#assign mystyles=["/tissue/css/layout2.css"] in tissue>
-<#assign title= "about" in tissue>
+<#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
+<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
+<#assign title= "about" in commonGadgets>
 
-<@tissue.layout>
+<@commonGadgets.layout>
     <div id="page-logo-wrapper">
         <div id="page-logo" class="page-center">
             <@commonGadgets.aboutLogo />
@@ -35,5 +35,5 @@
             </div>
         </div>
     </div>
-</@tissue.layout>
+</@commonGadgets.layout>
 

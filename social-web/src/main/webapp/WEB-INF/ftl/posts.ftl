@@ -1,22 +1,26 @@
 <#import "spring.ftl" as spring />
 <#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
+<#import "commonGadgets.ftl" as commonGadgets />
+<#import "postGadgets.ftl" as postGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
+<#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
 <#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
-<#assign title = "dashboard" in commonGadgets>
+
+<#assign title= owner.displayName in commonGadgets>
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">
         <div id="page-logo">
-            <@userGadgets.homeLogo />
+            <@userGadgets.userLogo />
         </div>
     </div>
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@userGadgets.homeMenu selected/>
+            <@userGadgets.userMenu selected/>
         </div>
     </div>
 
@@ -27,10 +31,10 @@
                 <@userGadgets.showLearnedPlans/>
             </div>
 
-            <div id="main-content">
-                <@activityGadgets.showActivities />
-            </div>
-        </div>
+           <div id="main-content">
+               <@postGadgets.showPosts posts />
+               <@commonGadgets.showPager />
+           </div>
+       </div>
     </div>
 </@commonGadgets.layout>
-
