@@ -3,12 +3,11 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.social.Account;
 import com.tissue.core.social.User;
 import com.tissue.core.social.About;
-import com.tissue.commons.social.services.UserService;
-import com.tissue.commons.social.services.AboutService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
 import com.tissue.social.web.model.AboutForm;
-//import com.tissue.commons.services.CommonService;
+import com.tissue.social.services.AboutService;
+import com.tissue.social.services.UserService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;

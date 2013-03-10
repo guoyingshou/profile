@@ -22,19 +22,6 @@
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
     </mvc:interceptors>
 
-    <!--
-    <aop:aspectj-autoproxy/>
-    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-        <property name="messageConverters">
-	    <list>
-	        <ref bean="formConverter" />
-	    </list>
-	</property>
-    </bean>
-
-    <bean id="formConverter" class="org.springframework.http.converter.FormHttpMessageConverter" />	
-
-    <import resource="../oauth/service.xml" />
-    -->
+    <import resource="social-service.xml" />
 
 </beans>

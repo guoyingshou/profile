@@ -11,13 +11,13 @@ import com.tissue.core.plan.Topic;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
 import com.tissue.core.security.UserDetailsImpl;
-import com.tissue.commons.social.services.UserService;
-import com.tissue.commons.social.services.InvitationService;
-import com.tissue.commons.social.services.ImpressionService;
-import com.tissue.commons.social.services.ActivityService;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
 import com.tissue.commons.services.CommonService;
+import com.tissue.social.services.ActivityService;
+import com.tissue.social.services.UserService;
+import com.tissue.social.services.InvitationService;
+import com.tissue.social.services.ImpressionService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -135,7 +135,7 @@ public class UserController {
     }
 
     @RequestMapping(value="/users/{userId}/impressions")
-    public String getImpression(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getImpressions(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         userId = "#" + userId;
 
@@ -148,7 +148,7 @@ public class UserController {
         List<Plan> plans = getPlans(userId);
         model.put("plans", plans);
 
-        Boolean isFriend = userService.isFriend(userId, viewerAccount.getUser().getId());
+        Boolean isFriend = userService.isFriend(userId, viewerAccount);
         model.put("isFriend", isFriend);
 
         List<Impression> impressions = impressionService.getImpressions(userId);

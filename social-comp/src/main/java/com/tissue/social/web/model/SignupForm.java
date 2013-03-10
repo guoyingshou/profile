@@ -25,18 +25,15 @@ public class SignupForm implements UserCommand, Serializable {
 
     private String confirm;
 
+    @NotEmpty(message="Email cann't by empty")
+    @Email(message="Email is invalid or already taken")
+    private String email;
+
     @NotEmpty(message="DisplayName cann't by empty")
     private String displayName;
 
     @NotEmpty(message="Headline cann't by empty")
     private String headline;
-
-    @NotEmpty(message="Email cann't by empty")
-    @Email(message="Email is invalid or already taken")
-    private String email;
-
-    private User user;
-    private Account account;
 
     /**-----------------------------*/
     public void setId(String id) {
@@ -71,6 +68,14 @@ public class SignupForm implements UserCommand, Serializable {
         return confirm;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
@@ -85,41 +90,6 @@ public class SignupForm implements UserCommand, Serializable {
 
     public String getHeadline() {
         return headline;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public User getUser() {
-        if(user != null) {
-            return user;
-        }
-
-        user = new User();
-        user.setDisplayName(displayName);
-        user.setHeadline(headline);
-        return user;
-    }
-
-    public Account getAccount() {
-        if(account != null) {
-            return account;
-        }
-
-        account = new Account();
-        account.setUsername(username);
-        account.setPassword(password);
-        account.setEmail(email);
-        return account;
     }
 
 }

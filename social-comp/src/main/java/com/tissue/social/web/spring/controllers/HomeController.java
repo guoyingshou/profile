@@ -7,13 +7,13 @@ import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Topic;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.commons.social.services.UserService;
-import com.tissue.commons.social.services.InvitationService;
-import com.tissue.commons.social.services.ActivityService;
+import com.tissue.social.services.ActivityService;
 import com.tissue.social.web.model.ProfileForm;
 import com.tissue.social.web.model.EmailForm;
 import com.tissue.social.web.model.PasswordForm;
 import com.tissue.social.web.model.InvitationForm;
+import com.tissue.social.services.UserService;
+import com.tissue.social.services.InvitationService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;

@@ -1,9 +1,12 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.social.User;
+import com.tissue.core.social.Account;
 import com.tissue.commons.security.util.SecurityUtil;
-import com.tissue.commons.social.services.UserService;
 import com.tissue.social.web.model.SignupForm;
+import com.tissue.social.web.model.VerificationForm;
+import com.tissue.social.services.UserService;
+import com.tissue.social.services.VerificationService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -20,9 +23,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMethod;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.mail.MailSender;
-import org.springframework.mail.SimpleMailMessage;
-
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.support.BindStatus;
 
@@ -37,6 +37,7 @@ import java.util.Locale;
 import java.util.Date;
 import java.util.Set;
 import java.util.Map;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,10 +47,10 @@ public class AccountController {
     private static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
-    private MailSender mailSender;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    private VerificationService verificationService;
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
@@ -62,8 +63,9 @@ public class AccountController {
      * Signup.
      */
     @RequestMapping(value="/signup", method=POST)
-    public String signup(@Valid @ModelAttribute("signupForm") SignupForm form, BindingResult result) {
+    public String signup(@Valid @ModelAttribute("signupForm") SignupForm form, BindingResult result, Locale locale) {
 
+        String accountId = null;
         if(result.hasErrors()) {
             logger.warn(result.getAllErrors().toString());
             return "signup";
@@ -76,7 +78,7 @@ public class AccountController {
         }
 
         try {
-            userService.addUser(form);
+            accountId = userService.addUser(form);
         }
         catch(Exception exc) {
             logger.warn(exc.getMessage());
@@ -90,13 +92,15 @@ public class AccountController {
             return "signup";
         }
 
-        /**
-        SimpleMailMessage msg = new SimpleMailMessage();
-        msg.setTo("guoyingshou@yahoo.com.cn");
-        msg.setSubject("welcome back");
-        msg.setText(form.getUsername() + ":" + form.getDisplayName() + ":" + form.getEmail());
-        mailSender.send(msg);
-        */
+        VerificationForm verificationForm = new VerificationForm();
+        verificationForm.setCode(UUID.randomUUID().toString());
+        verificationForm.setEmail(form.getEmail());
+
+        Account viewerAccount = new Account();
+        viewerAccount.setId(accountId);
+        verificationForm.setAccount(viewerAccount);
+
+        verificationService.sendVerificationEmail(verificationForm, locale);
 
         return "redirect:/dashboard";
     }
@@ -132,5 +136,17 @@ public class AccountController {
     public String loginForm(@RequestParam(value="error", required=false) String error, Map model) {
         model.put("error", error);
         return "login";
+    }
+
+    @RequestMapping(value="/verifications/{code}")
+    public String verifyCode(@PathVariable("code") String code, Map model) {
+        String accountId = verificationService.getAccountId(code);
+        if(accountId == null) {
+            return "verificationFail";
+        }
+
+        verificationService.setVerified(accountId);
+
+        return "verificationSuccess";
     }
 }
