@@ -5,8 +5,11 @@ import com.tissue.core.social.Account;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.social.web.model.SignupForm;
 import com.tissue.social.web.model.VerificationForm;
+import com.tissue.social.web.model.ResetRequestForm;
+import com.tissue.social.web.model.ResetPasswordForm;
 import com.tissue.social.services.UserService;
 import com.tissue.social.services.VerificationService;
+import com.tissue.social.services.ResetService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -51,6 +54,9 @@ public class AccountController {
 
     @Autowired
     private VerificationService verificationService;
+
+    @Autowired
+    private ResetService resetService;
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
@@ -149,4 +155,73 @@ public class AccountController {
 
         return "verificationSuccess";
     }
+
+    @RequestMapping(value="/resetRequest", method=GET)
+    public String requestResetPassword(Map model) {
+        model.put("resetRequestForm", new ResetRequestForm());
+        return "resetRequestForm";
+    }
+
+    @RequestMapping(value="/resetRequest", method=POST)
+    public String processReset(@Valid ResetRequestForm form, BindingResult result, Locale locale) {
+        if(result.hasErrors()) {
+            return "resetRequestForm";
+        }
+
+        boolean exist = resetService.isEmailExist(form.getEmail());
+        if(!exist) {
+            result.rejectValue("email", "NonExist.resetRequestForm.email", "Email not exist");
+            return "resetRequestForm";
+        }
+
+        form.setCode(UUID.randomUUID().toString());
+        resetService.sendResetEmail(form, locale);
+        return "redirect:/resetRequestSuccess";
+    }
+
+    @RequestMapping(value="/resetRequestSuccess", method=GET)
+    public String resetRequestSuccess() {
+        return "resetRequestSuccess";
+    }
+
+    @RequestMapping(value="/reset/{code}")
+    public String resetPasswordForm(@PathVariable("code") String code, Map model) {
+
+        boolean exist = resetService.isCodeExist(code);
+        if(!exist) {
+            return "invalidResetCode";
+        }
+
+        ResetPasswordForm form = new ResetPasswordForm();
+        form.setCode(code);
+        model.put("resetPasswordForm", form);
+        return "resetPasswordForm";
+    }
+
+    @RequestMapping(value="/reset", method=POST)
+    public String processReset(@Valid ResetPasswordForm form, BindingResult result, Locale locale) {
+
+        if(result.hasErrors()) {
+            return "resetPasswordForm";
+        }
+        if(!form.getPassword().equals(form.getConfirm())) {
+            result.rejectValue("confirm", "Mismatch.resetPasswordForm.confirm", "confirm mismatch");
+            return "resetPasswordForm";
+        }
+
+        boolean exist = resetService.isCodeExist(form.getCode());
+        if(!exist) {
+            return "invalidResetCode";
+        }
+
+        resetService.updatePassword(form);
+
+        return "redirect:/resetSuccess";
+    }
+
+    @RequestMapping(value="/resetSuccess", method=GET)
+    public String resetSuccess() {
+        return "resetSuccess";
+    }
+
 }

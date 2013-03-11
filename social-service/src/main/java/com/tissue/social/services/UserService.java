@@ -72,12 +72,6 @@ public class UserService {
         return userDao.getUserIdByAccount(accountId);
     }
 
-    /**
-    public List<User> getNewUsers(String excludingUserId, int limit) {
-        return userDao.getNewUsers(excludingUserId, limit);
-    }
-    */
-
     public Boolean isFriend(String userId, Account viewerAccount) {
         if(viewerAccount == null) {
             return false;
