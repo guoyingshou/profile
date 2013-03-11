@@ -29,7 +29,7 @@ public class InvitationService {
     private InvitationDao invitationDao;
 
     public void inviteFriend(InvitationCommand command) {
-        invitationDao.inviteFriend(command);
+        invitationDao.create(command);
     }
 
     public Invitation getInvitation(String invitationId) {
@@ -48,8 +48,8 @@ public class InvitationService {
         invitationDao.declineInvitation(invitation);
     }
 
-    public Boolean isInvitable(String userId1, String userId2) {
-        return invitationDao.isInvitable(userId1, userId2);
+    public Boolean isInvitable(String ownerId, Account viewerAccount) {
+        return invitationDao.isInvitable(ownerId, viewerAccount);
     }
 
 }

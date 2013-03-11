@@ -166,7 +166,6 @@ public class HomeController {
     public HttpEntity<?> decline(@PathVariable("invitationId") String invitationId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         Invitation invitation = invitationService.getInvitation("#"+invitationId);
-
         invitationService.declineInvitation(invitation);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }

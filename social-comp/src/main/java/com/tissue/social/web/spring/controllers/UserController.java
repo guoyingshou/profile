@@ -77,7 +77,7 @@ public class UserController {
 
         Boolean invitable = false;
         if((viewerAccount != null) && !userId.equals(viewerAccount.getUser().getId())) {
-             invitable = invitationService.isInvitable(viewerAccount.getUser().getId(), userId);
+             invitable = invitationService.isInvitable(userId, viewerAccount);
         }
         return invitable;
     }
@@ -186,8 +186,10 @@ public class UserController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        form.setUserId("#"+userId);
-        form.setAccount(viewerAccount);
+        User user = new User();
+        user.setId("#"+userId);
+        form.setTo(user);
+        form.setFrom(viewerAccount);
 
         invitationService.inviteFriend(form);
 

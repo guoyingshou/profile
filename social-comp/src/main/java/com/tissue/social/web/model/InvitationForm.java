@@ -1,7 +1,7 @@
 package com.tissue.social.web.model;
 
 import com.tissue.core.command.InvitationCommand;
-//import com.tissue.core.social.User;
+import com.tissue.core.social.User;
 import com.tissue.core.social.Account;
 import com.tissue.core.social.Invitation;
 
@@ -16,11 +16,11 @@ public class InvitationForm implements InvitationCommand, Serializable {
     private String id;
 
     @NotEmpty(message="letter cann't be empty")
-    private String letter;
+    private String content;
 
-    private String userId;
+    private User to;
 
-    private Account account;
+    private Account from;
 
     public void setId(String id) {
         this.id = id;
@@ -30,28 +30,28 @@ public class InvitationForm implements InvitationCommand, Serializable {
         return id;
     }
 
-    public void setLetter(String letter) {
-        this.letter = letter;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getLetter() {
-        return letter;
+    public String getContent() {
+        return content;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTo(User to) {
+        this.to = to;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getTo() {
+        return to;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setFrom(Account from) {
+        this.from = from;
     }
 
-    public Account getAccount() {
-        return account;
+    public Account getFrom() {
+        return from;
     }
 
 }
