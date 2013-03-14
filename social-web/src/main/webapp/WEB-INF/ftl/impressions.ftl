@@ -9,6 +9,7 @@
 <#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 
 <#assign title = owner.displayName in commonGadgets>
+<#assign selected = selected in userGadgets>
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">
@@ -19,7 +20,7 @@
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@userGadgets.userMenu selected/>
+            <@userGadgets.userMenu />
         </div>
     </div>
 

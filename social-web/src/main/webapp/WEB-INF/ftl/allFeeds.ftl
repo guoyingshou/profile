@@ -6,6 +6,7 @@
 
 <#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 <#assign title = "dashboard" in commonGadgets>
+<#assign selected = selected in userGadgets>
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">

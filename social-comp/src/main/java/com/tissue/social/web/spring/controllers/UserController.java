@@ -168,7 +168,7 @@ public class UserController {
             throw new IllegalArgumentException(result.getAllErrors().toString());
         }
 
-        form.setUserId("#"+userId);
+        //form.setUserId("#"+userId);
         form.setAccount(viewerAccount);
         impressionService.addImpression(form);
 

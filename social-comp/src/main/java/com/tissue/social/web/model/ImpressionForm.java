@@ -16,7 +16,7 @@ public class ImpressionForm implements ImpressionCommand, Serializable {
     @NotEmpty(message="letter cann't be empty")
     private String content;
 
-    private String userId;
+    private User to;
     private Account account;
 
     public void setContent(String content) {
@@ -27,12 +27,12 @@ public class ImpressionForm implements ImpressionCommand, Serializable {
         return content;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setTo(User to) {
+        this.to = to;
     }
 
-    public String getUserId() {
-        return userId;
+    public User getTo() {
+        return to;
     }
     public void setAccount(Account account) {
         this.account = account;
