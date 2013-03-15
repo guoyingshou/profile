@@ -51,14 +51,6 @@ public class OwnerController {
     @Autowired
     protected OwnerService ownerService;
 
-    /**
-    @Autowired
-    protected InvitationService invitationService;
-
-    @Autowired
-    protected ImpressionService impressionService;
-    */
-
     @Autowired
     protected ActivityService activityService;
 

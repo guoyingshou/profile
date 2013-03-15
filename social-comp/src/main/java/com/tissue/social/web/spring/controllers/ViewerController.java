@@ -69,40 +69,6 @@ public class ViewerController {
         model.put("invitationsReceived", invitations);
     }
 
-    @RequestMapping(value="/signout")
-    public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
-
-        model.put("viewerAccount", null);
-
-        List<Activity> activities = activityService.getActivitiesForNewUser(35);
-        model.put("activities", activities);
- 
-        ses.invalidate();
-        Cookie[] cookies = req.getCookies();
-        if(cookies != null) {
-            for(Cookie cookie : cookies) {
-                cookie.setValue("");
-                cookie.setPath("/");
-                cookie.setMaxAge(0);
-                res.addCookie(cookie);
-            }
-        }
-       return "signout";
-    }
-
-    @RequestMapping(value="/home")
-    public String index(Map model) {
-
-        if(SecurityUtil.getViewerAccountId() != null) {
-            return "redirect:dashboard";
-        }
-
-        List<Activity> activities = activityService.getActivitiesForNewUser(35);
-        model.put("activities", activities);
-
-        return "home";
-    }
-
     @RequestMapping(value="/dashboard")
     public String dashboard(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
@@ -142,30 +108,6 @@ public class ViewerController {
 
         model.put("selected", "friends");
         return "friends";
-    }
-
-    @RequestMapping(value="/invitations", method=GET)
-    public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-        init(viewerAccount, model);
-
-        model.put("selected", "invitations");
-        return "invitations";
-    }
-
-    @RequestMapping(value="/invitations/{invitationId}/_accept", method=POST)
-    public HttpEntity<?> accept(@PathVariable("invitationId") String invitationId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        Invitation invitation = viewerService.getInvitation("#"+invitationId);
-        viewerService.acceptInvitation(invitation);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
- 
-    @RequestMapping(value="/invitations/{invitationId}/_decline", method=POST)
-    public HttpEntity<?> decline(@PathVariable("invitationId") String invitationId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        Invitation invitation = viewerService.getInvitation("#"+invitationId);
-        viewerService.declineInvitation(invitation);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     @RequestMapping(value="/_updateEmail", method=POST)
@@ -223,38 +165,58 @@ public class ViewerController {
     /**
      * Add impression.
      */
-    @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
-    public String addImpression(@PathVariable("userId") String userId, @Valid ImpressionForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    @RequestMapping(value="/impressions/_create", method=POST)
+    public String addImpression(@Valid ImpressionForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         if(result.hasErrors()) {
             throw new IllegalArgumentException(result.getAllErrors().toString());
         }
 
-        //form.setUserId("#"+userId);
         form.setAccount(viewerAccount);
         viewerService.addImpression(form);
 
-        return "redirect:/users/" + userId + "/impressions";
+        return "redirect:/users/" + form.getTo().getId().replace("#","") + "/impressions";
     }
 
     /**
      * send invitation.
      */
-    @RequestMapping(value="/users/{userId}/invitations/_create", method=POST)
-    public HttpEntity<?> invite(@PathVariable("userId") String userId, @Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    @RequestMapping(value="/invitations/_create", method=POST)
+    public HttpEntity<?> createInvitation(@Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         if(result.hasErrors()) {
             logger.warn(result.getAllErrors().toString());
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        User user = new User();
-        user.setId("#"+userId);
-        form.setTo(user);
         form.setFrom(viewerAccount);
 
         viewerService.inviteFriend(form);
 
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
+    @RequestMapping(value="/invitations", method=GET)
+    public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+        init(viewerAccount, model);
+
+        model.put("selected", "invitations");
+        return "invitations";
+    }
+
+    @RequestMapping(value="/invitations/{invitationId}/_accept", method=POST)
+    public HttpEntity<?> accept(@PathVariable("invitationId") String invitationId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        Invitation invitation = viewerService.getInvitation("#"+invitationId);
+        viewerService.acceptInvitation(invitation);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+ 
+    @RequestMapping(value="/invitations/{invitationId}/_decline", method=POST)
+    public HttpEntity<?> decline(@PathVariable("invitationId") String invitationId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        Invitation invitation = viewerService.getInvitation("#"+invitationId);
+        viewerService.declineInvitation(invitation);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 

@@ -3,10 +3,13 @@ package com.tissue.social.services;
 import com.tissue.core.Account;
 import com.tissue.core.dao.AccountDao;
 import com.tissue.core.dao.VerificationDao;
+import com.tissue.core.dao.ResetDao;
 import com.tissue.core.command.UserCommand;
 import com.tissue.core.command.VerificationCommand;
 import com.tissue.core.command.EmailCommand;
 import com.tissue.core.command.PasswordCommand;
+import com.tissue.core.command.ResetRequestCommand;
+import com.tissue.core.command.ResetPasswordCommand;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,9 @@ public class AccountService implements MessageSourceAware {
     @Autowired
     private VerificationDao verificationDao;
 
+    @Autowired
+    private ResetDao resetDao;
+
     private MessageSource messageSource;
 
     public void setFrom(String from) {
@@ -41,6 +47,10 @@ public class AccountService implements MessageSourceAware {
 
     public void setMessageSource(MessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+
+    public String addUser(UserCommand userCommand) {
+        return accountDao.create(userCommand);
     }
 
     @Async
@@ -63,6 +73,24 @@ public class AccountService implements MessageSourceAware {
         mailSender.send(msg);
     }
 
+    @Async
+    public void sendResetEmail(ResetRequestCommand command, Locale locale) {
+        resetDao.create(command);
+
+        String subject = messageSource.getMessage("Subject.reset", new Object[]{}, locale);
+        
+        Object[] args = {command.getCode()};
+        String text = messageSource.getMessage("Text.reset", args, locale);
+
+        SimpleMailMessage msg = new SimpleMailMessage();
+        msg.setSubject(subject);
+        msg.setText(text);
+        msg.setFrom(from);
+        msg.setTo(command.getEmail());
+
+        mailSender.send(msg);
+    }
+
     public String getAccountId(String code) {
         return verificationDao.getAccountId(code);
     }
@@ -71,73 +99,28 @@ public class AccountService implements MessageSourceAware {
         verificationDao.setVerified(accountId);
     }
 
-    public String addUser(UserCommand userCommand) {
-        return accountDao.create(userCommand);
-    }
-
     public boolean isUsernameExist(String username) {
         return accountDao.isUsernameExist(username);
-    }
-
-    public boolean isEmailExist(String email) {
-        return accountDao.isEmailExist(email);
     }
 
     public Account getAccount(String accountId) {
         return accountDao.getAccount(accountId);
     }
  
-    /**
-    public Boolean isFriend(String userId, Account viewerAccount) {
-        if(viewerAccount == null) {
-            return false;
-        }
-        return userDao.isFriend(userId, viewerAccount.getUser().getId());
+    public boolean isCodeExist(String code) {
+        return resetDao.isCodeExist(code);
     }
 
-    public List<User> getFriends(String userId) {
-        return userDao.getFriends(userId);
+    public boolean isEmailExist(String email) {
+        return accountDao.isEmailExist(email);
     }
 
-    public boolean isEmailExist(String excludingUserId, String email) {
-        return userDao.isEmailExist(excludingUserId, email);
+    public String getEmail(String code) {
+        return resetDao.getEmail(code);
     }
 
-    public List<Activity> getSelfActivities(String userId, int count) {
-        return activityDao.getSelfActivities(userId, count);
+    public void updatePassword(ResetPasswordCommand command) {
+        resetDao.updatePassword(command);
     }
-
-    public List<Topic> getNewTopics(String excludingUserId, int limit) {
-        return topicDao.getNewTopics(excludingUserId, limit);
-    }
-
-    public List<Plan> getPlansByUser(String userId) {
-        return planDao.getPlansByUser(userId);
-    }
-
-    public List<Plan> getPlansByAccount(String accountId) {
-        return planDao.getPlansByAccount(accountId);
-    }
-
-    public long getPostsCountByUser(String userId) {
-        return postDao.getPostsCountByUser(userId);
-    }
-
-    public List<Post> getPagedPostsByUser(String userId, int page, int size) {
-        return postDao.getPagedPostsByUser(userId, page, size);
-    }
-
-    public User getUser(String userId) {
-        return userDao.getUser(userId);
-    }
-
-    public User getUserByAccount(String accountId) {
-        return userDao.getUserByAccount(accountId);
-    }
-
-    public String getUserIdByAccount(String accountId) {
-        return userDao.getUserIdByAccount(accountId);
-    }
-    */
 
 }

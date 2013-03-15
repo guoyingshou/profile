@@ -8,8 +8,6 @@ import com.tissue.social.web.model.VerificationForm;
 import com.tissue.social.web.model.ResetRequestForm;
 import com.tissue.social.web.model.ResetPasswordForm;
 import com.tissue.social.services.AccountService;
-import com.tissue.social.services.VerificationService;
-import com.tissue.social.services.ResetService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -51,12 +49,6 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
-
-    @Autowired
-    private VerificationService verificationService;
-
-    @Autowired
-    private ResetService resetService;
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
@@ -106,7 +98,7 @@ public class AccountController {
         viewerAccount.setId(accountId);
         verificationForm.setAccount(viewerAccount);
 
-        verificationService.sendVerificationEmail(verificationForm, locale);
+        accountService.sendVerificationEmail(verificationForm, locale);
 
         return "redirect:/dashboard";
     }
@@ -146,12 +138,12 @@ public class AccountController {
 
     @RequestMapping(value="/verifications/{code}")
     public String verifyCode(@PathVariable("code") String code, Map model) {
-        String accountId = verificationService.getAccountId(code);
+        String accountId = accountService.getAccountId(code);
         if(accountId == null) {
             return "verificationFail";
         }
 
-        verificationService.setVerified(accountId);
+        accountService.setVerified(accountId);
 
         return "verificationSuccess";
     }
@@ -168,14 +160,14 @@ public class AccountController {
             return "resetRequestForm";
         }
 
-        boolean exist = resetService.isEmailExist(form.getEmail());
+        boolean exist = accountService.isEmailExist(form.getEmail());
         if(!exist) {
             result.rejectValue("email", "NonExist.resetRequestForm.email", "Email not exist");
             return "resetRequestForm";
         }
 
         form.setCode(UUID.randomUUID().toString());
-        resetService.sendResetEmail(form, locale);
+        accountService.sendResetEmail(form, locale);
         return "redirect:/resetRequestSuccess";
     }
 
@@ -187,7 +179,7 @@ public class AccountController {
     @RequestMapping(value="/reset/{code}")
     public String resetPasswordForm(@PathVariable("code") String code, Map model) {
 
-        boolean exist = resetService.isCodeExist(code);
+        boolean exist = accountService.isCodeExist(code);
         if(!exist) {
             return "invalidResetCode";
         }
@@ -209,12 +201,12 @@ public class AccountController {
             return "resetPasswordForm";
         }
 
-        boolean exist = resetService.isCodeExist(form.getCode());
+        boolean exist = accountService.isCodeExist(form.getCode());
         if(!exist) {
             return "invalidResetCode";
         }
 
-        resetService.updatePassword(form);
+        accountService.updatePassword(form);
 
         return "redirect:/resetSuccess";
     }
