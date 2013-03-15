@@ -1,13 +1,13 @@
 package com.tissue.social.web.spring.controllers;
 
-import com.tissue.core.social.User;
-import com.tissue.core.social.Account;
+import com.tissue.core.User;
+import com.tissue.core.Account;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.social.web.model.SignupForm;
 import com.tissue.social.web.model.VerificationForm;
 import com.tissue.social.web.model.ResetRequestForm;
 import com.tissue.social.web.model.ResetPasswordForm;
-import com.tissue.social.services.UserService;
+import com.tissue.social.services.AccountService;
 import com.tissue.social.services.VerificationService;
 import com.tissue.social.services.ResetService;
 
@@ -50,7 +50,7 @@ public class AccountController {
     private static Logger logger = LoggerFactory.getLogger(AccountController.class);
 
     @Autowired
-    private UserService userService;
+    private AccountService accountService;
 
     @Autowired
     private VerificationService verificationService;
@@ -84,7 +84,7 @@ public class AccountController {
         }
 
         try {
-            accountId = userService.addUser(form);
+            accountId = accountService.addUser(form);
         }
         catch(Exception exc) {
             logger.warn(exc.getMessage());
@@ -115,7 +115,7 @@ public class AccountController {
     public HttpEntity<?> checkUsername(@RequestParam(value="username") String username, Map model) {
 
         boolean usernameValid = ((username == null) || "".equals(username.trim())) ? false : true;
-        boolean exist = usernameValid && userService.isUsernameExist(username);
+        boolean exist = usernameValid && accountService.isUsernameExist(username);
         if(exist) {
              return new ResponseEntity(HttpStatus.CONFLICT);
         }
@@ -129,7 +129,7 @@ public class AccountController {
 
         boolean emailValid = ((email == null) || "".equals(email.trim()) || !email.contains("@")) ? false : true;
 
-        boolean exist = !emailValid || userService.isEmailExist(email);
+        boolean exist = !emailValid || accountService.isEmailExist(email);
         if(exist) {
              return new ResponseEntity(HttpStatus.CONFLICT);
         }

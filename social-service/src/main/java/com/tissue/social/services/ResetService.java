@@ -1,8 +1,8 @@
 package com.tissue.social.services;
 
+import com.tissue.core.dao.ResetDao;
 import com.tissue.core.command.ResetRequestCommand;
 import com.tissue.core.command.ResetPasswordCommand;
-import com.tissue.core.social.dao.ResetDao;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;

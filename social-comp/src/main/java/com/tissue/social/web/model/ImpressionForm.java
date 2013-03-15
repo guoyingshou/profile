@@ -1,9 +1,9 @@
 package com.tissue.social.web.model;
 
-import com.tissue.core.command.ImpressionCommand;
-import com.tissue.core.social.User;
-import com.tissue.core.social.Account;
+import com.tissue.core.User;
+import com.tissue.core.Account;
 import com.tissue.core.social.Impression;
+import com.tissue.core.command.ImpressionCommand;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;

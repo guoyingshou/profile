@@ -1,7 +1,6 @@
 package com.tissue.social.web.model;
 
 import com.tissue.core.command.ResetPasswordCommand;
-import com.tissue.core.social.Account;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;

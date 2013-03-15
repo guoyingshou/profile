@@ -1,13 +1,11 @@
 package com.tissue.social.web.spring.controllers;
 
-import com.tissue.core.social.Account;
-import com.tissue.core.social.User;
-import com.tissue.core.social.About;
+import com.tissue.core.Account;
+import com.tissue.core.About;
 import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
 import com.tissue.social.web.model.AboutForm;
 import com.tissue.social.services.AboutService;
-import com.tissue.social.services.UserService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -34,9 +32,6 @@ import java.util.Locale;
 
 @Controller
 public class AboutController {
-
-    @Autowired
-    protected UserService userService;
 
     @Autowired
     protected AboutService aboutService;

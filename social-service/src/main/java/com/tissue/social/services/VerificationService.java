@@ -1,7 +1,7 @@
 package com.tissue.social.services;
 
+import com.tissue.core.dao.VerificationDao;
 import com.tissue.core.command.VerificationCommand;
-import com.tissue.core.social.dao.VerificationDao;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;

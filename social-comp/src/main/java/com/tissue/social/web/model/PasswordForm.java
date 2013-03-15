@@ -1,7 +1,7 @@
 package com.tissue.social.web.model;
 
+import com.tissue.core.Account;
 import com.tissue.core.command.PasswordCommand;
-import com.tissue.core.social.Account;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;

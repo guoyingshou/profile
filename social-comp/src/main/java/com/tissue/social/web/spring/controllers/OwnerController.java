@@ -1,12 +1,12 @@
 package com.tissue.social.web.spring.controllers;
 
+import com.tissue.core.About;
+import com.tissue.core.Account;
+import com.tissue.core.User;
 import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.web.model.ImpressionForm;
-import com.tissue.core.social.Account;
 import com.tissue.core.social.Activity;
-import com.tissue.core.social.User;
 import com.tissue.core.social.Impression;
-import com.tissue.core.social.About;
 import com.tissue.core.plan.Topic;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
@@ -15,9 +15,7 @@ import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
 import com.tissue.commons.services.CommonService;
 import com.tissue.social.services.ActivityService;
-import com.tissue.social.services.UserService;
-import com.tissue.social.services.InvitationService;
-import com.tissue.social.services.ImpressionService;
+import com.tissue.social.services.OwnerService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -46,18 +44,20 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Controller
-public class UserController {
+public class OwnerController {
 
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
     @Autowired
-    protected UserService userService;
+    protected OwnerService ownerService;
 
+    /**
     @Autowired
     protected InvitationService invitationService;
 
     @Autowired
     protected ImpressionService impressionService;
+    */
 
     @Autowired
     protected ActivityService activityService;
@@ -68,7 +68,7 @@ public class UserController {
             owner = viewerAccount.getUser();
         }
         else {
-            owner = userService.getUser(userId);
+            owner = ownerService.getOwner(userId);
         }
         return owner;
     }
@@ -77,13 +77,13 @@ public class UserController {
 
         Boolean invitable = false;
         if((viewerAccount != null) && !userId.equals(viewerAccount.getUser().getId())) {
-             invitable = invitationService.isInvitable(userId, viewerAccount);
+             invitable = ownerService.isInvitable(userId, viewerAccount);
         }
         return invitable;
     }
 
     private List<Plan> getPlans(String userId) {
-        return userService.getPlans(userId);
+        return ownerService.getOwnersPlans(userId);
     }
 
     @RequestMapping(value="/users/{userId}/posts")
@@ -102,11 +102,11 @@ public class UserController {
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
-        long total = userService.getPostsCount(userId);
+        long total = ownerService.getOwnersPostsCount(userId);
         Pager pager = new Pager(total, page, size);
         model.put("pager", pager);
 
-        List<Post> posts = userService.getPagedPosts(userId, page, size);
+        List<Post> posts = ownerService.getOwnersPagedPosts(userId, page, size);
         model.put("posts", posts);
 
         model.put("selected", "posts");
@@ -127,7 +127,7 @@ public class UserController {
         List<Plan> plans = getPlans(userId);
         model.put("plans", plans);
 
-        List<Activity> activities = activityService.getActivities(userId, 15);
+        List<Activity> activities = ownerService.getOwnersActivities(userId, 15);
         model.put("activities", activities);
 
         model.put("selected", "status");
@@ -148,52 +148,14 @@ public class UserController {
         List<Plan> plans = getPlans(userId);
         model.put("plans", plans);
 
-        Boolean isFriend = userService.isFriend(userId, viewerAccount);
+        Boolean isFriend = ownerService.isFriend(userId, viewerAccount);
         model.put("isFriend", isFriend);
 
-        List<Impression> impressions = impressionService.getImpressions(userId);
+        List<Impression> impressions = ownerService.getImpressions(userId);
         model.put("impressions", impressions);
 
         model.put("selected", "impressions");
         return "impressions";
-    }
-
-    /**
-     * Add impression.
-     */
-    @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
-    public String addImpression(@PathVariable("userId") String userId, @Valid ImpressionForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        if(result.hasErrors()) {
-            throw new IllegalArgumentException(result.getAllErrors().toString());
-        }
-
-        //form.setUserId("#"+userId);
-        form.setAccount(viewerAccount);
-        impressionService.addImpression(form);
-
-        return "redirect:/users/" + userId + "/impressions";
-    }
-
-    /**
-     * send invitation.
-     */
-    @RequestMapping(value="/users/{userId}/invitations/_create", method=POST)
-    public HttpEntity<?> invite(@PathVariable("userId") String userId, @Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        if(result.hasErrors()) {
-            logger.warn(result.getAllErrors().toString());
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        User user = new User();
-        user.setId("#"+userId);
-        form.setTo(user);
-        form.setFrom(viewerAccount);
-
-        invitationService.inviteFriend(form);
-
-        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
 }
