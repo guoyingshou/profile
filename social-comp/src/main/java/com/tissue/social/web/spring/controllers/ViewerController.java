@@ -190,7 +190,6 @@ public class ViewerController {
         }
 
         form.setFrom(viewerAccount);
-
         viewerService.inviteFriend(form);
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
