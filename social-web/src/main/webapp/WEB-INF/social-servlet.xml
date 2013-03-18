@@ -45,6 +45,7 @@
             <set>
                 <bean class="com.tissue.core.spring.converters.TagsConverter" />
                 <ref bean="idToUserConverter" />
+                <ref bean="idToInvitationConverter" />
             </set>
         </property>
     </bean>
