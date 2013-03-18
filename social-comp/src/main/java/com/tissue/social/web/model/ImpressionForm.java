@@ -13,11 +13,22 @@ import java.io.Serializable;
 
 public class ImpressionForm implements ImpressionCommand, Serializable {
 
+    private String id;
+
     @NotEmpty(message="letter cann't be empty")
     private String content;
 
-    private User to;
     private Account account;
+
+    private User to;
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public void setContent(String content) {
         this.content = content;

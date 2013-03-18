@@ -199,7 +199,7 @@ public class ViewerController {
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 
-        form.setFrom(viewerAccount);
+        form.setAccount(viewerAccount);
         viewerService.inviteFriend(form);
 
         return new ResponseEntity(HttpStatus.ACCEPTED);

@@ -1,6 +1,5 @@
 package com.tissue.social.web.spring.controllers;
 
-import com.tissue.core.About;
 import com.tissue.core.Account;
 import com.tissue.core.User;
 import com.tissue.core.social.Activity;
