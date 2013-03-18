@@ -3,18 +3,11 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.About;
 import com.tissue.core.Account;
 import com.tissue.core.User;
-import com.tissue.social.web.model.InvitationForm;
-import com.tissue.social.web.model.ImpressionForm;
 import com.tissue.core.social.Activity;
 import com.tissue.core.social.Impression;
-import com.tissue.core.plan.Topic;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Post;
-import com.tissue.core.security.UserDetailsImpl;
-import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
-import com.tissue.commons.services.CommonService;
-import com.tissue.social.services.ActivityService;
 import com.tissue.social.services.OwnerService;
 
 import org.springframework.http.HttpEntity;
@@ -51,102 +44,63 @@ public class OwnerController {
     @Autowired
     protected OwnerService ownerService;
 
-    @Autowired
-    protected ActivityService activityService;
-
-    private User getOwner(String userId,  Account viewerAccount) {
-        User owner = null;
-        if((viewerAccount != null) && userId.equals(viewerAccount.getUser().getId())) {
-            owner = viewerAccount.getUser();
-        }
-        else {
-            owner = ownerService.getOwner(userId);
-        }
-        return owner;
-    }
-
-    private Boolean isOwnerInvitable(String userId, Account viewerAccount) {
-
-        Boolean invitable = false;
-        if((viewerAccount != null) && !userId.equals(viewerAccount.getUser().getId())) {
-             invitable = ownerService.isInvitable(userId, viewerAccount);
-        }
-        return invitable;
-    }
-
-    private List<Plan> getPlans(String userId) {
-        return ownerService.getOwnersPlans(userId);
-    }
-
     @RequestMapping(value="/users/{userId}/posts")
-    public String getCNA(@PathVariable("userId") String userId, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getCNA(@PathVariable("userId") User owner, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        userId = "#" + userId;
-
-        User owner = getOwner(userId, viewerAccount);
+        model.put("selected", "posts");
         model.put("owner", owner);
 
-        Boolean invitable = isOwnerInvitable(userId, viewerAccount);
-        model.put("invitable", invitable);
+        ownerService.checkInvitable(owner, viewerAccount, model);
 
-        List<Plan> plans = getPlans(userId);
+        List<Plan> plans = ownerService.getPlans(owner.getId());
         model.put("plans", plans);
 
         page = (page == null) ? 1 : page;
         size = (size == null) ? 50 : size;
-        long total = ownerService.getOwnersPostsCount(userId);
+        long total = ownerService.getPostsCount(owner.getId());
         Pager pager = new Pager(total, page, size);
         model.put("pager", pager);
 
-        List<Post> posts = ownerService.getOwnersPagedPosts(userId, page, size);
+        List<Post> posts = ownerService.getPagedPosts(owner.getId(), page, size);
         model.put("posts", posts);
 
-        model.put("selected", "posts");
         return "posts";
     }
 
     @RequestMapping(value="/users/{userId}/status")
-    public String getFeed(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        userId = "#" + userId;
-
-        User owner = getOwner(userId, viewerAccount);
-        model.put("owner", owner);
-
-        Boolean invitable = isOwnerInvitable(userId, viewerAccount);
-        model.put("invitable", invitable);
-
-        List<Plan> plans = getPlans(userId);
-        model.put("plans", plans);
-
-        List<Activity> activities = ownerService.getOwnersActivities(userId, 15);
-        model.put("activities", activities);
+    public String getFeed(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         model.put("selected", "status");
+        model.put("owner", owner);
+
+        ownerService.checkInvitable(owner, viewerAccount, model);
+
+        List<Plan> plans = ownerService.getPlans(owner.getId());
+        model.put("plans", plans);
+
+        List<Activity> activities = ownerService.getActivities(owner.getId(), 15);
+        model.put("activities", activities);
+
         return "status";
     }
 
     @RequestMapping(value="/users/{userId}/impressions")
-    public String getImpressions(@PathVariable("userId") String userId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        userId = "#" + userId;
-
-        User owner = getOwner(userId, viewerAccount);
-        model.put("owner", owner);
-
-        Boolean invitable = isOwnerInvitable(userId, viewerAccount);
-        model.put("invitable", invitable);
-
-        List<Plan> plans = getPlans(userId);
-        model.put("plans", plans);
-
-        Boolean isFriend = ownerService.isFriend(userId, viewerAccount);
-        model.put("isFriend", isFriend);
-
-        List<Impression> impressions = ownerService.getImpressions(userId);
-        model.put("impressions", impressions);
+    public String getImpressions(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         model.put("selected", "impressions");
+        model.put("owner", owner);
+
+        ownerService.checkInvitable(owner, viewerAccount, model);
+
+        List<Plan> plans = ownerService.getPlans(owner.getId());
+        model.put("plans", plans);
+
+        Boolean isFriend = ownerService.isFriend(owner.getId(), viewerAccount);
+        model.put("isFriend", isFriend);
+
+        List<Impression> impressions = ownerService.getImpressions(owner.getId());
+        model.put("impressions", impressions);
+
         return "impressions";
     }
 

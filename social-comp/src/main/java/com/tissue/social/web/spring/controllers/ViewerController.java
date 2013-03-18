@@ -14,7 +14,6 @@ import com.tissue.social.web.model.PasswordForm;
 import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.web.model.ImpressionForm;
 import com.tissue.social.services.ViewerService;
-import com.tissue.social.services.ActivityService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -56,24 +55,15 @@ public class ViewerController {
     @Autowired
     private ViewerService viewerService;
 
-    @Autowired
-    private ActivityService activityService;
-
-    private void init(Account viewerAccount, Map model) {
-        List<Plan> plans = viewerService.getPlansByAccount(viewerAccount.getId());
-        model.put("plans", plans);
-
-        model.put("owner", viewerAccount.getUser());
-
-        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount.getUser().getId());
-        model.put("invitationsReceived", invitations);
-    }
-
     @RequestMapping(value="/dashboard")
     public String dashboard(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        init(viewerAccount, model);
+        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        model.put("plans", plans);
 
+        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
+        model.put("invitationsReceived", invitations);
+ 
         List<Activity> activities = viewerService.getWatchedActivities(viewerAccount.getUser().getId(), 35);
         model.put("activities", activities);
 
@@ -84,9 +74,12 @@ public class ViewerController {
     @RequestMapping(value="/allfeeds")
     public String allfeeds(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        init(viewerAccount, model);
+        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        model.put("plans", plans);
 
-        //to do
+        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
+        model.put("invitationsReceived", invitations);
+ 
         List<Activity> activities = viewerService.getActivities(35);
         model.put("activities", activities);
 
@@ -101,13 +94,30 @@ public class ViewerController {
     @RequestMapping(value="/friends")
     public String getFriends(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        init(viewerAccount, model);
+        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        model.put("plans", plans);
 
+        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
+        model.put("invitationsReceived", invitations);
+ 
         List<User> friends = viewerService.getFriends(viewerAccount.getUser().getId());
         model.put("friends", friends);
 
         model.put("selected", "friends");
         return "friends";
+    }
+
+    @RequestMapping(value="/invitations", method=GET)
+    public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        model.put("plans", plans);
+
+        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
+        model.put("invitationsReceived", invitations);
+ 
+        model.put("selected", "invitations");
+        return "invitations";
     }
 
     @RequestMapping(value="/_updateEmail", method=POST)
@@ -195,26 +205,16 @@ public class ViewerController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
-    @RequestMapping(value="/invitations", method=GET)
-    public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-        init(viewerAccount, model);
-
-        model.put("selected", "invitations");
-        return "invitations";
-    }
-
     @RequestMapping(value="/invitations/{invitationId}/_accept", method=POST)
-    public HttpEntity<?> accept(@PathVariable("invitationId") String invitationId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public HttpEntity<?> accept(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        Invitation invitation = viewerService.getInvitation("#"+invitationId);
         viewerService.acceptInvitation(invitation);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
  
     @RequestMapping(value="/invitations/{invitationId}/_decline", method=POST)
-    public HttpEntity<?> decline(@PathVariable("invitationId") String invitationId, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public HttpEntity<?> decline(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        Invitation invitation = viewerService.getInvitation("#"+invitationId);
         viewerService.declineInvitation(invitation);
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }

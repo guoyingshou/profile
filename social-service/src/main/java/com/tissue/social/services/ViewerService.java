@@ -25,6 +25,7 @@ import com.tissue.core.command.ImpressionCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 @Component
@@ -51,7 +52,7 @@ public class ViewerService {
     @Autowired
     private PlanDao planDao;
 
-    @Autowired
+    @Resource(name="postDaoImpl")
     private PostDao postDao;
 
 
@@ -95,8 +96,8 @@ public class ViewerService {
         return invitationDao.getInvitation(invitationId);
     }
 
-    public List<Invitation> getInvitationsReceived(String userId) {
-        return invitationDao.getInvitationsReceived(userId);
+    public List<Invitation> getInvitationsReceived(Account account) {
+        return invitationDao.getInvitationsReceived(account.getUser().getId());
     }
 
     public void acceptInvitation(Invitation invitation) {
@@ -126,12 +127,14 @@ public class ViewerService {
         return topicDao.getNewTopics(excludingUserId, limit);
     }
 
+    /**
     public List<Plan> getPlansByUser(String userId) {
         return planDao.getPlansByUser(userId);
     }
+    */
 
-    public List<Plan> getPlansByAccount(String accountId) {
-        return planDao.getPlansByAccount(accountId);
+    public List<Plan> getPlans(Account account) {
+        return planDao.getPlansByAccount(account.getId());
     }
 
     public long getPostsCountByUser(String userId) {

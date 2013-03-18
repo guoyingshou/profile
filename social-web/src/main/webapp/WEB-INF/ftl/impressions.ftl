@@ -27,8 +27,8 @@
     <div id="page-main-wrapper">
         <div id="page-main">
             <div id="main-sidebar">
-                <@userGadgets.showLearningPlans/>
-                <@userGadgets.showLearnedPlans/>
+                <@userGadgets.showPlansLearning/>
+                <@userGadgets.showPlansLearned/>
             </div>
 
            <div id="main-content">

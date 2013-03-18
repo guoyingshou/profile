@@ -24,7 +24,9 @@ import com.tissue.core.command.ImpressionCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class OwnerService {
@@ -47,7 +49,7 @@ public class OwnerService {
     @Autowired
     private PlanDao planDao;
 
-    @Autowired
+    @Resource(name="postDaoImpl")
     private PostDao postDao;
 
 
@@ -62,43 +64,20 @@ public class OwnerService {
         return userDao.isFriend(userId, viewerAccount.getUser().getId());
     }
 
-    /**
-    public User getUserByAccount(String accountId) {
-        return userDao.getUserByAccount(accountId);
-    }
-
-    public String getUserIdByAccount(String accountId) {
-        return userDao.getUserIdByAccount(accountId);
-    }
-
-    public List<User> getFriends(String userId) {
-        return userDao.getFriends(userId);
-    }
-
-    public List<Topic> getNewTopics(String excludingUserId, int limit) {
-        return topicDao.getNewTopics(excludingUserId, limit);
-    }
-    */
-    
-    public List<Activity> getOwnersActivities(String userId, int count) {
+   
+    public List<Activity> getActivities(String userId, int count) {
         return activityDao.getSelfActivities(userId, count);
     }
 
-    public List<Plan> getOwnersPlans(String userId) {
+    public List<Plan> getPlans(String userId) {
         return planDao.getPlansByUser(userId);
     }
 
-    /**
-    public List<Plan> getPlansByAccount(String accountId) {
-        return planDao.getPlansByAccount(accountId);
-    }
-    */
-
-    public long getOwnersPostsCount(String userId) {
+    public long getPostsCount(String userId) {
         return postDao.getPostsCountByUser(userId);
     }
 
-    public List<Post> getOwnersPagedPosts(String userId, int page, int size) {
+    public List<Post> getPagedPosts(String userId, int page, int size) {
         return postDao.getPagedPostsByUser(userId, page, size);
     }
  
@@ -106,8 +85,18 @@ public class OwnerService {
         return impressionDao.getImpressions(userId);
     }
 
+    /**
     public Boolean isInvitable(String ownerId, Account viewerAccount) {
         return invitationDao.isInvitable(ownerId, viewerAccount);
+    }
+    */
+
+    public void checkInvitable(User owner, Account viewerAccount, Map model) {
+        Boolean invitable = false;
+        if((viewerAccount != null) && !owner.getId().equals(viewerAccount.getUser().getId())) {
+            invitable = invitationDao.isInvitable(owner, viewerAccount);
+        }
+        model.put("invitable", invitable);
     }
 
 
