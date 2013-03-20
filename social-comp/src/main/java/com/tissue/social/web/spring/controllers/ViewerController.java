@@ -2,11 +2,11 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.User;
-import com.tissue.core.social.Invitation;
-import com.tissue.core.social.Impression;
-import com.tissue.core.social.Activity;
-import com.tissue.core.plan.Plan;
-import com.tissue.core.plan.Topic;
+import com.tissue.social.Invitation;
+import com.tissue.social.Impression;
+import com.tissue.social.Activity;
+import com.tissue.plan.Plan;
+import com.tissue.plan.Topic;
 import com.tissue.social.web.model.ProfileForm;
 import com.tissue.social.web.model.EmailForm;
 import com.tissue.social.web.model.PasswordForm;

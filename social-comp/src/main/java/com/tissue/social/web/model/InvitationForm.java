@@ -2,8 +2,8 @@ package com.tissue.social.web.model;
 
 import com.tissue.core.User;
 import com.tissue.core.Account;
-import com.tissue.core.social.Invitation;
-import com.tissue.core.social.command.InvitationCommand;
+import com.tissue.social.Invitation;
+import com.tissue.social.command.InvitationCommand;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;

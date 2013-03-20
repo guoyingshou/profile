@@ -1,7 +1,7 @@
 package com.tissue.social.services;
 
-import com.tissue.core.social.Activity;
-import com.tissue.core.social.dao.ActivityDao;
+import com.tissue.social.Activity;
+import com.tissue.social.dao.ActivityDao;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
