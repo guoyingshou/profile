@@ -2,7 +2,6 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.About;
-import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.commons.util.Pager;
 import com.tissue.social.web.model.AboutForm;
 import com.tissue.social.services.AboutService;
@@ -49,10 +48,9 @@ public class AboutController {
     public String addAbout(@Valid AboutForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         form.setAccount(viewerAccount);
-        aboutService.addAbout(form);
+        aboutService.createAbout(form);
 
         return "redirect:/about";
-        //return "fragments/newAbout";
     }
 
 }

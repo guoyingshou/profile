@@ -2,7 +2,7 @@ package com.tissue.social.web.model;
 
 import com.tissue.core.Account;
 import com.tissue.core.About;
-import com.tissue.core.command.CommentCommand;
+import com.tissue.core.command.ContentCommand;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import java.io.Serializable;
 
-public class AboutForm implements CommentCommand, Serializable {
+public class AboutForm implements ContentCommand, Serializable {
 
     private String id;
 
