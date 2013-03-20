@@ -7,7 +7,6 @@ import com.tissue.core.social.Impression;
 import com.tissue.core.social.Activity;
 import com.tissue.core.plan.Plan;
 import com.tissue.core.plan.Topic;
-import com.tissue.commons.security.util.SecurityUtil;
 import com.tissue.social.web.model.ProfileForm;
 import com.tissue.social.web.model.EmailForm;
 import com.tissue.social.web.model.PasswordForm;

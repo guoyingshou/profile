@@ -14,20 +14,6 @@ public class ActivityService {
     @Autowired
     private ActivityDao activityDao;
 
-    /**
-    public List<Activity> getActivities(int num) {
-        return activityDao.getActivities(num);
-    }
-
-    public List<Activity> getWatchedActivities(String userId, int count) {
-        return activityDao.getWatchedActivities(userId, count);
-    }
-
-    public List<Activity> getSelfActivities(String userId, int count) {
-        return activityDao.getSelfActivities(userId, count);
-    }
-    */
-
     public List<Activity> getActivitiesForNewUser(int num) {
         return activityDao.getActivitiesForNewUser(num);
     }

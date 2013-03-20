@@ -2,25 +2,25 @@ package com.tissue.social.services;
 
 import com.tissue.core.Account;
 import com.tissue.core.User;
-import com.tissue.core.social.Invitation;
-import com.tissue.core.social.Activity;
-import com.tissue.core.plan.Topic;
-import com.tissue.core.plan.Plan;
-import com.tissue.core.plan.Post;
 import com.tissue.core.dao.UserDao;
 import com.tissue.core.dao.AccountDao;
-import com.tissue.core.social.dao.InvitationDao;
-import com.tissue.core.social.dao.ImpressionDao;
-import com.tissue.core.social.dao.ActivityDao;
-import com.tissue.core.plan.dao.TopicDao;
-import com.tissue.core.plan.dao.PlanDao;
-import com.tissue.core.plan.dao.PostDao;
 import com.tissue.core.command.UserCommand;
 import com.tissue.core.command.ProfileCommand;
 import com.tissue.core.command.EmailCommand;
 import com.tissue.core.command.PasswordCommand;
-import com.tissue.core.command.InvitationCommand;
-import com.tissue.core.command.ImpressionCommand;
+import com.tissue.core.social.Invitation;
+import com.tissue.core.social.Activity;
+import com.tissue.core.social.dao.InvitationDao;
+import com.tissue.core.social.dao.ImpressionDao;
+import com.tissue.core.social.dao.ActivityDao;
+import com.tissue.core.social.command.InvitationCommand;
+import com.tissue.core.social.command.ImpressionCommand;
+import com.tissue.core.plan.Topic;
+import com.tissue.core.plan.Plan;
+import com.tissue.core.plan.Post;
+import com.tissue.core.plan.dao.TopicDao;
+import com.tissue.core.plan.dao.PlanDao;
+import com.tissue.core.plan.dao.PostDao;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +146,7 @@ public class ViewerService {
     }
  
     public void addImpression(ImpressionCommand command) {
-        impressionDao.addImpression(command);
+        impressionDao.create(command);
     }
 
 }

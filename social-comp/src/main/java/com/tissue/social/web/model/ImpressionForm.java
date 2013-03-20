@@ -3,7 +3,7 @@ package com.tissue.social.web.model;
 import com.tissue.core.User;
 import com.tissue.core.Account;
 import com.tissue.core.social.Impression;
-import com.tissue.core.command.ImpressionCommand;
+import com.tissue.core.social.command.ImpressionCommand;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Size;

@@ -3,13 +3,13 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.User;
 import com.tissue.core.Account;
 import com.tissue.core.social.Activity;
+import com.tissue.commons.services.AccountService;
+import com.tissue.commons.util.SecurityUtil;
 import com.tissue.social.web.model.SignupForm;
 import com.tissue.social.web.model.VerificationForm;
 import com.tissue.social.web.model.ResetRequestForm;
 import com.tissue.social.web.model.ResetPasswordForm;
-import com.tissue.social.services.AccountService;
 import com.tissue.social.services.ActivityService;
-import com.tissue.commons.security.util.SecurityUtil;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpEntity;
