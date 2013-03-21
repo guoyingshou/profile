@@ -43,10 +43,9 @@
         <property name="registerDefaultFormatters" value="true" />
         <property name="converters">
             <set>
-                <!--
-                <bean class="com.tissue.core.spring.converters.TagsConverter" />
-                -->
                 <ref bean="idToUserConverter" />
+                <ref bean="idToVerificationConverter" />
+                <ref bean="idToResetConverter" />
                 <ref bean="idToInvitationConverter" />
             </set>
         </property>

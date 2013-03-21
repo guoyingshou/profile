@@ -1,5 +1,6 @@
 package com.tissue.social.web.model;
 
+import com.tissue.core.Account;
 import com.tissue.core.command.UserCommand;
 
 import javax.validation.Valid;
@@ -90,4 +91,11 @@ public class SignupForm implements UserCommand, Serializable {
         return headline;
     }
 
+    public Account getAccount() {
+        Account account = new Account();
+        account.setUsername(username);
+        account.setPassword(password);
+        account.setEmail(email);
+        return account;
+    }
 }

@@ -3,17 +3,15 @@ package com.tissue.social.services;
 import com.tissue.core.Account;
 import com.tissue.core.User;
 import com.tissue.core.dao.UserDao;
-import com.tissue.core.dao.AccountDao;
 import com.tissue.core.command.UserCommand;
-import com.tissue.core.command.ProfileCommand;
 import com.tissue.core.command.EmailCommand;
 import com.tissue.core.command.PasswordCommand;
-import com.tissue.social.Invitation;
+//import com.tissue.social.Invitation;
 import com.tissue.social.Activity;
-import com.tissue.social.dao.InvitationDao;
+//import com.tissue.social.dao.InvitationDao;
 import com.tissue.social.dao.ImpressionDao;
 import com.tissue.social.dao.ActivityDao;
-import com.tissue.social.command.InvitationCommand;
+//import com.tissue.social.command.InvitationCommand;
 import com.tissue.social.command.ImpressionCommand;
 import com.tissue.plan.Topic;
 import com.tissue.plan.Plan;
@@ -32,13 +30,12 @@ import java.util.List;
 public class ViewerService {
 
     @Autowired
-    private AccountDao accountDao;
-
-    @Autowired
     private UserDao userDao;
 
+    /**
     @Autowired
     private InvitationDao invitationDao;
+    */
 
     @Autowired
     private ImpressionDao impressionDao;
@@ -56,15 +53,7 @@ public class ViewerService {
     private PostDao postDao;
 
 
-    public void updateEmail(EmailCommand command) {
-        accountDao.updateEmail(command);
-    }
-
-    public void updatePassword(PasswordCommand command) {
-        accountDao.updatePassword(command);
-    }
-
-    public void updateProfile(ProfileCommand command) {
+    public void updateProfile(UserCommand command) {
         userDao.updateProfile(command);
     }
 
@@ -76,10 +65,6 @@ public class ViewerService {
         return userDao.getUserByAccount(accountId);
     }
 
-    public String getUserIdByAccount(String accountId) {
-        return userDao.getUserIdByAccount(accountId);
-    }
-
     public List<Activity> getWatchedActivities(String userId, int count) {
         return activityDao.getWatchedActivities(userId, count);
     }
@@ -88,6 +73,7 @@ public class ViewerService {
         return activityDao.getActivities(num);
     }
  
+    /**
     public void inviteFriend(InvitationCommand command) {
         invitationDao.create(command);
     }
@@ -107,6 +93,7 @@ public class ViewerService {
     public void declineInvitation(Invitation invitation) {
         invitationDao.declineInvitation(invitation);
     }
+    */
 
     public Boolean isFriend(String userId, Account viewerAccount) {
         if(viewerAccount == null) {
@@ -126,12 +113,6 @@ public class ViewerService {
     public List<Topic> getNewTopics(String excludingUserId, int limit) {
         return topicDao.getNewTopics(excludingUserId, limit);
     }
-
-    /**
-    public List<Plan> getPlansByUser(String userId) {
-        return planDao.getPlansByUser(userId);
-    }
-    */
 
     public List<Plan> getPlans(Account account) {
         return planDao.getPlansByAccount(account.getId());

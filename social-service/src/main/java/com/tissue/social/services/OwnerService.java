@@ -3,7 +3,6 @@ package com.tissue.social.services;
 import com.tissue.core.Account;
 import com.tissue.core.User;
 import com.tissue.core.command.UserCommand;
-import com.tissue.core.command.ProfileCommand;
 import com.tissue.core.command.EmailCommand;
 import com.tissue.core.command.PasswordCommand;
 import com.tissue.core.dao.UserDao;

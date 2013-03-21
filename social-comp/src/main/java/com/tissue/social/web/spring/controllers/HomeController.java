@@ -6,10 +6,9 @@ import com.tissue.commons.util.SecurityUtil;
 import com.tissue.social.Activity;
 import com.tissue.social.web.model.SignupForm;
 import com.tissue.social.web.model.VerificationForm;
-import com.tissue.social.web.model.ResetRequestForm;
-import com.tissue.social.web.model.ResetPasswordForm;
 import com.tissue.social.services.ActivityService;
 import com.tissue.social.services.AccountService;
+import com.tissue.social.services.VerificationService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpEntity;
@@ -44,6 +43,9 @@ public class HomeController {
 
     @Autowired
     private AccountService accountService;
+
+    @Autowired
+    private VerificationService verificationService;
 
     @Autowired
     private ActivityService activityService;
@@ -84,8 +86,7 @@ public class HomeController {
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
-        SignupForm signupForm = new SignupForm();
-        model.put("signupForm", signupForm);
+        model.put("signupForm", new SignupForm());
         return "signup";
     }
 
@@ -126,11 +127,17 @@ public class HomeController {
         verificationForm.setCode(UUID.randomUUID().toString());
         verificationForm.setEmail(form.getEmail());
 
+        Account account = form.getAccount();
+        account.setId(accountId);
+        verificationForm.setAccount(account);
+
+        /**
         Account viewerAccount = new Account();
         viewerAccount.setId(accountId);
         verificationForm.setAccount(viewerAccount);
+        */
 
-        accountService.sendVerificationEmail(verificationForm, locale);
+        verificationService.sendVerificationEmail(verificationForm, locale);
 
         return "redirect:/dashboard";
     }
@@ -168,6 +175,7 @@ public class HomeController {
         return "login";
     }
 
+    /**
     @RequestMapping(value="/verifications/{code}")
     public String verifyCode(@PathVariable("code") String code, Map model) {
         String accountId = accountService.getAccountId(code);
@@ -179,74 +187,5 @@ public class HomeController {
 
         return "verificationSuccess";
     }
-
-    @RequestMapping(value="/resetRequest", method=GET)
-    public String requestResetPassword(Map model) {
-        model.put("resetRequestForm", new ResetRequestForm());
-        return "resetRequestForm";
-    }
-
-    @RequestMapping(value="/resetRequest", method=POST)
-    public String processReset(@Valid ResetRequestForm form, BindingResult result, Locale locale) {
-        if(result.hasErrors()) {
-            return "resetRequestForm";
-        }
-
-        boolean exist = accountService.isEmailExist(form.getEmail());
-        if(!exist) {
-            result.rejectValue("email", "NonExist.resetRequestForm.email", "Email not exist");
-            return "resetRequestForm";
-        }
-
-        form.setCode(UUID.randomUUID().toString());
-        accountService.sendResetEmail(form, locale);
-        return "redirect:/resetRequestSuccess";
-    }
-
-    @RequestMapping(value="/resetRequestSuccess", method=GET)
-    public String resetRequestSuccess() {
-        return "resetRequestSuccess";
-    }
-
-    @RequestMapping(value="/reset/{code}")
-    public String resetPasswordForm(@PathVariable("code") String code, Map model) {
-
-        boolean exist = accountService.isCodeExist(code);
-        if(!exist) {
-            return "invalidResetCode";
-        }
-
-        ResetPasswordForm form = new ResetPasswordForm();
-        form.setCode(code);
-        model.put("resetPasswordForm", form);
-        return "resetPasswordForm";
-    }
-
-    @RequestMapping(value="/reset", method=POST)
-    public String processReset(@Valid ResetPasswordForm form, BindingResult result, Locale locale) {
-
-        if(result.hasErrors()) {
-            return "resetPasswordForm";
-        }
-        if(!form.getPassword().equals(form.getConfirm())) {
-            result.rejectValue("confirm", "Mismatch.resetPasswordForm.confirm", "confirm mismatch");
-            return "resetPasswordForm";
-        }
-
-        boolean exist = accountService.isCodeExist(form.getCode());
-        if(!exist) {
-            return "invalidResetCode";
-        }
-
-        accountService.updatePassword(form);
-
-        return "redirect:/resetSuccess";
-    }
-
-    @RequestMapping(value="/resetSuccess", method=GET)
-    public String resetSuccess() {
-        return "resetSuccess";
-    }
-
-
+    */
 }

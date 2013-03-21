@@ -7,12 +7,14 @@ import com.tissue.social.Impression;
 import com.tissue.social.Activity;
 import com.tissue.plan.Plan;
 import com.tissue.plan.Topic;
-import com.tissue.social.web.model.ProfileForm;
+import com.tissue.social.web.model.UpdateProfileForm;
 import com.tissue.social.web.model.EmailForm;
 import com.tissue.social.web.model.PasswordForm;
-import com.tissue.social.web.model.InvitationForm;
+//import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.web.model.ImpressionForm;
 import com.tissue.social.services.ViewerService;
+import com.tissue.social.services.AccountService;
+import com.tissue.social.services.InvitationService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -54,13 +56,19 @@ public class ViewerController {
     @Autowired
     private ViewerService viewerService;
 
+    @Autowired
+    private InvitationService invitationService;
+
+    @Autowired
+    private AccountService accountService;
+
     @RequestMapping(value="/dashboard")
     public String dashboard(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         List<Plan> plans = viewerService.getPlans(viewerAccount);
         model.put("plans", plans);
 
-        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
+        List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
         model.put("invitationsReceived", invitations);
  
         List<Activity> activities = viewerService.getWatchedActivities(viewerAccount.getUser().getId(), 35);
@@ -76,7 +84,7 @@ public class ViewerController {
         List<Plan> plans = viewerService.getPlans(viewerAccount);
         model.put("plans", plans);
 
-        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
+        List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
         model.put("invitationsReceived", invitations);
  
         List<Activity> activities = viewerService.getActivities(35);
@@ -96,7 +104,7 @@ public class ViewerController {
         List<Plan> plans = viewerService.getPlans(viewerAccount);
         model.put("plans", plans);
 
-        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
+        List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
         model.put("invitationsReceived", invitations);
  
         List<User> friends = viewerService.getFriends(viewerAccount.getUser().getId());
@@ -106,17 +114,17 @@ public class ViewerController {
         return "friends";
     }
 
-    @RequestMapping(value="/invitations", method=GET)
-    public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    @RequestMapping(value="/_updateProfile", method=POST)
+    public String updateProfile(@Valid UpdateProfileForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount);
-        model.put("plans", plans);
+        if(result.hasErrors()) {
+            throw new IllegalArgumentException(result.getAllErrors().toString());
+        }
 
-        List<Invitation> invitations = viewerService.getInvitationsReceived(viewerAccount);
-        model.put("invitationsReceived", invitations);
- 
-        model.put("selected", "invitations");
-        return "invitations";
+        form.setAccount(viewerAccount);
+        viewerService.updateProfile(form);
+
+        return "redirect:/dashboard";
     }
 
     @RequestMapping(value="/_updateEmail", method=POST)
@@ -129,7 +137,7 @@ public class ViewerController {
 
         form.setAccount(viewerAccount);
         try {
-            viewerService.updateEmail(form);
+            accountService.updateEmail(form);
         }
         catch(Exception exc) {
             logger.warn(exc.getMessage());
@@ -137,19 +145,6 @@ public class ViewerController {
         }
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
-
-    @RequestMapping(value="/_updateProfile", method=POST)
-    public String updateProfile(@Valid ProfileForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        if(result.hasErrors()) {
-            throw new IllegalArgumentException(result.getAllErrors().toString());
-        }
-
-        form.setAccount(viewerAccount);
-        viewerService.updateProfile(form);
-
-        return "redirect:/dashboard";
     }
 
     @RequestMapping(value="/_updatePassword", method=POST)
@@ -166,7 +161,7 @@ public class ViewerController {
         }
 
         form.setAccount(viewerAccount);
-        viewerService.updatePassword(form);
+        accountService.updatePassword(form);
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
@@ -185,37 +180,6 @@ public class ViewerController {
         viewerService.addImpression(form);
 
         return "redirect:/users/" + form.getTo().getId().replace("#","") + "/impressions";
-    }
-
-    /**
-     * send invitation.
-     */
-    @RequestMapping(value="/invitations/_create", method=POST)
-    public HttpEntity<?> createInvitation(@Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        if(result.hasErrors()) {
-            logger.warn(result.getAllErrors().toString());
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        form.setAccount(viewerAccount);
-        viewerService.inviteFriend(form);
-
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
-
-    @RequestMapping(value="/invitations/{invitationId}/_accept", method=POST)
-    public HttpEntity<?> accept(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        viewerService.acceptInvitation(invitation);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
- 
-    @RequestMapping(value="/invitations/{invitationId}/_decline", method=POST)
-    public HttpEntity<?> decline(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        viewerService.declineInvitation(invitation);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
 }
