@@ -6,13 +6,8 @@ import com.tissue.core.dao.UserDao;
 import com.tissue.core.command.UserCommand;
 import com.tissue.core.command.EmailCommand;
 import com.tissue.core.command.PasswordCommand;
-//import com.tissue.social.Invitation;
 import com.tissue.social.Activity;
-//import com.tissue.social.dao.InvitationDao;
-import com.tissue.social.dao.ImpressionDao;
 import com.tissue.social.dao.ActivityDao;
-//import com.tissue.social.command.InvitationCommand;
-import com.tissue.social.command.ImpressionCommand;
 import com.tissue.plan.Topic;
 import com.tissue.plan.Plan;
 import com.tissue.plan.Post;
@@ -31,14 +26,6 @@ public class ViewerService {
 
     @Autowired
     private UserDao userDao;
-
-    /**
-    @Autowired
-    private InvitationDao invitationDao;
-    */
-
-    @Autowired
-    private ImpressionDao impressionDao;
 
     @Autowired
     private ActivityDao activityDao;
@@ -73,28 +60,6 @@ public class ViewerService {
         return activityDao.getActivities(num);
     }
  
-    /**
-    public void inviteFriend(InvitationCommand command) {
-        invitationDao.create(command);
-    }
-
-    public Invitation getInvitation(String invitationId) {
-        return invitationDao.getInvitation(invitationId);
-    }
-
-    public List<Invitation> getInvitationsReceived(Account account) {
-        return invitationDao.getInvitationsReceived(account.getUser().getId());
-    }
-
-    public void acceptInvitation(Invitation invitation) {
-        invitationDao.acceptInvitation(invitation);
-    }
-
-    public void declineInvitation(Invitation invitation) {
-        invitationDao.declineInvitation(invitation);
-    }
-    */
-
     public Boolean isFriend(String userId, Account viewerAccount) {
         if(viewerAccount == null) {
             return false;
@@ -126,8 +91,4 @@ public class ViewerService {
         return postDao.getPagedPostsByUser(userId, page, size);
     }
  
-    public void addImpression(ImpressionCommand command) {
-        impressionDao.create(command);
-    }
-
 }

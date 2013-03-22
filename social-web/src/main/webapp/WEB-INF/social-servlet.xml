@@ -47,6 +47,7 @@
                 <ref bean="idToVerificationConverter" />
                 <ref bean="idToResetConverter" />
                 <ref bean="idToInvitationConverter" />
+                <ref bean="idToImpressionConverter" />
             </set>
         </property>
     </bean>

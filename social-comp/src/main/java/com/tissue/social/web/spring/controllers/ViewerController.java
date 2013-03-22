@@ -165,21 +165,4 @@ public class ViewerController {
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
-
-    /**
-     * Add impression.
-     */
-    @RequestMapping(value="/impressions/_create", method=POST)
-    public String addImpression(@Valid ImpressionForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        if(result.hasErrors()) {
-            throw new IllegalArgumentException(result.getAllErrors().toString());
-        }
-
-        form.setAccount(viewerAccount);
-        viewerService.addImpression(form);
-
-        return "redirect:/users/" + form.getTo().getId().replace("#","") + "/impressions";
-    }
-
 }
