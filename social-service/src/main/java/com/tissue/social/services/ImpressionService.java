@@ -1,9 +1,8 @@
 package com.tissue.social.services;
 
-import com.tissue.core.Account;
+import com.tissue.social.Impression;
 import com.tissue.social.dao.ImpressionDao;
 import com.tissue.social.command.ImpressionCommand;
-import com.tissue.social.dao.ImpressionDao;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,4 +20,7 @@ public class ImpressionService {
         impressionDao.create(command);
     }
 
+    public List<Impression> getImpressions(String userId) {
+        return impressionDao.getImpressions(userId);
+    }
 }

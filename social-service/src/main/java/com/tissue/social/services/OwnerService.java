@@ -13,10 +13,7 @@ import com.tissue.plan.dao.TopicDao;
 import com.tissue.plan.dao.PlanDao;
 import com.tissue.plan.dao.PostDao;
 import com.tissue.social.Activity;
-import com.tissue.social.Impression;
 import com.tissue.social.command.InvitationCommand;
-import com.tissue.social.command.ImpressionCommand;
-import com.tissue.social.dao.ImpressionDao;
 import com.tissue.social.dao.ActivityDao;
 import com.tissue.social.dao.InvitationDao;
 
@@ -35,9 +32,6 @@ public class OwnerService {
 
     @Autowired
     private InvitationDao invitationDao;
-
-    @Autowired
-    private ImpressionDao impressionDao;
 
     @Autowired
     private ActivityDao activityDao;
@@ -80,23 +74,12 @@ public class OwnerService {
         return postDao.getPagedPostsByUser(userId, page, size);
     }
  
-    public List<Impression> getImpressions(String userId) {
-        return impressionDao.getImpressions(userId);
-    }
-
-    /**
-    public Boolean isInvitable(String ownerId, Account viewerAccount) {
-        return invitationDao.isInvitable(ownerId, viewerAccount);
-    }
-    */
-
     public void checkInvitable(User owner, Account viewerAccount, Map model) {
         Boolean invitable = false;
-        if((viewerAccount != null) && !owner.getId().equals(viewerAccount.getUser().getId())) {
+        if((owner != null) && (viewerAccount != null) && !owner.getId().equals(viewerAccount.getUser().getId())) {
             invitable = invitationDao.isInvitable(owner, viewerAccount);
         }
         model.put("invitable", invitable);
     }
-
 
 }

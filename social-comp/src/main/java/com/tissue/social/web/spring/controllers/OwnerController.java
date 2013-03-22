@@ -44,7 +44,11 @@ public class OwnerController {
     protected OwnerService ownerService;
 
     @RequestMapping(value="/users/{userId}/posts")
-    public String getCNA(@PathVariable("userId") User owner, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getPosts(@PathVariable("userId") User owner, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        if(owner == null) {
+           throw new IllegalArgumentException("invalid user id");
+        }
 
         model.put("selected", "posts");
         model.put("owner", owner);
@@ -69,6 +73,10 @@ public class OwnerController {
     @RequestMapping(value="/users/{userId}/status")
     public String getFeed(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
+        if(owner == null) {
+           throw new IllegalArgumentException("invalid user id");
+        }
+
         model.put("selected", "status");
         model.put("owner", owner);
 
@@ -81,26 +89,6 @@ public class OwnerController {
         model.put("activities", activities);
 
         return "status";
-    }
-
-    @RequestMapping(value="/users/{userId}/impressions")
-    public String getImpressions(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        model.put("selected", "impressions");
-        model.put("owner", owner);
-
-        ownerService.checkInvitable(owner, viewerAccount, model);
-
-        List<Plan> plans = ownerService.getPlans(owner.getId());
-        model.put("plans", plans);
-
-        Boolean isFriend = ownerService.isFriend(owner.getId(), viewerAccount);
-        model.put("isFriend", isFriend);
-
-        List<Impression> impressions = ownerService.getImpressions(owner.getId());
-        model.put("impressions", impressions);
-
-        return "impressions";
     }
 
 }

@@ -4,8 +4,9 @@ import com.tissue.core.Account;
 import com.tissue.core.User;
 import com.tissue.social.Impression;
 import com.tissue.social.web.model.ImpressionForm;
-import com.tissue.social.services.AccountService;
 import com.tissue.social.services.ImpressionService;
+import com.tissue.social.services.OwnerService;
+import com.tissue.plan.Plan;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -48,7 +49,7 @@ public class ImpressionController {
     private ImpressionService impressionService;
 
     @Autowired
-    private AccountService accountService;
+    protected OwnerService ownerService;
 
     /**
      * Add impression.
@@ -64,6 +65,30 @@ public class ImpressionController {
         impressionService.createImpression(form);
 
         return "redirect:/users/" + form.getTo().getId().replace("#","") + "/impressions";
+    }
+
+    @RequestMapping(value="/users/{userId}/impressions")
+    public String getImpressions(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        if(owner == null) {
+           throw new IllegalArgumentException("invalid user id");
+        }
+
+        model.put("selected", "impressions");
+        model.put("owner", owner);
+
+        ownerService.checkInvitable(owner, viewerAccount, model);
+
+        List<Plan> plans = ownerService.getPlans(owner.getId());
+        model.put("plans", plans);
+
+        Boolean isFriend = ownerService.isFriend(owner.getId(), viewerAccount);
+        model.put("isFriend", isFriend);
+
+        List<Impression> impressions = impressionService.getImpressions(owner.getId());
+        model.put("impressions", impressions);
+
+        return "impressions";
     }
 
 }
