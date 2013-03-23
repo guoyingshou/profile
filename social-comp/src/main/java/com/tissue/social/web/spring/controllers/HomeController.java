@@ -131,12 +131,6 @@ public class HomeController {
         account.setId(accountId);
         verificationForm.setAccount(account);
 
-        /**
-        Account viewerAccount = new Account();
-        viewerAccount.setId(accountId);
-        verificationForm.setAccount(viewerAccount);
-        */
-
         verificationService.sendVerificationEmail(verificationForm, locale);
 
         return "redirect:/dashboard";

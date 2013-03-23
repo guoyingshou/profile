@@ -7,10 +7,6 @@ import com.tissue.social.Impression;
 import com.tissue.social.Activity;
 import com.tissue.plan.Plan;
 import com.tissue.plan.Topic;
-import com.tissue.social.web.model.UpdateProfileForm;
-import com.tissue.social.web.model.EmailForm;
-import com.tissue.social.web.model.PasswordForm;
-//import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.web.model.ImpressionForm;
 import com.tissue.social.services.ViewerService;
 import com.tissue.social.services.AccountService;
@@ -114,6 +110,7 @@ public class ViewerController {
         return "friends";
     }
 
+    /**
     @RequestMapping(value="/_updateProfile", method=POST)
     public String updateProfile(@Valid UpdateProfileForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
@@ -165,4 +162,5 @@ public class ViewerController {
 
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
+    */
 }

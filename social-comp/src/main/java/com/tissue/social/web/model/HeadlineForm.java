@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-public class UpdateProfileForm implements UserCommand, Serializable {
+public class HeadlineForm implements UserCommand, Serializable {
 
     private String id;
 

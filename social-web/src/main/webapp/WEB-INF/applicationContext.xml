@@ -27,12 +27,18 @@
     <import resource="dao.xml" />
     <import resource="security.xml" />
  
+    <context:property-placeholder location="classpath:smtp.properties" />
+
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${host}" />
+        <property name="port" value="${port}" />
+        <property name="username" value="${username}" />
+        <property name="password" value="${password}" />
+        <!--
         <property name="host" value="mail.tissue.com" />
         <property name="port" value="25" />
         <property name="username" value="yingshou@tissue.com" />
         <property name="password" value="yingshou" />
-        <!--
         <property name="javaMailProperties">
             <props>
                 <prop key="mail.smtp.starttls.enable">true</prop>

@@ -40,8 +40,8 @@ public class ViewerService {
     private PostDao postDao;
 
 
-    public void updateProfile(UserCommand command) {
-        userDao.updateProfile(command);
+    public void updateHeadline(UserCommand command) {
+        userDao.updateHeadline(command);
     }
 
     public User getUser(String userId) {

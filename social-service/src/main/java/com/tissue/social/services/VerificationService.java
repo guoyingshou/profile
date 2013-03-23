@@ -4,6 +4,7 @@ import com.tissue.core.dao.VerificationDao;
 import com.tissue.core.command.VerificationCommand;
 
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.context.MessageSource;
@@ -17,7 +18,9 @@ import java.util.Locale;
 @Component
 public class VerificationService implements MessageSourceAware {
 
-    private String from = "webmaster@tissue.com";
+    @Value("${mail.from}")
+    private String from;
+    //private String from = "webmaster@tissue.com";
 
     @Autowired
     private MailSender mailSender;
