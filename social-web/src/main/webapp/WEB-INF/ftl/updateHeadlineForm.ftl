@@ -1,16 +1,11 @@
 <#import "spring.ftl" as spring />
 <#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
-<#import "settingGadgets.ftl" as settingGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
 <#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 <#assign title = "dashboard" in commonGadgets>
-
-<#--
-<#assign selected = selected in userGadgets>
--->
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">
@@ -21,7 +16,7 @@
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@settingGadgets.settingMenu />
+            <@userGadgets.settingMenu />
         </div>
     </div>
 
@@ -35,7 +30,34 @@
             </div>
 
             <div id="main-content">
-                <@settingGadgets.updateHeadlineForm />
+                <@spring.bind "headlineForm.*" />
+                <form id="updateHeadlineForm" method="post" action="/social/_updateHeadline">
+
+                <div class="error">
+                    <@spring.showErrors "<br>" />
+                </div>
+ 
+                <legend>
+                    <@spring.message "Legend.headlineForm" />
+                </legend>
+                <ul>
+                    <li>
+                        <label for="displayName">
+                            <@spring.message "Label.headlineForm.displayName" />
+                        </label>
+                        <@spring.formInput "headlineForm.displayName" 'class="sum"' />
+                    </li>
+                    <li>
+                        <label for="headline">
+                            <@spring.message "Label.headlineForm.headline" />
+                        </label>
+                        <@spring.formTextarea "headlineForm.headline" 'class="sum"' />
+                    </li>
+                    <li>
+                        <input type="submit" value='<@spring.message "Save.button" />' />
+                    </li>
+                 </ul>
+              </form>
             </div>
         </div>
     </div>

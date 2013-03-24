@@ -6,7 +6,6 @@
 
 <#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 <#assign title = "dashboard" in commonGadgets>
-<#assign selected = selected in userGadgets>
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">
@@ -29,7 +28,13 @@
             </div>
 
             <div id="main-content">
-                <@userGadgets.showFriends />
+                <ul>
+                    <#list friends as friend>
+                    <li>
+                        <a href="/social/users/${friend.id?replace("#", "")}/posts">${friend.displayName}</a>
+                    </li>
+                    </#list>
+                </ul>
             </div>
         </div>
     </div>

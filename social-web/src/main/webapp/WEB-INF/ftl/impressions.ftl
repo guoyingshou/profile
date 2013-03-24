@@ -32,7 +32,37 @@
             </div>
 
            <div id="main-content">
-               <@userGadgets.showImpressions />
+               <ul class="impressions">
+                   <#if impressions??>
+                   <#list impressions as impression>
+                   <li>${impression.content}</li>
+                   </#list>
+                   </#if>
+               </ul>
+
+               <#if viewerAccount?? && isFriend>
+
+               <a class="add-impression" data-action="<@spring.url '/impressions/_create' />" data-target="ul.impressions" href="#">add impression</a>
+
+               <form id="impressionForm" class="dialog pop-650" style="display:none" method="post">
+                  <legend>
+                      Impression
+                      <a href="#" class="cancel"><span data-icon="&#xe008"></span></a>
+                  </legend>
+                  <ul>
+                      <li>
+                          <textarea id="content" name="content"></textarea>
+                      </li>
+                      <li>
+                          <input type="hidden" id="to" name="to" value="${owner.id?replace('#','')}">
+                      </li>
+ 
+                      <li>
+                          <input type="submit" value="submit"/>
+                      </li>
+                  </ul>
+               </form>
+               </#if>
            </div>
         </div>
     </div>

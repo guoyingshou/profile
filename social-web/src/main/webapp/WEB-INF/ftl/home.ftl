@@ -16,7 +16,11 @@
     <div id="page-main-wrapper">
         <div id="page-main">
             <div id="main-sidebar">
-               <@commonGadgets.slogan />
+                <h3>在线社会化学习工具</h3>
+                <div>分享学习方法</div>
+                <div>交流学习经验</div>
+                <div>展示个人能力</div>
+                <div>获取更多机会</div>
             </div>
 
             <div id="main-content">

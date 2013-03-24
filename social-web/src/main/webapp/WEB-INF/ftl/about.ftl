@@ -1,5 +1,5 @@
 <#import "spring.ftl" as spring />
-<#import "commonGadgets.ftl" as commonGadgets />
+<#import "userGadgets.ftl" as userGadgets />
 <#import "commonGadgets.ftl" as commonGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
@@ -9,7 +9,7 @@
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">
         <div id="page-logo" class="page-center">
-            <@commonGadgets.aboutLogo />
+            <@userGadgets.homeLogo />
         </div>
     </div>
 
@@ -31,7 +31,32 @@
             </div>
 
             <div id="main-content">
-                <@commonGadgets.showAbout />
+                <ul>
+                    <#if abouts??>
+                    <#list abouts as about>
+                    <li>${about.content}</li>
+                    </#list>
+                    </#if>
+                </ul>
+
+                <#if viewerAccount??>
+                <a class="add-about" data-action="<@spring.url '/about/_create' />" href="#">add</a>
+
+                <form id="aboutForm" class="dialog pop-650" style="display: none" method="post">
+                    <legend>
+                        About
+                        <a href="#" class="cancel"><span data-icon="&#xe008"></span></a>
+                    </legend>
+                    <ul>
+                        <li>
+                            <textarea id="content" name="content"></textarea>
+                        </li>
+                        <li>
+                            <input type="submit" value="submit"/>
+                        </li>
+                    </ul>
+                </form>
+                </#if>
             </div>
         </div>
     </div>

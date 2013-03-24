@@ -12,7 +12,28 @@
     </div>
 
     <div id="page-main-wrapper">
-        <@userGadgets.resetRequestForm />
+        <@spring.bind "resetForm.*" />
+        <form id="resetRequestForm" method="post" action="<@spring.url '/resetRequest' />">
+            <div class="error">
+                <@spring.showErrors "<br>" />
+            </div>
+
+    <legend>
+        <@spring.message "Legend.resetRequestForm" />
+    </legend>
+    <ul>
+        <li>
+            <label for="email">
+                <@spring.message "Label.resetRequestForm.email" />
+            </label>
+            <@spring.formInput 'resetForm.email' 'class="sum"' />
+        </li>
+        <li>
+            <input type="submit" value='<@spring.message "Submit.button"/>'/>
+        </li>
+    </ul>
+</form>
+
     </div>
 
 </@commonGadgets.layout>

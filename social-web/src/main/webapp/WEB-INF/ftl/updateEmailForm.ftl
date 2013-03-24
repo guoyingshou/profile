@@ -1,16 +1,11 @@
 <#import "spring.ftl" as spring />
 <#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
-<#import "settingGadgets.ftl" as settingGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
 <#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 <#assign title = "dashboard" in commonGadgets>
-
-<#--
-<#assign selected = selected in userGadgets>
--->
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">
@@ -21,7 +16,7 @@
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@settingGadgets.settingMenu />
+            <@userGadgets.settingMenu />
         </div>
     </div>
 
@@ -35,7 +30,26 @@
             </div>
 
             <div id="main-content">
-                <@settingGadgets.updateEmailForm />
+                <@spring.bind "emailForm.*" />
+                <form id="updateEmailForm" method="post" action="/social/_updateEmail">
+                    <div class="error">
+                      <@spring.showErrors "<br>" />
+                    </div>
+                    <legend>
+                        <@spring.message "Legend.emailForm" />
+                    </legend>
+                    <ul>
+                       <li>
+                          <label for="email">
+                              <@spring.message "Label.emailForm.email" />
+                          </label>
+                          <@spring.formInput "emailForm.email" 'class="sum"' />
+                       </li>
+                       <li>
+                           <input type="submit" value='<@spring.message "Save.button"/>'/>
+                       </li>
+                    </ul>
+                </form>
             </div>
         </div>
     </div>

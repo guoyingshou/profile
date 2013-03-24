@@ -1,7 +1,6 @@
 <#import "spring.ftl" as spring />
 <#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
-<#import "settingGadgets.ftl" as settingGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
@@ -17,7 +16,7 @@
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@settingGadgets.settingMenu />
+            <@userGadgets.settingMenu />
         </div>
     </div>
 
@@ -31,7 +30,9 @@
             </div>
 
             <div id="main-content">
-                <@settingGadgets.showProfile />
+                <div>
+                  fjdaj
+                </div>
             </div>
         </div>
     </div>
