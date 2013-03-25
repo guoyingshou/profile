@@ -35,22 +35,45 @@ public class AboutController {
     @Autowired
     protected AboutService aboutService;
 
-    @RequestMapping(value="/about", method=GET)
-    public String listAbouts(Map model) {
+    @RequestMapping(value="/about/_create")
+    public String praiseFormView(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        List<About> abouts = aboutService.getAbouts();
-        model.put("abouts", abouts);
-        return "about";
+        model.put("selected", "praise");
+        model.put("aboutForm", new AboutForm());
+        return "createAboutFormView";
     }
 
-
     @RequestMapping(value="/about/_create", method=POST)
-    public String addAbout(@Valid AboutForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String addPraise(@Valid AboutForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        if(result.hasErrors()) {
+            model.put("selected", "praise");
+            return "createAboutFormView";
+        }
 
         form.setAccount(viewerAccount);
         aboutService.createAbout(form);
 
-        return "redirect:/about";
+        return "redirect:/praise";
+    }
+
+    @RequestMapping(value="/praise", method=GET)
+    public String listPraise(Map model) {
+
+        model.put("selected", "praise");
+
+        List<About> abouts = aboutService.getAbouts();
+        model.put("abouts", abouts);
+
+        return "praise";
+    }
+
+    @RequestMapping(value="/about", method=GET)
+    public String about(Map model) {
+
+        model.put("selected", "vision");
+
+        return "about";
     }
 
 }

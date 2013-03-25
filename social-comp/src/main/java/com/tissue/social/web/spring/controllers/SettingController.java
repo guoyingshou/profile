@@ -45,7 +45,7 @@ public class SettingController {
     public String updateHeadlineForm(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         model.put("selected", "headline");
         model.put("headlineForm", viewerAccount.getUser());
-        return "updateHeadlineForm";
+        return "updateHeadlineFormView";
     }
 
     @RequestMapping(value="/_updateHeadline", method=POST)
@@ -53,7 +53,7 @@ public class SettingController {
 
         if(result.hasErrors()) {
             model.put("selected", "headline");
-            return "updateHeadlineForm";
+            return "updateHeadlineFormView";
         }
 
         form.setId(viewerAccount.getUser().getId());
@@ -68,7 +68,7 @@ public class SettingController {
 
         model.put("emailForm", viewerAccount);
 
-        return "updateEmailForm";
+        return "updateEmailFormView";
     }
 
     @RequestMapping(value="/_updateEmail", method=POST)
@@ -76,7 +76,7 @@ public class SettingController {
 
         if(result.hasErrors()) {
             model.put("selected", "email");
-            return "updateEmailForm";
+            return "updateEmailFormView";
         }
 
         try {
@@ -88,7 +88,7 @@ public class SettingController {
                 result.rejectValue("email", "Taken.passwordForm.email", "email is already taken");
             }
             model.put("selected", "email");
-            return "updateEmailForm";
+            return "updateEmailFormView";
         }
 
         return "redirect:/_setting";
@@ -98,7 +98,7 @@ public class SettingController {
     public String updatePasswordForm(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
         model.put("selected", "password");
         model.put("passwordForm", new PasswordForm());
-        return "updatePasswordForm";
+        return "updatePasswordFormView";
     }
 
     @RequestMapping(value="/_updatePassword", method=POST)
@@ -106,13 +106,13 @@ public class SettingController {
         
         if(result.hasErrors()) {
             model.put("selected", "password");
-            return "updatePasswordForm";
+            return "updatePasswordFormView";
         }
 
         if(!form.getPassword().equals(form.getConfirm())) {
             model.put("selected", "password");
             result.rejectValue("confirm", "Mismatch.passwordForm.confirm", "confirm mismatch");
-            return "updatePasswordForm";
+            return "updatePasswordFormView";
         }
 
         form.setAccount(viewerAccount);

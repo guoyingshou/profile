@@ -66,6 +66,7 @@ public class HomeController {
     @RequestMapping(value="/signout")
     public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
 
+        model.put("signout", true);
         model.put("viewerAccount", null);
 
         List<Activity> activities = activityService.getActivitiesForNewUser(35);
@@ -81,7 +82,7 @@ public class HomeController {
                 res.addCookie(cookie);
             }
         }
-       return "signout";
+       return "home";
     }
 
     @RequestMapping(value="/signup", method=GET)

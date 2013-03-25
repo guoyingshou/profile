@@ -1,11 +1,13 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
+import com.tissue.core.User;
 import com.tissue.social.Invitation;
 import com.tissue.plan.Plan;
 import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.services.InvitationService;
 import com.tissue.social.services.ViewerService;
+import com.tissue.social.services.OwnerService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -50,6 +52,52 @@ public class InvitationController {
     @Autowired
     private ViewerService viewerService;
 
+    @Autowired
+    private OwnerService ownerService;
+
+    @RequestMapping(value="/users/{userId}/invitations/_create")
+    public String invitationViewForm(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        model.put("selected", "impressions"); 
+        model.put("owner", owner); 
+        ownerService.checkInvitable(owner, viewerAccount, model);
+
+        model.put("invitationForm", new InvitationForm());
+        return "createInvitationViewForm";
+
+    }
+
+    @RequestMapping(value="/users/{userId}/invitations/_create", method=POST)
+    public String createInvitation(@PathVariable("userId") User owner, @Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        if(result.hasErrors()) {
+            model.put("selected", "impressions"); 
+            model.put("owner", owner);
+            ownerService.checkInvitable(owner, viewerAccount, model);
+            return "createInvitationViewForm";
+        }
+
+        form.setTo(owner);
+        form.setAccount(viewerAccount);
+        invitationService.createInvitation(form);
+
+        return "redirect:/users/" + owner.getId().replace("#","") + "/impressions";
+    }
+
+    @RequestMapping(value="/invitations/{invitationId}/_accept", method=GET)
+    public String accept(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        invitationService.acceptInvitation(invitation);
+        return "redirect:/invitations";
+    }
+ 
+    @RequestMapping(value="/invitations/{invitationId}/_decline", method=GET)
+    public String decline(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        invitationService.declineInvitation(invitation);
+        return "redirect:/invitations";
+    }
+
     @RequestMapping(value="/invitations", method=GET)
     public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
@@ -62,40 +110,6 @@ public class InvitationController {
         model.put("invitationsReceived", invitations);
  
         return "invitations";
-    }
-
-    /**
-     * send invitation.
-     */
-    @RequestMapping(value="/invitations/_create", method=POST)
-    public HttpEntity<?> createInvitation(@Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        if(result.hasErrors()) {
-            logger.warn(result.getAllErrors().toString());
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        }
-
-        form.setAccount(viewerAccount);
-        invitationService.createInvitation(form);
-
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
-
-    @RequestMapping(value="/invitations/{invitationId}/_accept", method=GET)
-    //public HttpEntity<?> accept(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-    public String accept(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        invitationService.acceptInvitation(invitation);
-        return "redirect:/invitations";
-        //return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
- 
-    @RequestMapping(value="/invitations/{invitationId}/_decline", method=GET)
-    public String decline(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        invitationService.declineInvitation(invitation);
-        return "redirect:/invitations";
-        //return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
 }

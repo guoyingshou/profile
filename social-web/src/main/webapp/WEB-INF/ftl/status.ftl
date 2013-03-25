@@ -2,7 +2,6 @@
 <#import "commonGadgets.ftl" as commonGadgets />
 <#import "userGadgets.ftl" as userGadgets />
 <#import "commonGadgets.ftl" as commonGadgets />
-<#import "postGadgets.ftl" as postGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
@@ -10,7 +9,6 @@
 <#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 
 <#assign title= owner.displayName in commonGadgets>
-<#assign selected= selected in userGadgets>
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">

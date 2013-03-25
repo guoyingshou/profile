@@ -37,26 +37,17 @@
             </div>
 
             <div id="main-content">
-                <div>
-                   <h3>About education</h3>
-                   <div>
-                      fjadkfd
-                   </div>
-                </div>
+                <ul>
+                    <#if abouts??>
+                    <#list abouts as about>
+                    <li>${about.content}</li>
+                    </#list>
+                    </#if>
+                </ul>
 
-                <div>
-                   <h3>About learning</h3>
-                   <div>
-                      fjadkfd
-                   </div>
-                </div>
-
-                <div>
-                   <h3>About skills</h3>
-                   <div>
-                      fjadkfd
-                   </div>
-                </div>
+                <#if viewerAccount??>
+                <a href="<@spring.url '/about/_create' />">add</a>
+                </#if>
             </div>
         </div>
     </div>

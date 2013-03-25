@@ -8,6 +8,9 @@
 <#assign title="home" in commonGadgets>
 
 <@commonGadgets.layout>
+    <#if signout??>
+        <iframe src="/group/signout" style="display:none"></iframe>
+    </#if>
     <div id="page-logo-wrapper">
         <div id="page-logo">
             <@userGadgets.homeLogo />

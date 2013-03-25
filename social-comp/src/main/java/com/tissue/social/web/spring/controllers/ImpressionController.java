@@ -51,16 +51,30 @@ public class ImpressionController {
     @Autowired
     protected OwnerService ownerService;
 
+    @RequestMapping(value="/users/{userId}/impressions/_create")
+    public String addImpression(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        model.put("selected", "impressions");
+        model.put("owner", owner);
+        ownerService.checkInvitable(owner, viewerAccount, model);
+        model.put("impressionForm", new ImpressionForm());
+        return "createImpressionFormView";
+    }
+
     /**
      * Add impression.
      */
-    @RequestMapping(value="/impressions/_create", method=POST)
-    public String addImpression(@Valid ImpressionForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
+    public String addImpression(@PathVariable("userId") User owner, @Valid ImpressionForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         if(result.hasErrors()) {
-            throw new IllegalArgumentException(result.getAllErrors().toString());
+            model.put("selected", "impressions");
+            model.put("owner", owner);
+            ownerService.checkInvitable(owner, viewerAccount, model);
+            return "createImpressionFormView";
         }
 
+        form.setTo(owner);
         form.setAccount(viewerAccount);
         impressionService.createImpression(form);
 

@@ -15,7 +15,7 @@ public class InvitationForm implements InvitationCommand, Serializable {
 
     private String id;
 
-    @NotEmpty(message="letter cann't be empty")
+    @NotEmpty(message="content cann't be empty")
     private String content;
 
     private User to;

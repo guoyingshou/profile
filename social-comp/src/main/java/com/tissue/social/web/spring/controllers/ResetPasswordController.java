@@ -2,7 +2,7 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.Reset;
-import com.tissue.social.web.model.ResetForm;
+import com.tissue.social.web.model.ResetRequestForm;
 import com.tissue.social.web.model.PasswordForm;
 import com.tissue.social.services.ResetService;
 import com.tissue.social.services.AccountService;
@@ -46,32 +46,32 @@ public class ResetPasswordController {
 
     @RequestMapping(value="/resetRequest", method=GET)
     public String requestResetPassword(Map model) {
-        model.put("resetForm", new ResetForm());
-        return "resetForm";
+        model.put("resetRequestForm", new ResetRequestForm());
+        return "createResetRequestFormView";
     }
 
     @RequestMapping(value="/resetRequest", method=POST)
-    public String processReset(@Valid ResetForm form, BindingResult result, Locale locale) {
+    public String processReset(@Valid ResetRequestForm form, BindingResult result, Locale locale) {
 
         if(result.hasErrors()) {
-            return "resetForm";
+            return "createResetRequestFormView";
         }
 
         Account account = accountService.getAccountByEmail(form.getEmail());
         if(account == null) {
             result.rejectValue("email", "NonExist.resetRequestForm.email", "Email not exist");
-            return "resetForm";
+            return "createResetRequestFormView";
         }
         form.setAccount(account);
         form.setCode(UUID.randomUUID().toString());
 
         resetService.sendResetEmail(form, locale);
-        return "redirect:/resetRequestSuccess";
+        return "redirect:/createResetRequestSuccess";
     }
 
     @RequestMapping(value="/resetRequestSuccess", method=GET)
     public String resetRequestSuccess() {
-        return "resetRequestSuccess";
+        return "createResetRequestSuccess";
     }
 
     @RequestMapping(value="/reset/{code}")
@@ -83,7 +83,7 @@ public class ResetPasswordController {
 
         model.put("code", reset.getCode());
         model.put("passwordForm", new PasswordForm());
-        return "resetPasswordForm";
+        return "createResetPasswordFormView";
     }
 
     @RequestMapping(value="/reset/{code}", method=POST)
@@ -94,12 +94,12 @@ public class ResetPasswordController {
         }
 
         if(result.hasErrors()) {
-            return "resetPasswordForm";
+            return "createResetPasswordFormView";
         }
 
         if(!form.getPassword().equals(form.getConfirm())) {
             result.rejectValue("confirm", "Mismatch.resetPasswordForm.confirm", "confirm mismatch");
-            return "resetPasswordForm";
+            return "createResetPasswordFormView";
         }
 
         form.setAccount(reset.getAccount());
@@ -107,12 +107,12 @@ public class ResetPasswordController {
 
         resetService.deleteReset(reset.getId());
 
-        return "redirect:/resetSuccess";
+        return "redirect:/resetPasswordSuccess";
     }
 
-    @RequestMapping(value="/resetSuccess", method=GET)
+    @RequestMapping(value="/resetPasswordSuccess", method=GET)
     public String resetSuccess() {
-        return "resetSuccess";
+        return "createResetPasswordSuccess";
     }
 
 }
