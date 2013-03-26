@@ -29,7 +29,7 @@
                 -->
             </div>
 
-            <div id="main-content">
+            <div id="main-content" class="layout2-content">
                 <@spring.bind "emailForm.*" />
                 <form id="updateEmailForm" method="post" action="/social/_updateEmail">
                     <div class="error">

@@ -9,19 +9,19 @@
 
 <@commonGadgets.layout>
     <div id="page-logo-wrapper">
-        <div id="page-logo">
+        <div id="page-logo" class="page-center">
             <@userGadgets.homeLogo />
         </div>
     </div>
 
     <div id="page-menu-wrapper">
-        <div id="page-menu">
+        <div id="page-menu" class="page-center">
             <@userGadgets.homeMenu />
         </div>
     </div>
 
     <div id="page-main-wrapper">
-        <div id="page-main">
+        <div id="page-main" class="page-center">
             <div id="main-sidebar">
                 <@userGadgets.showPlansLearning/>
                 <@userGadgets.showPlansLearned/>
