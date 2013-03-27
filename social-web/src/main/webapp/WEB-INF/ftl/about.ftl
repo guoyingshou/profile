@@ -3,7 +3,6 @@
 <#import "commonGadgets.ftl" as commonGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
-<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 <#assign title= "about" in commonGadgets>
 
 <@commonGadgets.layout>
@@ -21,20 +20,6 @@
 
     <div id="page-main-wrapper">
         <div id="page-main">
-            <div id="main-sidebar">
-                <h4>Main Features</h4>
-                <ul>
-                    <li>
-                     create topics
-                    </li>
-                    <li>
-                     host or join a group
-                    </li>
-                    <li>
-                     make new friends
-                    </li>
-                </ul>
-            </div>
 
             <div id="main-content">
                 <div>
@@ -58,6 +43,22 @@
                    </div>
                 </div>
             </div>
+
+            <div id="main-sidebar">
+                <h4>Main Features</h4>
+                <ul>
+                    <li>
+                     create topics
+                    </li>
+                    <li>
+                     host or join a group
+                    </li>
+                    <li>
+                     make new friends
+                    </li>
+                </ul>
+            </div>
+
         </div>
     </div>
 </@commonGadgets.layout>

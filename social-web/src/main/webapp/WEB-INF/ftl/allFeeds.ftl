@@ -4,7 +4,6 @@
 <#import "topicGadgets.ftl" as topicGadgets />
 <#import "activityGadgets.ftl" as activityGadgets />
 
-<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 <#assign title = "dashboard" in commonGadgets>
 
 <@commonGadgets.layout>
@@ -16,19 +15,19 @@
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@userGadgets.homeMenu selected />
+            <@userGadgets.homeMenu />
         </div>
     </div>
 
     <div id="page-main-wrapper">
         <div id="page-main">
+            <div id="main-content">
+                <@activityGadgets.showActivities />
+            </div>
+
             <div id="main-sidebar">
                 <@userGadgets.showPlansLearning/>
                 <@userGadgets.showPlansLearned/>
-            </div>
-
-            <div id="main-content">
-                <@activityGadgets.showActivities />
             </div>
         </div>
     </div>

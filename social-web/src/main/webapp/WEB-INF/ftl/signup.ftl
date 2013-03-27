@@ -13,7 +13,7 @@
 
     <div id="page-main-wrapper">
         <@spring.bind 'signupForm.*' />
-        <form id="signupForm" class="input-form account" action="<@spring.url '/signup' />" method="post">
+        <form id="signupForm" action="<@spring.url '/signup' />" method="post">
             <div class="error">
                 <@spring.showErrors "<br/>" />
             </div>

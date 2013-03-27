@@ -63,7 +63,7 @@ public class InvitationController {
         ownerService.checkInvitable(owner, viewerAccount, model);
 
         model.put("invitationForm", new InvitationForm());
-        return "createInvitationViewForm";
+        return "createInvitationFormView";
 
     }
 
@@ -74,7 +74,7 @@ public class InvitationController {
             model.put("selected", "impressions"); 
             model.put("owner", owner);
             ownerService.checkInvitable(owner, viewerAccount, model);
-            return "createInvitationViewForm";
+            return "createInvitationFormView";
         }
 
         form.setTo(owner);

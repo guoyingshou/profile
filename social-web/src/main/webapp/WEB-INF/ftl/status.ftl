@@ -6,7 +6,6 @@
 <#import "activityGadgets.ftl" as activityGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
-<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 
 <#assign title= owner.displayName in commonGadgets>
 
@@ -25,14 +24,16 @@
 
     <div id="page-main-wrapper">
         <div id="page-main">
-            <div id="main-sidebar">
-                <@userGadgets.showPlansLearning/>
-                <@userGadgets.showPlansLearned/>
-            </div>
 
            <div id="main-content">
                <@activityGadgets.showActivities />
            </div>
+
+           <div id="main-sidebar">
+                <@userGadgets.showPlansLearning/>
+                <@userGadgets.showPlansLearned/>
+            </div>
+
        </div>
     </div>
 

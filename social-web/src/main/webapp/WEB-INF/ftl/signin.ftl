@@ -12,7 +12,7 @@
     </div>
 
     <div id="page-main-wrapper">
-        <form id="signinForm" class="input-form account" action="<@spring.url '/jsc'/>" method="post">
+        <form id="signinForm" action="<@spring.url '/jsc'/>" method="post">
             <#if error??>
             <div>
                 <span class="error">

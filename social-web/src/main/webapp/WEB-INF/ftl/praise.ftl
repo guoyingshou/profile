@@ -3,7 +3,6 @@
 <#import "commonGadgets.ftl" as commonGadgets />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
-<#assign mystyles=["/tissue/css/layout2.css"] in commonGadgets>
 <#assign title= "about" in commonGadgets>
 
 <@commonGadgets.layout>
@@ -21,6 +20,20 @@
 
     <div id="page-main-wrapper">
         <div id="page-main">
+            <div id="main-content">
+                <ul>
+                    <#if abouts??>
+                    <#list abouts as about>
+                    <li>${about.content}</li>
+                    </#list>
+                    </#if>
+                </ul>
+
+                <#if viewerAccount??>
+                <a href="<@spring.url '/about/_create' />">add</a>
+                </#if>
+            </div>
+
             <div id="main-sidebar">
                 <h4>Main Features</h4>
                 <ul>
@@ -36,19 +49,6 @@
                 </ul>
             </div>
 
-            <div id="main-content">
-                <ul>
-                    <#if abouts??>
-                    <#list abouts as about>
-                    <li>${about.content}</li>
-                    </#list>
-                    </#if>
-                </ul>
-
-                <#if viewerAccount??>
-                <a href="<@spring.url '/about/_create' />">add</a>
-                </#if>
-            </div>
         </div>
     </div>
 </@commonGadgets.layout>
