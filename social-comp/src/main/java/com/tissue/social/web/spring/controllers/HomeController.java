@@ -170,17 +170,4 @@ public class HomeController {
         return "signin";
     }
 
-    /**
-    @RequestMapping(value="/verifications/{code}")
-    public String verifyCode(@PathVariable("code") String code, Map model) {
-        String accountId = accountService.getAccountId(code);
-        if(accountId == null) {
-            return "verificationFail";
-        }
-
-        accountService.setVerified(accountId);
-
-        return "verificationSuccess";
-    }
-    */
 }

@@ -12,7 +12,7 @@
         <div id="page-main">
 
             <div id="main-content">
-                <ul>
+                <ul class="friends">
                     <#list friends as friend>
                     <li>
                         <a href="/social/users/${friend.id?replace("#", "")}/posts">${friend.displayName}</a>
