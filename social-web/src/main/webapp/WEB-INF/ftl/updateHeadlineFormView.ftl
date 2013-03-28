@@ -1,17 +1,11 @@
 <#import "spring.ftl" as spring />
-<#import "commonGadgets.ftl" as commonGadgets />
+<#import "siteGadgets.ftl" as site />
 <#import "userGadgets.ftl" as userGadgets />
-<#import "topicGadgets.ftl" as topicGadgets />
-<#import "activityGadgets.ftl" as activityGadgets />
 
-<#assign title = "dashboard" in commonGadgets>
+<#assign title = "dashboard" in site>
 
-<@commonGadgets.layout>
-    <div id="page-logo-wrapper">
-        <div id="page-logo">
-            <@userGadgets.homeLogo />
-        </div>
-    </div>
+<@site.layout>
+    <#include "siteLogo.ftl" />
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
@@ -62,5 +56,5 @@
 
         </div>
     </div>
-</@commonGadgets.layout>
+</@site.layout>
 

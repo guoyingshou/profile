@@ -1,21 +1,16 @@
 <#import "spring.ftl" as spring />
-<#import "commonGadgets.ftl" as commonGadgets />
-<#import "userGadgets.ftl" as userGadgets />
+<#import "siteGadgets.ftl" as site />
 <#import "activityGadgets.ftl" as activityGadgets />
 
-<#assign title="home" in commonGadgets>
+<#assign title="home" in site>
 
-<@commonGadgets.layout>
+<@site.layout>
 
     <#if signout??>
         <iframe src="/group/signout" style="display:none"></iframe>
     </#if>
 
-    <div id="page-logo-wrapper">
-        <div id="page-logo">
-            <@userGadgets.homeLogo />
-        </div>
-    </div>
+    <#include "siteLogo.ftl" />
 
     <div id="page-main-wrapper">
         <div id="page-main">
@@ -32,5 +27,5 @@
             </div>
         </div>
     </div>
-</@commonGadgets.layout>
+</@site.layout>
 

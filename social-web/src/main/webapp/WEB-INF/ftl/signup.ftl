@@ -1,15 +1,10 @@
 <#import "spring.ftl" as spring />
-<#import "commonGadgets.ftl" as commonGadgets />
-<#import "userGadgets.ftl" as userGadgets />
+<#import "siteGadgets.ftl" as site />
 
-<#assign title = "sign up" in commonGadgets />
+<#assign title = "sign up" in site />
 
-<@commonGadgets.layout>
-    <div id="page-logo-wrapper">
-        <div id="page-logo">
-            <@userGadgets.homeLogo />
-        </div>
-    </div>
+<@site.layout>
+    <#include "siteLogo.ftl" />
 
     <div id="page-main-wrapper">
         <@spring.bind 'signupForm.*' />
@@ -77,5 +72,5 @@
         </form>
 
     <div>
-</@commonGadgets.layout>
+</@site.layout>
 

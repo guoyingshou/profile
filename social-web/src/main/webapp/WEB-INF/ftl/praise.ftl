@@ -1,20 +1,16 @@
 <#import "spring.ftl" as spring />
 <#import "userGadgets.ftl" as userGadgets />
-<#import "commonGadgets.ftl" as commonGadgets />
+<#import "siteGadgets.ftl" as site />
 
-<#assign myscripts=["/ckeditor/ckeditor.js"] in commonGadgets>
-<#assign title= "about" in commonGadgets>
+<#assign myscripts=["/ckeditor/ckeditor.js"] in site>
+<#assign title= "about" in site>
 
-<@commonGadgets.layout>
-    <div id="page-logo-wrapper">
-        <div id="page-logo">
-            <@userGadgets.homeLogo />
-        </div>
-    </div>
+<@site.layout>
+    <#include "siteLogo.ftl" />
 
     <div id="page-menu-wrapper">
         <div id="page-menu">
-            <@userGadgets.aboutMenu />
+            <@site.aboutMenu />
         </div>
     </div>
 
@@ -51,5 +47,5 @@
 
         </div>
     </div>
-</@commonGadgets.layout>
+</@site.layout>
 

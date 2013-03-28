@@ -1,21 +1,11 @@
 <#import "spring.ftl" as spring />
-<#import "commonGadgets.ftl" as commonGadgets />
-<#import "userGadgets.ftl" as userGadgets />
+<#import "siteGadgets.ftl" as site />
 
-<#assign title="signin" in commonGadgets>
+<#assign title="signin" in site>
 
-<@commonGadgets.layout>
-    <div id="page-logo-wrapper">
-        <div id="page-logo">
-            <@userGadgets.userLogo />
-        </div>
-    </div>
+<@site.layout>
 
-    <div id="page-menu-wrapper">
-        <div id="page-menu">
-            <@userGadgets.userMenu />
-        </div>
-    </div>
+    <#include "userHeader.ftl" />
 
     <div id="page-main-wrapper">
         <@spring.bind "invitationForm.*" />
@@ -43,5 +33,5 @@
         </form>
     </div>
 
-</@commonGadgets.layout>
+</@site.layout>
 
