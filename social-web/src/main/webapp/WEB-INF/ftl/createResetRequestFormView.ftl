@@ -14,14 +14,14 @@
             </div>
 
     <legend>
-        <@spring.message "Legend.resetRequestForm" />
+        <@spring.message "resetRequestForm" />
     </legend>
     <ul>
         <li>
             <label for="email">
-                <@spring.message "Label.resetRequestForm.email" />
+                <@spring.message "email" />
             </label>
-            <@spring.formInput 'resetRequestForm.email' 'class="sum"' />
+            <@spring.formInput 'resetRequestForm.email' />
         </li>
         <li>
             <input type="submit" value='<@spring.message "Submit.button"/>'/>

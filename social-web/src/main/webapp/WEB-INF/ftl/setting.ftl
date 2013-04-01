@@ -18,7 +18,23 @@
         <div id="page-main">
             <div id="main-content">
                 <div>
-                  fjdaj
+                    Username: 
+                    ${viewerAccount.username}
+                </div>
+
+                <div>
+                    Email: 
+                    ${viewerAccount.email}
+                </div>
+
+                <div>
+                    DisplayName:  
+                    ${viewerAccount.user.displayName}
+                </div>
+
+                <div>
+                    Headline:  
+                    ${viewerAccount.user.headline}
                 </div>
             </div>
 

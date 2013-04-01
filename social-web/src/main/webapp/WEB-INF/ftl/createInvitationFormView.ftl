@@ -15,20 +15,18 @@
             </div>
 
             <legend>
-                <@spring.message "Legend.invitationForm" />
+                <@spring.message "invitationForm" />
             </legend>
             <ul>
                 <li>
                     <label for="letter">
-                        <@spring.message "Label.invitationForm.content" />
+                        <@spring.message "content" />
                     </label>
-               </li>
-               <li>
-                   <@spring.formTextarea 'invitationForm.content' 'class="sum"' />
-               </li>
-               <li>
-                   <input type="submit" name="submit" value='<@spring.message "Send.button"/>' />
-               </li>
+                    <@spring.formTextarea 'invitationForm.content' />
+                </li>
+                <li>
+                    <input type="submit" name="submit" value='<@spring.message "Send.button"/>' />
+                </li>
             </ul>
         </form>
     </div>

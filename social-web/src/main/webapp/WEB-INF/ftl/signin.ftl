@@ -12,22 +12,32 @@
             <#if error??>
             <div>
                 <span class="error">
-                    <@spring.message "Invalid.signinForm" />
+                    <@spring.message "Fail.signinForm" />
                 </span>
             </div>
             </#if>
 
+            <#if reset??>
+                <div>
+                    Success resetting your password
+                </div>
+            </#if>
+
             <legend>
-                <@spring.message "Legend.signinForm" />
+                <@spring.message "signinForm" />
             </legend>
             <ul>
                 <li>
-                    <label for="sign-username"><@spring.message "Label.signinForm.username" /></label>
-                    <input type="text" class="sum" id="sign-username" name="j_username" size="20" maxlength="50" />
+                    <label for="sign-username">
+                        <@spring.message "Signin.usernameOrPassword" />
+                    </label>
+                    <input type="text" id="sign-username" name="j_username" size="20" maxlength="50" />
                 </li>
                 <li>
-                    <label for="sign-password"><@spring.message "Label.signinForm.password" /></label>
-                    <input type="password" class="sum" id="sign-password" name="j_password" size="20" maxlength="50" />
+                    <label for="sign-password">
+                        <@spring.message "Signin.password" />
+                    </label>
+                    <input type="password" id="sign-password" name="j_password" size="20" maxlength="50" />
                 </li>
                 <li>
                     <input type="submit" value='<@spring.message "Signin.button" />'/>

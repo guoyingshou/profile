@@ -24,18 +24,18 @@
                 </div>
  
                 <legend>
-                    <@spring.message "Legend.headlineForm" />
+                    <@spring.message "updateHeadlineForm" />
                 </legend>
                 <ul>
                     <li>
                         <label for="displayName">
-                            <@spring.message "Label.headlineForm.displayName" />
+                            <@spring.message "displayName" />
                         </label>
                         <@spring.formInput "headlineForm.displayName" 'class="sum"' />
                     </li>
                     <li>
                         <label for="headline">
-                            <@spring.message "Label.headlineForm.headline" />
+                            <@spring.message "headline" />
                         </label>
                         <@spring.formTextarea "headlineForm.headline" 'class="sum"' />
                     </li>

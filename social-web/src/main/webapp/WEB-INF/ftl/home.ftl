@@ -19,11 +19,10 @@
             </div>
 
             <div id="main-sidebar">
-                <h3>在线社会化学习工具</h3>
-                <div>分享学习方法</div>
-                <div>交流学习经验</div>
-                <div>展示个人能力</div>
-                <div>获取更多机会</div>
+                <ul class="site-objective">
+                    <li>分享学习方法</li>
+                    <li>交流学习经验</li>
+                </ul>
             </div>
         </div>
     </div>

@@ -23,5 +23,6 @@
     </mvc:interceptors>
 
     <import resource="social-service.xml" />
+    <import resource="commons-service.xml" />
 
 </beans>

@@ -14,56 +14,56 @@
             </div>
 
             <legend>
-                <@spring.message "Legend.signupForm" />
+                <@spring.message "signupForm" />
                 <span class="requirement">
-                    <@spring.message "Require.signupForm" />
+                    <@spring.message "Required.signupForm" />
                </span>
             </legend>
             <ul>
                 <li>
                     <label for="username">
-                        <@spring.message "Label.signupForm.username" />
+                        <@spring.message "username" />
                         <span style="display: none" class="error">
-                            <@spring.message "Taken.signupForm.username" />
+                            <@spring.message "Taken.username" />
                         </span>
                     </label>
-                    <@spring.formInput "signupForm.username" 'class="sum"' />
+                    <@spring.formInput "signupForm.username" />
                  </li>
                  <li>
                      <label for="password">
-                         <@spring.message "Label.signupForm.password" />
+                         <@spring.message "password" />
                          <span class="requirement">
-                             <@spring.message "Size.signupForm.password" />
+                             <@spring.message "Size.password" />
                          </span>
                      </label>
-                     <@spring.formPasswordInput "signupForm.password" 'class="sum"' />
+                     <@spring.formPasswordInput "signupForm.password" />
                   </li>
                   <li>
                       <label for="confirm">
-                          <@spring.message "Label.signupForm.confirm" />
+                          <@spring.message "confirm" />
                       </label>
-                      <@spring.formPasswordInput "signupForm.confirm" 'class="sum"' />
+                      <@spring.formPasswordInput "signupForm.confirm" />
                   </li>
                   <li>
                     <label for="email">
-                        <@spring.message "Label.signupForm.email" />
+                        <@spring.message "email" />
                         <span style="display: none" class="error">
-                            <@spring.message "Taken.signupForm.email" />
+                            <@spring.message "Taken.email" />
                         </span>
                     </label>
-                    <@spring.formInput "signupForm.email" 'class="sum"'/>
+                    <@spring.formInput "signupForm.email" />
                 </li>
                 <li>
                      <label for="displayName">
-                        <@spring.message "Label.signupForm.displayName" />
+                        <@spring.message "displayName" />
                     </label>
-                    <@spring.formInput "signupForm.displayName" 'class="sum"'/>
+                    <@spring.formInput "signupForm.displayName" />
                 </li>
                 <li>
                     <label for="headline">
-                        <@spring.message "Label.signupForm.headline" />
+                        <@spring.message "headline" />
                     </label>
-                    <@spring.formTextarea "signupForm.headline" "class='sum'" />
+                    <@spring.formTextarea "signupForm.headline" />
                 </li>
                 <li>
                     <input type="submit" value='<@spring.message "Signup.button" />' />

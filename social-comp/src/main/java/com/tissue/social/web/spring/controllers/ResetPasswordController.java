@@ -3,7 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.Account;
 import com.tissue.core.Reset;
 import com.tissue.social.web.model.ResetRequestForm;
-import com.tissue.social.web.model.PasswordForm;
+import com.tissue.social.web.model.ResetPasswordForm;
 import com.tissue.social.services.ResetService;
 import com.tissue.social.services.AccountService;
 
@@ -59,7 +59,7 @@ public class ResetPasswordController {
 
         Account account = accountService.getAccountByEmail(form.getEmail());
         if(account == null) {
-            result.rejectValue("email", "NonExist.resetRequestForm.email", "Email not exist");
+            result.rejectValue("email", "NotExist.email", "Email not exist");
             return "createResetRequestFormView";
         }
         form.setAccount(account);
@@ -69,7 +69,7 @@ public class ResetPasswordController {
         return "redirect:/createResetRequestSuccess";
     }
 
-    @RequestMapping(value="/resetRequestSuccess", method=GET)
+    @RequestMapping(value="/createResetRequestSuccess", method=GET)
     public String resetRequestSuccess() {
         return "createResetRequestSuccess";
     }
@@ -81,38 +81,29 @@ public class ResetPasswordController {
             throw new IllegalArgumentException("no such code");
         }
 
-        model.put("code", reset.getCode());
-        model.put("passwordForm", new PasswordForm());
+        ResetPasswordForm form = new ResetPasswordForm();
+        form.setReset(reset);
+        model.put("resetPasswordForm", form);
         return "createResetPasswordFormView";
     }
 
-    @RequestMapping(value="/reset/{code}", method=POST)
-    public String processReset(@PathVariable("code") Reset reset, @Valid PasswordForm form, BindingResult result, Locale locale) {
-
-        if(reset == null) {
-            throw new IllegalArgumentException("no such code");
-        }
+    @RequestMapping(value="/resetPassword", method=POST)
+    public String processReset(@Valid ResetPasswordForm form, BindingResult result, Locale locale) {
 
         if(result.hasErrors()) {
             return "createResetPasswordFormView";
         }
 
         if(!form.getPassword().equals(form.getConfirm())) {
-            result.rejectValue("confirm", "Mismatch.resetPasswordForm.confirm", "confirm mismatch");
+            result.rejectValue("confirm", "Mismatch.confirm", "confirm mismatch");
             return "createResetPasswordFormView";
         }
 
-        form.setAccount(reset.getAccount());
+        form.setAccount(form.getReset().getAccount());
         accountService.updatePassword(form);
+        resetService.deleteReset(form.getReset().getId());
 
-        resetService.deleteReset(reset.getId());
-
-        return "redirect:/resetPasswordSuccess";
-    }
-
-    @RequestMapping(value="/resetPasswordSuccess", method=GET)
-    public String resetSuccess() {
-        return "createResetPasswordSuccess";
+        return "redirect:/signin?reset=t";
     }
 
 }

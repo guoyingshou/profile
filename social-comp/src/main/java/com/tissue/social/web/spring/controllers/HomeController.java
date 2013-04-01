@@ -165,8 +165,9 @@ public class HomeController {
     }
 
     @RequestMapping(value="/signin")
-    public String loginForm(@RequestParam(value="error", required=false) String error, Map model) {
+    public String loginForm(@RequestParam(value="error", required=false) String error, @RequestParam(value="reset", required=false) String reset, Map model) {
         model.put("error", error);
+        model.put("reset", reset);
         return "signin";
     }
 

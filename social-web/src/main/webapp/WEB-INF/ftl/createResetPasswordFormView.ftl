@@ -8,35 +8,39 @@
     <#include "siteLogo.ftl" />
 
     <div id="page-main-wrapper">
-<@spring.bind 'passwordForm.*' />
-<form id="resetPasswordForm" method="post" action="<@spring.url '/reset/${code}'/>">
-    <div class="error">
-        <@spring.showErrors "<br>" />
-    </div>
+        <@spring.bind 'resetPasswordForm.*' />
+        <form id="resetPasswordForm" method="post" action="<@spring.url '/resetPassword'/>">
+            <div class="error">
+                <@spring.showErrors "<br>" />
+            </div>
 
-    <legend>
-        <@spring.message "Legend.resetPasswordForm" />
-    </legend>
-    <ul>
-        <li>
-            <label for="password">
-                <@spring.message "Label.resetPasswordForm.password" />
-            </label>
-            <@spring.formPasswordInput "passwordForm.password" 'class="sum"' />
-        </li>
-        <li>
-            <label for="confirm">
-                <@spring.message "Label.resetPasswordForm.confirm" />
-            </label>
-            <@spring.formPasswordInput 'passwordForm.confirm' 'class="sum"' />
-        </li>
-
-        <li>
-            <input type="submit" value='<@spring.message "Save.button" />'/>
-        </li>
-    </ul>
-</form>
-
+            <legend>
+                <@spring.message "resetPasswordForm" />
+            </legend>
+            <ul>
+                <li>
+                    <label for="password">
+                        <@spring.message "password" />
+                    </label>
+                    <@spring.formPasswordInput "resetPasswordForm.password" />
+                </li>
+                <li>
+                    <label for="confirm">
+                        <@spring.message "confirm" />
+                    </label>
+                   <@spring.formPasswordInput 'resetPasswordForm.confirm' />
+                </li>
+                <li>
+                    <input type="hidden" name="reset" value="${resetPasswordForm.reset.code}" />
+                <#--
+                    <@spring.formHiddenInput 'resetPasswordForm.reset.code' />
+                    -->
+                </li>
+                <li>
+                    <input type="submit" value='<@spring.message "Save.button" />'/>
+                </li>
+            </ul>
+         </form>
     </div>
 
 </@site.layout>

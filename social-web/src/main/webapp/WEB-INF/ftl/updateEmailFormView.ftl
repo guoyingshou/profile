@@ -24,12 +24,12 @@
                       <@spring.showErrors "<br>" />
                     </div>
                     <legend>
-                        <@spring.message "Legend.emailForm" />
+                        <@spring.message "updateEmailForm" />
                     </legend>
                     <ul>
                        <li>
                           <label for="email">
-                              <@spring.message "Label.emailForm.email" />
+                              <@spring.message "email" />
                           </label>
                           <@spring.formInput "emailForm.email" 'class="sum"' />
                        </li>

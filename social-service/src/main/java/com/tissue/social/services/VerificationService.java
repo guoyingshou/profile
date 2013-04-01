@@ -20,7 +20,6 @@ public class VerificationService implements MessageSourceAware {
 
     @Value("${mail.from}")
     private String from;
-    //private String from = "webmaster@tissue.com";
 
     @Autowired
     private MailSender mailSender;
