@@ -15,10 +15,25 @@
                 <ul class="friends">
                     <#list friends as friend>
                     <li>
-                        <a href="/social/users/${friend.id?replace("#", "")}/posts">${friend.displayName}</a>
+                        <div class="user">
+                            <div class="user-display-name">
+                                <a href="<@spring.url '/users/${friend.id?replace("#", "")}/posts' />">
+                                    ${friend.displayName}
+                                </a>
+                            </div>
+                            <div class="user-headline">
+                                ${friend.headline}
+                            </div>
+                            <div class="action">
+                                <a class="delete" data-action="<@spring.url '/friends/${friend.id?replace("#","")}/_remove' />" href="#">
+                                     remove
+                                </a>
+                            </div>
+                        </div>
                     </li>
                     </#list>
                 </ul>
+                <@site.deleteConfirmForm />
             </div>
 
             <div id="main-sidebar">

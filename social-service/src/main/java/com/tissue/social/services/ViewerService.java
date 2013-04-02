@@ -67,6 +67,10 @@ public class ViewerService {
         return userDao.isFriend(userId, viewerAccount.getUser().getId());
     }
 
+    public void removeRelation(String userId1, String userId2) {
+        userDao.removeRelation(userId1, userId2);
+    }
+
     public List<User> getFriends(String userId) {
         return userDao.getFriends(userId);
     }
@@ -79,8 +83,8 @@ public class ViewerService {
         return topicDao.getNewTopics(excludingUserId, limit);
     }
 
-    public List<Plan> getPlans(Account account) {
-        return planDao.getPlansByAccount(account.getId());
+    public List<Plan> getPlans(String accountId) {
+        return planDao.getPlansByAccount(accountId);
     }
 
     public long getPostsCountByUser(String userId) {

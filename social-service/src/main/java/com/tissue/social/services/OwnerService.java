@@ -74,12 +74,14 @@ public class OwnerService {
         return postDao.getPagedPostsByUser(userId, page, size);
     }
  
-    public void checkInvitable(User owner, Account viewerAccount, Map model) {
+    public Boolean isInvitable(User owner, Account viewerAccount) {
         Boolean invitable = false;
         if((owner != null) && (viewerAccount != null) && !owner.getId().equals(viewerAccount.getUser().getId())) {
-            invitable = invitationDao.isInvitable(owner, viewerAccount);
+            int inviteLimit = viewerAccount.getUser().getInviteLimit();
+            if(inviteLimit > 0) {
+                invitable = invitationDao.isInvitable(owner, viewerAccount);
+            }
         }
-        model.put("invitable", invitable);
+        return invitable;
     }
-
 }

@@ -61,7 +61,7 @@ public class ViewerController {
     @RequestMapping(value="/dashboard")
     public String dashboard(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
         model.put("plans", plans);
 
         List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
@@ -77,7 +77,7 @@ public class ViewerController {
     @RequestMapping(value="/allfeeds")
     public String allfeeds(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
         model.put("plans", plans);
 
         List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
@@ -97,7 +97,7 @@ public class ViewerController {
     @RequestMapping(value="/friends")
     public String getFriends(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
         model.put("plans", plans);
 
         List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
@@ -109,5 +109,13 @@ public class ViewerController {
         model.put("selected", "friends");
         return "friends";
     }
+
+    @RequestMapping(value="/friends/{friendId}/_remove", method=POST)
+    public String removeFriend(@PathVariable("friendId") User friend, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+
+        viewerService.removeRelation(friend.getId(), viewerAccount.getUser().getId());
+        return "redirect:/friends";
+    }
+
 
 }

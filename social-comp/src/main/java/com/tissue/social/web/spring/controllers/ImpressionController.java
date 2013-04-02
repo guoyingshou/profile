@@ -56,7 +56,8 @@ public class ImpressionController {
 
         model.put("selected", "impressions");
         model.put("owner", owner);
-        ownerService.checkInvitable(owner, viewerAccount, model);
+        model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
+        //ownerService.checkInvitable(owner, viewerAccount, model);
         model.put("impressionForm", new ImpressionForm());
         return "createImpressionFormView";
     }
@@ -70,7 +71,8 @@ public class ImpressionController {
         if(result.hasErrors()) {
             model.put("selected", "impressions");
             model.put("owner", owner);
-            ownerService.checkInvitable(owner, viewerAccount, model);
+            model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
+            //ownerService.checkInvitable(owner, viewerAccount, model);
             return "createImpressionFormView";
         }
 
@@ -90,8 +92,7 @@ public class ImpressionController {
 
         model.put("selected", "impressions");
         model.put("owner", owner);
-
-        ownerService.checkInvitable(owner, viewerAccount, model);
+        model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
 
         List<Plan> plans = ownerService.getPlans(owner.getId());
         model.put("plans", plans);

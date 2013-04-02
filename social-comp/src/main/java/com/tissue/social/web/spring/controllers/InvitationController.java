@@ -60,7 +60,9 @@ public class InvitationController {
 
         model.put("selected", "impressions"); 
         model.put("owner", owner); 
-        ownerService.checkInvitable(owner, viewerAccount, model);
+        //ownerService.checkInvitable(owner, viewerAccount, model);
+        Boolean invitable = ownerService.isInvitable(owner, viewerAccount);
+        model.put("invitable", invitable);
 
         model.put("invitationForm", new InvitationForm());
         return "createInvitationFormView";
@@ -73,7 +75,8 @@ public class InvitationController {
         if(result.hasErrors()) {
             model.put("selected", "impressions"); 
             model.put("owner", owner);
-            ownerService.checkInvitable(owner, viewerAccount, model);
+            model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
+            //ownerService.checkInvitable(owner, viewerAccount, model);
             return "createInvitationFormView";
         }
 
@@ -103,7 +106,7 @@ public class InvitationController {
 
         model.put("selected", "invitations");
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount);
+        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
         model.put("plans", plans);
 
         List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);

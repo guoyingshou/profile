@@ -7,7 +7,7 @@
     <#include "siteLogo.ftl" />
 
     <div id="page-main-wrapper">
-        <div>
+        <div class="info">
             A email has been sent to your email.
         </div>
     </div>
