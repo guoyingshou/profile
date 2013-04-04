@@ -83,7 +83,7 @@ public class ViewerController {
         List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
         model.put("invitationsReceived", invitations);
  
-        List<Activity> activities = viewerService.getActivities(35);
+        List<Activity> activities = viewerService.getActivities(32);
         model.put("activities", activities);
 
         model.put("selected", "allFeeds");

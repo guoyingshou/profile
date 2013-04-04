@@ -51,13 +51,16 @@ public class HomeController {
     private ActivityService activityService;
 
     @RequestMapping(value="/home")
-    public String index(Map model) {
+    public String index(@RequestParam(value="s", required=false) String s, Map model) {
+        if(s != null) {
+            model.put("signout", true);
+        }
 
         if(SecurityUtil.getViewerAccountId() != null) {
             return "redirect:dashboard";
         }
 
-        List<Activity> activities = activityService.getActivitiesForNewUser(35);
+        List<Activity> activities = activityService.getActivitiesForNewUser(8);
         model.put("activities", activities);
 
         return "home";
@@ -66,12 +69,6 @@ public class HomeController {
     @RequestMapping(value="/signout")
     public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
 
-        model.put("signout", true);
-        model.put("viewerAccount", null);
-
-        List<Activity> activities = activityService.getActivitiesForNewUser(35);
-        model.put("activities", activities);
- 
         ses.invalidate();
         Cookie[] cookies = req.getCookies();
         if(cookies != null) {
@@ -82,7 +79,7 @@ public class HomeController {
                 res.addCookie(cookie);
             }
         }
-       return "home";
+        return "redirect:/home?s=";
     }
 
     @RequestMapping(value="/signup", method=GET)

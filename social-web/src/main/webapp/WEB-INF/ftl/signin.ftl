@@ -18,9 +18,11 @@
             </#if>
 
             <#if reset??>
-                <div>
-                    Success resetting your password
-                </div>
+            <div>
+                <span class="error">
+                    <@spring.message "Success.resetPassword" />
+                </span>
+            </div>
             </#if>
 
             <legend>

@@ -18,32 +18,32 @@
         <div id="page-main">
             <div id="main-content">
                 <div>
-                    Username: 
+                    <@spring.message 'username' />: 
                     ${viewerAccount.username}
                 </div>
 
                 <div>
-                    Email: 
+                    <@spring.message 'email' />: 
                     ${viewerAccount.email}
                 </div>
 
                 <div>
-                    DisplayName:  
+                    <@spring.message 'displayName' />: 
                     ${viewerAccount.user.displayName}
                 </div>
 
                 <div>
-                    Headline:  
+                    <@spring.message 'headline' />: 
                     ${viewerAccount.user.headline}
                 </div>
             </div>
 
-            <div id="main-sidebar">
             <#--
+            <div id="main-sidebar">
                 <@userGadgets.showPlansLearning/>
                 <@userGadgets.showPlansLearned/>
-                -->
             </div>
+                -->
 
         </div>
     </div>
