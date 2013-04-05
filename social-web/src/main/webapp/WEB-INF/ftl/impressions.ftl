@@ -16,13 +16,24 @@
                <ul class="impressions">
                    <#if impressions??>
                    <#list impressions as impression>
-                   <li>${impression.content}</li>
+                   <li>
+                       <div>
+                           ${impression.content}
+                       </div>
+                       <div class="user">
+                           <a href="<@spring.url '/users/${impression.account.user.id?replace("#","")}/posts' />">
+                               ${impression.account.user.displayName} 
+                           </a>
+                       </div>
+                   </li>
                    </#list>
                    </#if>
                </ul>
 
                <#if viewerAccount?? && isFriend>
-               <a href="<@spring.url '/users/${owner.id?replace("#","")}/impressions/_create' />">add impression</a>
+               <a href="<@spring.url '/users/${owner.id?replace("#","")}/impressions/_create' />">
+                   <@spring.message 'Add.impression' />
+               </a>
                </#if>
            </div>
 

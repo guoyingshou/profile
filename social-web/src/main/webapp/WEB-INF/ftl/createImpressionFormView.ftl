@@ -2,7 +2,7 @@
 <#import "siteGadgets.ftl" as site />
 <#import "userGadgets.ftl" as userGadgets />
 
-<#assign title="signin" in site>
+<#assign title="Impression" in site>
 
 <@site.layout>
 
@@ -17,14 +17,14 @@
           </div>
 
           <legend>
-              Impression
+              <@spring.message 'impression' />
           </legend>
           <ul>
               <li>
-                  <@spring.formTextarea "impressionForm.content" 'class="sum"' />
+                  <@spring.formTextarea "impressionForm.content" />
               </li>
               <li>
-                  <input type="submit" value="submit"/>
+                  <input type="submit" value="<@spring.message 'Submit.button' />" />
               </li>
           </ul>
       </form>

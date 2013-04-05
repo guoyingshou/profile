@@ -1,7 +1,7 @@
 <#import "spring.ftl" as spring />
 <#import "siteGadgets.ftl" as site />
 
-<#assign title="signin" in site>
+<#assign title="Invitation" in site>
 
 <@site.layout>
 

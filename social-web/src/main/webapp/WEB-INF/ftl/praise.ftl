@@ -3,6 +3,7 @@
 <#import "siteGadgets.ftl" as site />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in site>
+<#assign sec=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#assign title= "about" in site>
 
 <@site.layout>
@@ -25,9 +26,10 @@
                     </#if>
                 </ul>
 
-                <#if viewerAccount??>
+                <@sec.authorize access="hasRole('ROLE_VIP')">
                 <a href="<@spring.url '/about/_create' />">add</a>
-                </#if>
+                </@sec.authorize>
+ 
             </div>
 
             <div id="main-sidebar">
