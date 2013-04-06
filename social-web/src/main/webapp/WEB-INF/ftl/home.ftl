@@ -10,7 +10,7 @@
         <iframe src="/group/signout" style="display:none"></iframe>
     </#if>
 
-    <#include "siteLogo.ftl" />
+    <@site.siteLogo />
 
     <div id="page-main-wrapper">
         <div id="page-main">

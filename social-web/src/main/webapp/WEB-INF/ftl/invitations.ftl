@@ -6,8 +6,7 @@
 
 <@site.layout>
 
-    <#include "siteLogo.ftl" />
-    <#include "siteMenu.ftl" />
+    <#include "ownerHeader.ftl" />
 
     <div id="page-main-wrapper">
         <div id="page-main">

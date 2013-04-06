@@ -4,7 +4,7 @@
 <#assign title = "sign up" in site />
 
 <@site.layout>
-    <#include "siteLogo.ftl" />
+    <@site.siteLogo />
 
     <div id="page-main-wrapper">
         <@spring.bind 'signupForm.*' />

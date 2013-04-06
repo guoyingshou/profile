@@ -5,7 +5,7 @@
 
 <@site.layout>
 
-    <#include "siteLogo.ftl" />
+    <@site.siteLogo/>
 
     <div id="page-main-wrapper">
         <form id="signinForm" action="<@spring.url '/jsc'/>" method="post">

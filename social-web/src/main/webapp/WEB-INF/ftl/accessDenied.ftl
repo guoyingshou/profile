@@ -4,11 +4,12 @@
 <#assign title="signin" in site>
 
 <@site.layout>
-    <@site.siteLogo/>
+
+    <@site.siteLogo />
 
     <div id="page-main-wrapper">
         <div class="info">
-            <@spring.message "Success.resetRequest" />
+            Access denied
         </div>
     </div>
 

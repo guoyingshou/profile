@@ -5,8 +5,8 @@
 <#assign title = "dashboard" in site>
 
 <@site.layout>
-    <#include "siteLogo.ftl" />
-    <#include "siteMenu.ftl" />
+    <@site.siteLogo />
+    <@userGadgets.viewerMenu />
 
     <div id="page-main-wrapper">
         <div id="page-main">

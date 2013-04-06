@@ -6,7 +6,7 @@
 
 <@site.layout>
 
-    <#include "userHeader.ftl" />
+    <#include "ownerHeader.ftl" />
 
     <div id="page-main-wrapper">
        <@spring.bind "impressionForm.*" />

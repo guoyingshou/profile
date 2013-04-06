@@ -7,7 +7,7 @@
 <#assign title= "about" in site>
 
 <@site.layout>
-    <#include "siteLogo.ftl" />
+    <@site.siteLogo />
 
     <div id="page-menu-wrapper">
         <div id="page-menu">

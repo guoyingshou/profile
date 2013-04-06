@@ -8,7 +8,7 @@
 
 <@site.layout>
 
-    <#include "userHeader.ftl" />
+    <#include "ownerHeader.ftl" />
 
     <div id="page-main-wrapper">
         <div id="page-main">
