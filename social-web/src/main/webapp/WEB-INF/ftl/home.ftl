@@ -6,9 +6,11 @@
 
 <@site.layout>
 
+<#--
     <#if signout??>
         <iframe src="/group/signout" style="display:none"></iframe>
     </#if>
+    -->
 
     <@site.siteLogo />
 

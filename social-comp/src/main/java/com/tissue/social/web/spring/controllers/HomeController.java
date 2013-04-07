@@ -66,6 +66,7 @@ public class HomeController {
         return "home";
     }
 
+    /**
     @RequestMapping(value="/signout")
     public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
 
@@ -81,6 +82,7 @@ public class HomeController {
         }
         return "redirect:/home?s=";
     }
+    */
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
@@ -161,11 +163,13 @@ public class HomeController {
         }
     }
 
+    /**
     @RequestMapping(value="/signin")
     public String loginForm(@RequestParam(value="error", required=false) String error, @RequestParam(value="reset", required=false) String reset, Map model) {
         model.put("error", error);
         model.put("reset", reset);
         return "signin";
     }
+    */
 
 }
