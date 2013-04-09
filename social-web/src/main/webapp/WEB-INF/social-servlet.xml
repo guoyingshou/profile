@@ -18,7 +18,10 @@
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 
     <context:property-placeholder location="classpath:mailSender.properties" />
-    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource" p:basenames="common, nav, logo, menu, timestamp, activity, user, userForm, email" p:defaultEncoding="utf-8"/>
+    <bean id="messageSource" 
+        class="org.springframework.context.support.ResourceBundleMessageSource" 
+        p:basenames="common, user, userForm, email" 
+        p:defaultEncoding="utf-8"/>
         
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
         <property name="preferFileSystemAccess" value="false" />

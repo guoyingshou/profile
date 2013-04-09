@@ -17,37 +17,27 @@
      http://www.springframework.org/schema/util
      http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
+    <context:property-placeholder location="classpath:smtp.properties, classpath:orientdb.properties" />
+
     <bean id="dataSource" class="com.tissue.core.util.OrientDataSource" destroy-method="destroy">
-        <constructor-arg value="remote:www.tissue.com/test1" />
-        <constructor-arg value="guo" />
-        <constructor-arg value="guo" />
-        <constructor-arg value="20" />
-        <constructor-arg value="40" />
+        <constructor-arg value="${db_url}" />
+        <constructor-arg value="${db_username}" />
+        <constructor-arg value="${db_password}" />
+        <constructor-arg value="${db_min}" />
+        <constructor-arg value="${db_max}" />
     </bean>
-    <import resource="dao.xml" />
-    <import resource="security.xml" />
- 
-    <context:property-placeholder location="classpath:smtp.properties" />
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
-        <property name="host" value="${host}" />
-        <property name="port" value="${port}" />
-        <property name="username" value="${username}" />
-        <property name="password" value="${password}" />
-        <!--
-        <property name="host" value="mail.tissue.com" />
-        <property name="port" value="25" />
-        <property name="username" value="yingshou@tissue.com" />
-        <property name="password" value="yingshou" />
-        <property name="javaMailProperties">
-            <props>
-                <prop key="mail.smtp.starttls.enable">true</prop>
-            </props>
-        </property>
-        -->
+        <property name="host" value="${smtp_host}" />
+        <property name="port" value="${smtp_port}" />
+        <property name="username" value="${smtp_username}" />
+        <property name="password" value="${smtp_password}" />
     </bean>
 
-    <task:executor id="exicutor" pool-size="10" />
+    <task:executor id="executor" pool-size="10" />
     <task:annotation-driven />
+
+    <import resource="dao.xml" />
+    <import resource="security.xml" />
 
 </beans>

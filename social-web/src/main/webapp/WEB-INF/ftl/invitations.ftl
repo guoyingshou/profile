@@ -6,7 +6,12 @@
 
 <@site.layout>
 
+<#--
     <#include "ownerHeader.ftl" />
+    -->
+    <@site.siteLogo />
+    <@userGadgets.viewerMenu />
+
 
     <div id="page-main-wrapper">
         <div id="page-main">

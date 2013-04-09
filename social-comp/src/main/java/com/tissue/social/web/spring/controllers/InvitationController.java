@@ -60,7 +60,6 @@ public class InvitationController {
 
         model.put("selected", "impressions"); 
         model.put("owner", owner); 
-        //ownerService.checkInvitable(owner, viewerAccount, model);
         Boolean invitable = ownerService.isInvitable(owner, viewerAccount);
         model.put("invitable", invitable);
 
@@ -76,7 +75,6 @@ public class InvitationController {
             model.put("selected", "impressions"); 
             model.put("owner", owner);
             model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
-            //ownerService.checkInvitable(owner, viewerAccount, model);
             return "createInvitationFormView";
         }
 
