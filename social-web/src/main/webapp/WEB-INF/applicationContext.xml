@@ -17,6 +17,9 @@
      http://www.springframework.org/schema/util
      http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
+    <import resource="dao.xml" />
+    <import resource="security.xml" />
+
     <context:property-placeholder location="classpath:smtp.properties, classpath:orientdb.properties" />
 
     <bean id="dataSource" class="com.tissue.core.util.OrientDataSource" destroy-method="destroy">
@@ -36,8 +39,5 @@
 
     <task:executor id="executor" pool-size="10" />
     <task:annotation-driven />
-
-    <import resource="dao.xml" />
-    <import resource="security.xml" />
 
 </beans>

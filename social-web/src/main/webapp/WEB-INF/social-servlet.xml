@@ -15,9 +15,17 @@
 	       http://www.springframework.org/schema/util 
 	       http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 		   
-    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
 
     <context:property-placeholder location="classpath:mailSender.properties" />
+    <context:annotation-config />
+
+    <mvc:annotation-driven conversion-service="conversionService" />
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 
+    </mvc:interceptors>
+
+    <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
+
     <bean id="messageSource" 
         class="org.springframework.context.support.ResourceBundleMessageSource" 
         p:basenames="common, user, userForm, email" 
@@ -41,27 +49,25 @@
 	    <property name="suffix" value=".ftl"/>
     </bean>
 
-    <mvc:resources mapping="/resources/**" location="/" />
-
-    <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-        <property name="registerDefaultFormatters" value="true" />
+    <bean id="conversionService" class="org.springframework.context.support.ConversionServiceFactoryBean">
         <property name="converters">
             <set>
+                <bean class="com.tissue.core.spring.converters.IdToUserConverter" />
+                <bean class="com.tissue.core.spring.converters.IdToResetConverter" />
+                <bean class="com.tissue.core.spring.converters.IdToVerificationConverter" />
+                <bean class="com.tissue.social.spring.converters.IdToInvitationConverter" />
+                <bean class="com.tissue.social.spring.converters.IdToImpressionConverter" />
+                <!--
                 <ref bean="idToUserConverter" />
                 <ref bean="idToVerificationConverter" />
                 <ref bean="idToResetConverter" />
                 <ref bean="idToInvitationConverter" />
                 <ref bean="idToImpressionConverter" />
+                -->
             </set>
         </property>
     </bean>
 
-    <mvc:annotation-driven conversion-service="conversionService" />
-
-    <mvc:interceptors>
-        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 
-    </mvc:interceptors>
-
-    <import resource="social-controller.xml" />
+    <import resource="controller.xml" />
 
 </beans>

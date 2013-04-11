@@ -46,10 +46,6 @@ public class OwnerController {
     @RequestMapping(value="/users/{userId}/posts")
     public String getPosts(@PathVariable("userId") User owner, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
-        if(owner == null) {
-           throw new IllegalArgumentException("invalid user id");
-        }
-
         model.put("selected", "posts");
         model.put("owner", owner);
 
@@ -73,10 +69,6 @@ public class OwnerController {
 
     @RequestMapping(value="/users/{userId}/status")
     public String getFeed(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-
-        if(owner == null) {
-           throw new IllegalArgumentException("invalid user id");
-        }
 
         model.put("selected", "status");
         model.put("owner", owner);
