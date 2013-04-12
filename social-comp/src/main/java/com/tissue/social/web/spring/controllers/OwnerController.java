@@ -56,7 +56,7 @@ public class OwnerController {
         model.put("plans", plans);
 
         page = (page == null) ? 1 : page;
-        size = (size == null) ? 50 : size;
+        size = (size == null) ? 12 : size;
         long total = ownerService.getPostsCount(owner.getId());
         Pager pager = new Pager(total, page, size);
         model.put("pager", pager);

@@ -29,9 +29,6 @@ public class VerificationController {
 
     @RequestMapping(value="/verifications/{code}")
     public String verifyCode(@PathVariable("code") Verification verification, Map model) {
-        if(verification == null) {
-            throw new IllegalArgumentException("invalid verification code");
-        }
 
         accountService.setVerified(verification.getAccount().getId());
         verificationService.deleteVerification(verification.getId());
