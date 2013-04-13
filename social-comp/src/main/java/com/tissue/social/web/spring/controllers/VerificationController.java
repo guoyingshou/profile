@@ -1,7 +1,7 @@
 package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Verification;
-import com.tissue.social.services.AccountService;
+import com.tissue.commons.services.AccountService;
 import com.tissue.social.services.VerificationService;
 
 import org.springframework.stereotype.Controller;

@@ -2,12 +2,12 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.User;
+import com.tissue.commons.services.ViewerService;
+import com.tissue.commons.services.OwnerService;
 import com.tissue.social.Invitation;
 import com.tissue.plan.Plan;
 import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.services.InvitationService;
-import com.tissue.social.services.ViewerService;
-import com.tissue.social.services.OwnerService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -56,11 +56,14 @@ public class InvitationController {
     private OwnerService ownerService;
 
     @RequestMapping(value="/users/{userId}/invitations/_create")
-    public String invitationViewForm(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String invitationViewForm(@PathVariable("userId") User owner, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "impressions"); 
         model.put("owner", owner); 
-        Boolean invitable = ownerService.isInvitable(owner, viewerAccount);
+        Boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
         model.put("invitable", invitable);
 
         model.put("invitationForm", new InvitationForm());
@@ -69,12 +72,14 @@ public class InvitationController {
     }
 
     @RequestMapping(value="/users/{userId}/invitations/_create", method=POST)
-    public String createInvitation(@PathVariable("userId") User owner, @Valid InvitationForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String createInvitation(@PathVariable("userId") User owner, @Valid InvitationForm form, BindingResult result, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
 
         if(result.hasErrors()) {
             model.put("selected", "impressions"); 
             model.put("owner", owner);
-            model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
+            model.put("invitable", ownerService.isInvitable(owner.getId(), viewerAccount));
             return "createInvitationFormView";
         }
 
@@ -82,32 +87,36 @@ public class InvitationController {
         form.setAccount(viewerAccount);
         invitationService.createInvitation(form);
 
+        model.clear();
         return "redirect:/users/" + owner.getId().replace("#","") + "/impressions";
     }
 
     @RequestMapping(value="/invitations/{invitationId}/_accept", method=GET)
-    public String accept(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String accept(@PathVariable("invitationId") Invitation invitation, Map model) {
 
         invitationService.acceptInvitation(invitation);
         return "redirect:/invitations";
     }
  
     @RequestMapping(value="/invitations/{invitationId}/_decline", method=GET)
-    public String decline(@PathVariable("invitationId") Invitation invitation, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String decline(@PathVariable("invitationId") Invitation invitation, Map model) {
 
         invitationService.declineInvitation(invitation);
         return "redirect:/invitations";
     }
 
     @RequestMapping(value="/invitations", method=GET)
-    public String getInvitations(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getInvitations(Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "invitations");
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
+        List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
+        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
  
         return "invitations";

@@ -2,10 +2,10 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.Reset;
+import com.tissue.commons.services.AccountService;
 import com.tissue.social.web.model.ResetRequestForm;
 import com.tissue.social.web.model.ResetPasswordForm;
 import com.tissue.social.services.ResetService;
-import com.tissue.social.services.AccountService;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpEntity;

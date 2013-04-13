@@ -1,6 +1,7 @@
 package com.tissue.social.services;
 
 import com.tissue.core.Account;
+import com.tissue.commons.util.SecurityUtil;
 import com.tissue.social.Invitation;
 import com.tissue.social.dao.InvitationDao;
 import com.tissue.social.command.InvitationCommand;
@@ -24,10 +25,16 @@ public class InvitationService {
         return invitationDao.getInvitation(invitationId);
     }
 
+    /**
     public List<Invitation> getInvitationsReceived(Account account) {
         return invitationDao.getInvitationsReceived(account.getUser().getId());
     }
+    */
 
+    public List<Invitation> getViewerReceivedInvitations() {
+        return invitationDao.getInvitationsReceived(SecurityUtil.getViewerAccountId());
+    }
+ 
     public void acceptInvitation(Invitation invitation) {
         invitationDao.acceptInvitation(invitation);
     }

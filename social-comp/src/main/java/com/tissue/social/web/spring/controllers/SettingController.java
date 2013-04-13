@@ -2,11 +2,11 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.User;
+import com.tissue.commons.services.AccountService;
+import com.tissue.commons.services.ViewerService;
 import com.tissue.social.web.model.HeadlineForm;
 import com.tissue.social.web.model.EmailForm;
 import com.tissue.social.web.model.PasswordForm;
-import com.tissue.social.services.ViewerService;
-import com.tissue.social.services.AccountService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -36,20 +36,29 @@ public class SettingController {
     private AccountService accountService;
 
     @RequestMapping(value="/_setting")
-    public String setting(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String setting(Map model) {
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
         model.put("selected", "profile");
         return "setting";
     }
 
     @RequestMapping(value="/_updateHeadline")
-    public String updateHeadlineForm(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String updateHeadlineForm(Map model) {
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
         model.put("selected", "headline");
         model.put("headlineForm", viewerAccount.getUser());
         return "updateHeadlineFormView";
     }
 
     @RequestMapping(value="/_updateHeadline", method=POST)
-    public String updateHeadline(@Valid HeadlineForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String updateHeadline(@Valid HeadlineForm form, BindingResult result, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         if(result.hasErrors()) {
             model.put("selected", "headline");
@@ -63,7 +72,11 @@ public class SettingController {
     }
 
     @RequestMapping(value="/_updateEmail")
-    public String updateEmailForm(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String updateEmailForm(Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
         model.put("selected", "email");
 
         model.put("emailForm", viewerAccount);
@@ -72,7 +85,10 @@ public class SettingController {
     }
 
     @RequestMapping(value="/_updateEmail", method=POST)
-    public String updateEmail(@Valid EmailForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String updateEmail(@Valid EmailForm form, BindingResult result, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         if(result.hasErrors()) {
             model.put("selected", "email");
@@ -95,15 +111,21 @@ public class SettingController {
     }
 
     @RequestMapping(value="/_updatePassword")
-    public String updatePasswordForm(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String updatePasswordForm(Map model) {
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
         model.put("selected", "password");
         model.put("passwordForm", new PasswordForm());
         return "updatePasswordFormView";
     }
 
     @RequestMapping(value="/_updatePassword", method=POST)
-    public String updatePassword(@Valid PasswordForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
-        
+    public String updatePassword(@Valid PasswordForm form, BindingResult result, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+       
         if(result.hasErrors()) {
             model.put("selected", "password");
             return "updatePasswordFormView";

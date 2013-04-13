@@ -2,12 +2,12 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.User;
 import com.tissue.core.Account;
+import com.tissue.commons.services.AccountService;
 import com.tissue.commons.util.SecurityUtil;
 import com.tissue.social.Activity;
 import com.tissue.social.web.model.SignupForm;
 import com.tissue.social.web.model.VerificationForm;
 import com.tissue.social.services.ActivityService;
-import com.tissue.social.services.AccountService;
 import com.tissue.social.services.VerificationService;
 
 import org.springframework.http.HttpStatus;

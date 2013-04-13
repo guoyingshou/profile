@@ -2,15 +2,15 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.User;
+import com.tissue.commons.services.ViewerService;
 import com.tissue.social.Invitation;
 import com.tissue.social.Impression;
 import com.tissue.social.Activity;
 import com.tissue.plan.Plan;
 import com.tissue.plan.Topic;
 import com.tissue.social.web.model.ImpressionForm;
-import com.tissue.social.services.ViewerService;
-import com.tissue.social.services.AccountService;
 import com.tissue.social.services.InvitationService;
+import com.tissue.social.services.ActivityService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -53,21 +53,24 @@ public class ViewerController {
     private ViewerService viewerService;
 
     @Autowired
-    private InvitationService invitationService;
+    private ActivityService activityService;
 
     @Autowired
-    private AccountService accountService;
+    private InvitationService invitationService;
 
     @RequestMapping(value="/dashboard")
-    public String dashboard(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String dashboard(Map model) {
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
+        List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
+        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
  
-        List<Activity> activities = viewerService.getWatchedActivities(viewerAccount.getUser().getId(), 35);
+        List<Activity> activities = activityService.getViewerWatchedActivities(32);
         model.put("activities", activities);
 
         model.put("selected", "watchedFeeds");
@@ -75,15 +78,18 @@ public class ViewerController {
     }
 
     @RequestMapping(value="/allfeeds")
-    public String allfeeds(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String allfeeds(Map model) {
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
+        List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
+        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
  
-        List<Activity> activities = viewerService.getActivities(32);
+        List<Activity> activities = activityService.getActivities(32);
         model.put("activities", activities);
 
         model.put("selected", "allFeeds");
@@ -95,12 +101,15 @@ public class ViewerController {
      * In this case, viewer is the same as owner.
      */
     @RequestMapping(value="/friends")
-    public String getFriends(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getFriends(Map model) {
 
-        List<Plan> plans = viewerService.getPlans(viewerAccount.getId());
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
+        List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        List<Invitation> invitations = invitationService.getInvitationsReceived(viewerAccount);
+        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
  
         List<User> friends = viewerService.getFriends(viewerAccount.getUser().getId());

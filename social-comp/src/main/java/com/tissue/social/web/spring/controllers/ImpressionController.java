@@ -2,11 +2,12 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.User;
+import com.tissue.plan.Plan;
+import com.tissue.commons.services.ViewerService;
+import com.tissue.commons.services.OwnerService;
 import com.tissue.social.Impression;
 import com.tissue.social.web.model.ImpressionForm;
 import com.tissue.social.services.ImpressionService;
-import com.tissue.social.services.OwnerService;
-import com.tissue.plan.Plan;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -51,14 +52,20 @@ public class ImpressionController {
     @Autowired
     protected OwnerService ownerService;
 
+    @Autowired
+    protected ViewerService viewerService;
+
     @RequestMapping(value="/users/{userId}/impressions/_create")
-    public String addImpression(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String addImpression(@PathVariable("userId") User owner, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "impressions");
         model.put("owner", owner);
-        model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
-        //ownerService.checkInvitable(owner, viewerAccount, model);
+        model.put("invitable", ownerService.isInvitable(owner.getId(), viewerAccount));
         model.put("impressionForm", new ImpressionForm());
+
         return "createImpressionFormView";
     }
 
@@ -66,13 +73,15 @@ public class ImpressionController {
      * Add impression.
      */
     @RequestMapping(value="/users/{userId}/impressions/_create", method=POST)
-    public String addImpression(@PathVariable("userId") User owner, @Valid ImpressionForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String addImpression(@PathVariable("userId") User owner, @Valid ImpressionForm form, BindingResult result, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         if(result.hasErrors()) {
             model.put("selected", "impressions");
             model.put("owner", owner);
-            model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
-            //ownerService.checkInvitable(owner, viewerAccount, model);
+            model.put("invitable", ownerService.isInvitable(owner.getId(), viewerAccount));
             return "createImpressionFormView";
         }
 
@@ -80,19 +89,19 @@ public class ImpressionController {
         form.setAccount(viewerAccount);
         impressionService.createImpression(form);
 
+        model.clear();
         return "redirect:/users/" + form.getTo().getId().replace("#","") + "/impressions";
     }
 
     @RequestMapping(value="/users/{userId}/impressions")
-    public String getImpressions(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getImpressions(@PathVariable("userId") User owner, Map model) {
 
-        if(owner == null) {
-           throw new IllegalArgumentException("invalid user id");
-        }
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "impressions");
         model.put("owner", owner);
-        model.put("invitable", ownerService.isInvitable(owner, viewerAccount));
+        model.put("invitable", ownerService.isInvitable(owner.getId(), viewerAccount));
 
         List<Plan> plans = ownerService.getPlans(owner.getId());
         model.put("plans", plans);

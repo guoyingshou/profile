@@ -3,6 +3,7 @@ package com.tissue.social.web.spring.controllers;
 import com.tissue.core.Account;
 import com.tissue.core.About;
 import com.tissue.commons.util.Pager;
+import com.tissue.commons.services.ViewerService;
 import com.tissue.social.web.model.AboutForm;
 import com.tissue.social.services.AboutService;
 
@@ -35,8 +36,14 @@ public class AboutController {
     @Autowired
     protected AboutService aboutService;
 
+    @Autowired
+    protected ViewerService viewerService;
+
     @RequestMapping(value="/about/_create")
-    public String praiseFormView(Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String praiseFormView(Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "praise");
         model.put("aboutForm", new AboutForm());
@@ -44,7 +51,10 @@ public class AboutController {
     }
 
     @RequestMapping(value="/about/_create", method=POST)
-    public String addPraise(@Valid AboutForm form, BindingResult result, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String addPraise(@Valid AboutForm form, BindingResult result, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         if(result.hasErrors()) {
             model.put("selected", "praise");
@@ -60,6 +70,9 @@ public class AboutController {
     @RequestMapping(value="/praise", method=GET)
     public String listPraise(Map model) {
 
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
+
         model.put("selected", "praise");
 
         List<About> abouts = aboutService.getAbouts();
@@ -70,6 +83,9 @@ public class AboutController {
 
     @RequestMapping(value="/about", method=GET)
     public String about(Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "vision");
 

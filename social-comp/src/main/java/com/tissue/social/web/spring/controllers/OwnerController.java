@@ -2,12 +2,14 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.Account;
 import com.tissue.core.User;
+import com.tissue.commons.services.ViewerService;
+import com.tissue.commons.services.OwnerService;
 import com.tissue.social.Activity;
 import com.tissue.social.Impression;
 import com.tissue.plan.Plan;
 import com.tissue.plan.Post;
 import com.tissue.commons.util.Pager;
-import com.tissue.social.services.OwnerService;
+import com.tissue.social.services.ActivityService;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -41,15 +43,24 @@ public class OwnerController {
     private static Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
     @Autowired
+    protected ViewerService viewerService;
+
+    @Autowired
+    protected ActivityService activityService;
+
+    @Autowired
     protected OwnerService ownerService;
 
     @RequestMapping(value="/users/{userId}/posts")
-    public String getPosts(@PathVariable("userId") User owner, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getPosts(@PathVariable("userId") User owner, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "posts");
         model.put("owner", owner);
 
-        Boolean invitable = ownerService.isInvitable(owner, viewerAccount);
+        Boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
         model.put("invitable", invitable);
 
         List<Plan> plans = ownerService.getPlans(owner.getId());
@@ -68,18 +79,21 @@ public class OwnerController {
     }
 
     @RequestMapping(value="/users/{userId}/status")
-    public String getFeed(@PathVariable("userId") User owner, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String getFeed(@PathVariable("userId") User owner, Map model) {
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        model.put("viewerAccount", viewerAccount);
 
         model.put("selected", "status");
         model.put("owner", owner);
 
-        Boolean invitable = ownerService.isInvitable(owner, viewerAccount);
+        Boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
         model.put("invitable", invitable);
 
         List<Plan> plans = ownerService.getPlans(owner.getId());
         model.put("plans", plans);
 
-        List<Activity> activities = ownerService.getActivities(owner.getId(), 16);
+        List<Activity> activities = activityService.getActivitiesByUser(owner.getId(), 16);
         model.put("activities", activities);
 
         return "status";
