@@ -42,10 +42,13 @@ public class AboutController {
     @RequestMapping(value="/about/_create")
     public String praiseFormView(Map model) {
 
-        Account viewerAccount = viewerService.getViewerAccount();
-        model.put("viewerAccount", viewerAccount);
-
         model.put("selected", "praise");
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        if(viewerAccount != null) {
+            model.put("viewerAccount", viewerAccount);
+        }
+ 
         model.put("aboutForm", new AboutForm());
         return "createAboutFormView";
     }
@@ -53,11 +56,14 @@ public class AboutController {
     @RequestMapping(value="/about/_create", method=POST)
     public String addPraise(@Valid AboutForm form, BindingResult result, Map model) {
 
-        Account viewerAccount = viewerService.getViewerAccount();
-        model.put("viewerAccount", viewerAccount);
+        model.put("selected", "praise");
 
+        Account viewerAccount = viewerService.getViewerAccount();
+        if(viewerAccount != null) {
+            model.put("viewerAccount", viewerAccount);
+        }
+ 
         if(result.hasErrors()) {
-            model.put("selected", "praise");
             return "createAboutFormView";
         }
 
@@ -70,10 +76,12 @@ public class AboutController {
     @RequestMapping(value="/praise", method=GET)
     public String listPraise(Map model) {
 
-        Account viewerAccount = viewerService.getViewerAccount();
-        model.put("viewerAccount", viewerAccount);
-
         model.put("selected", "praise");
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        if(viewerAccount != null) {
+            model.put("viewerAccount", viewerAccount);
+        }
 
         List<About> abouts = aboutService.getAbouts();
         model.put("abouts", abouts);
@@ -84,10 +92,12 @@ public class AboutController {
     @RequestMapping(value="/about", method=GET)
     public String about(Map model) {
 
-        Account viewerAccount = viewerService.getViewerAccount();
-        model.put("viewerAccount", viewerAccount);
-
         model.put("selected", "vision");
+
+        Account viewerAccount = viewerService.getViewerAccount();
+        if(viewerAccount != null) {
+            model.put("viewerAccount", viewerAccount);
+        }
 
         return "about";
     }

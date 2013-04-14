@@ -60,29 +60,11 @@ public class HomeController {
             return "redirect:dashboard";
         }
 
-        List<Activity> activities = activityService.getActivitiesForNewUser(8);
+        List<Activity> activities = activityService.getActivitiesForNewUser(16);
         model.put("activities", activities);
 
         return "home";
     }
-
-    /**
-    @RequestMapping(value="/signout")
-    public String signout(HttpSession ses, HttpServletRequest req, HttpServletResponse res, Map model) {
-
-        ses.invalidate();
-        Cookie[] cookies = req.getCookies();
-        if(cookies != null) {
-            for(Cookie cookie : cookies) {
-                cookie.setValue("");
-                cookie.setPath("/");
-                cookie.setMaxAge(0);
-                res.addCookie(cookie);
-            }
-        }
-        return "redirect:/home?s=";
-    }
-    */
 
     @RequestMapping(value="/signup", method=GET)
     public String signupForm(Map model) {
@@ -162,14 +144,5 @@ public class HomeController {
             return HttpEntity.EMPTY;
         }
     }
-
-    /**
-    @RequestMapping(value="/signin")
-    public String loginForm(@RequestParam(value="error", required=false) String error, @RequestParam(value="reset", required=false) String reset, Map model) {
-        model.put("error", error);
-        model.put("reset", reset);
-        return "signin";
-    }
-    */
 
 }
