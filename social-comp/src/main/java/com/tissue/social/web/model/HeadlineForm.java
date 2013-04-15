@@ -17,9 +17,11 @@ public class HeadlineForm implements UserCommand, Serializable {
     private String id;
 
     @NotEmpty(message="DisplayName cann't by empty")
+    @Size(max=16)
     private String displayName;
 
     @NotEmpty(message="Headline cann't by empty")
+    @Size(max=128)
     private String headline;
 
     private Account account;

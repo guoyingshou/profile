@@ -15,7 +15,7 @@
 
             <legend>
                 <@spring.message "signupForm" />
-                <span class="requirement">
+                <span class="constraint">
                     <@spring.message "Required.signupForm" />
                </span>
             </legend>
@@ -32,7 +32,7 @@
                  <li>
                      <label for="password">
                          <@spring.message "password" />
-                         <span class="requirement">
+                         <span class="constraint">
                              <@spring.message "Size.password" />
                          </span>
                      </label>
@@ -55,14 +55,20 @@
                 </li>
                 <li>
                      <label for="displayName">
-                        <@spring.message "displayName" />
-                    </label>
+                         <@spring.message "displayName" />
+                         <span class="constraint">
+                             <@spring.message "Size.displayName" />
+                         </span>
+                     </label>
                     <@spring.formInput "signupForm.displayName" />
                 </li>
                 <li>
                     <label for="headline">
-                        <@spring.message "headline" />
-                    </label>
+                         <@spring.message "headline" />
+                         <span class="constraint">
+                             <@spring.message "Size.headline" />
+                         </span>
+                     </label>
                     <@spring.formTextarea "signupForm.headline" />
                 </li>
                 <li>

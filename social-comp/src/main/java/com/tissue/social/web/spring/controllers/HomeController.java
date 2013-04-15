@@ -57,7 +57,7 @@ public class HomeController {
         }
 
         if(SecurityUtil.getViewerAccountId() != null) {
-            return "redirect:dashboard";
+            return "redirect:/dashboard";
         }
 
         List<Activity> activities = activityService.getActivitiesForNewUser(16);

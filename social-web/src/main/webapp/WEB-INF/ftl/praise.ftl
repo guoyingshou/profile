@@ -3,7 +3,6 @@
 <#import "siteGadgets.ftl" as site />
 
 <#assign myscripts=["/ckeditor/ckeditor.js"] in site>
-<#assign sec=JspTaglibs["http://www.springframework.org/security/tags"] />
 <#assign title= "about" in site>
 
 <@site.layout>
@@ -18,7 +17,7 @@
     <div id="page-main-wrapper">
         <div id="page-main">
             <div id="main-content">
-                <ul>
+                <ul class="praise">
                     <#if abouts??>
                     <#list abouts as about>
                     <li>${about.content}</li>
@@ -26,25 +25,14 @@
                     </#if>
                 </ul>
 
-                <@sec.authorize access="hasRole('ROLE_VIP')">
+                <#if viewerAccount?? && viewerAccount.hasRole('ROLE_VIP')>
                 <a href="<@spring.url '/about/_create' />">add</a>
-                </@sec.authorize>
+                </#if>
  
             </div>
 
             <div id="main-sidebar">
-                <h4>Main Features</h4>
-                <ul>
-                    <li>
-                     create topics
-                    </li>
-                    <li>
-                     host or join a group
-                    </li>
-                    <li>
-                     make new friends
-                    </li>
-                </ul>
+                <@spring.message 'siteFeature' />
             </div>
 
         </div>

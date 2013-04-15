@@ -16,7 +16,7 @@
                     <li>
                         <div class="user">
                             <div class="displayName">
-                                <a href="<@spring.url '/users/${friend.id?replace("#", "")}/posts' />">
+                                <a class="username" href="<@spring.url '/users/${friend.id?replace("#", "")}/posts' />">
                                     ${friend.displayName}
                                 </a>
 
