@@ -103,7 +103,7 @@ public class ResetPasswordController {
         accountService.updatePassword(form);
         resetService.deleteReset(form.getReset().getId());
 
-        return "redirect:/signin?reset=t";
+        return "redirect:/signin?t=r";
     }
 
 }

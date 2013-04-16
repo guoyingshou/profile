@@ -29,7 +29,7 @@ public class SignupForm implements UserCommand, Serializable {
     private String email;
 
     @NotEmpty(message="DisplayName cann't by empty")
-    @Size(min=3, max=16)
+    @Size(min=2, max=16)
     private String displayName;
 
     @NotEmpty(message="Headline cann't by empty")

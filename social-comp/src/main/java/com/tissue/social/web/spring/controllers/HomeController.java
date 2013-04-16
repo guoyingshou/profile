@@ -76,7 +76,7 @@ public class HomeController {
      * Signup.
      */
     @RequestMapping(value="/signup", method=POST)
-    public String signup(@Valid @ModelAttribute("signupForm") SignupForm form, BindingResult result, Locale locale) {
+    public String signup(@Valid @ModelAttribute("signupForm") SignupForm form, BindingResult result, Locale locale, Map model) {
 
         String accountId = null;
         if(result.hasErrors()) {
@@ -115,7 +115,8 @@ public class HomeController {
 
         verificationService.sendVerificationEmail(verificationForm, locale);
 
-        return "redirect:/dashboard";
+        model.clear();
+        return "redirect:/signin?t=n";
     }
 
     @RequestMapping(value="/checkUsername", method=POST)

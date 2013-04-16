@@ -6,22 +6,22 @@
 
 <@site.layout>
 
-<#--
-    <#include "ownerHeader.ftl" />
-    -->
     <@site.siteLogo />
     <@userGadgets.viewerMenu />
-
 
     <div id="page-main-wrapper">
         <div id="page-main">
             <div id="main-content">
-                <ul>
+                <ul class="invitations">
                     <#list invitationsReceived as invitation>
                     <#assign target = "li.invitation-${invitation.id?replace('#','')?replace(':', '-')}">
-                    <li class="${target}">
-                        <div>${invitation.account.user.displayName}</div>
-                        <div>${invitation.createTime?date}</div>
+                    <li id="${target}">
+                        <div>
+                            <a class="username" href="<@spring.url '/users/${invitation.account.user.id?replace("#", "")}/posts' />">
+                                ${invitation.account.user.displayName}
+                            </a>
+                            [<span class="ts">${invitation.createTime?date}</span>]
+                        </div>
                         <div>${invitation.content}</div>
                         <div class="action">
                             <a href="<@spring.url '/invitations/${invitation.id?replace("#", "")}/_accept' />">

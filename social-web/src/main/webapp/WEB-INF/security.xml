@@ -36,7 +36,7 @@
 
     <bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" p:authenticationManager-ref="authenticationManager" p:filterProcessesUrl="/jsc" p:rememberMeServices-ref="rememberMeServices" p:authenticationFailureHandler-ref="failureHandler" p:authenticationSuccessHandler-ref="successHandler" />
 
-    <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" p:defaultFailureUrl="/signin?error=t" />
+    <bean id="failureHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler" p:defaultFailureUrl="/signin?t=e" />
 
     <bean id="successHandler" class="org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler" p:defaultTargetUrl="/dashboard" />
 
