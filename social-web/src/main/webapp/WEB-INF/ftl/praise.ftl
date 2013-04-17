@@ -2,7 +2,9 @@
 <#import "userGadgets.ftl" as userGadgets />
 <#import "siteGadgets.ftl" as site />
 
+<#--
 <#assign myscripts=["/ckeditor/ckeditor.js"] in site>
+-->
 <#assign title= "about" in site>
 
 <@site.layout>
@@ -17,16 +19,25 @@
     <div id="page-main-wrapper">
         <div id="page-main">
             <div id="main-content">
+                <#if abouts??>
                 <ul class="praise">
-                    <#if abouts??>
                     <#list abouts as about>
-                    <li>${about.content}</li>
+                    <li>
+                        <div class="praise">
+                            ${about.content} ...... 
+                            <a class="username" href="<@spring.url '/users/${about.account.user.id?replace("#", "")}/posts' />">
+                                ${about.account.user.displayName} 
+                            </a>
+                        </div>
+                    </li>
                     </#list>
-                    </#if>
                 </ul>
+                </#if>
 
                 <#if viewerAccount?? && viewerAccount.hasRole('ROLE_VIP')>
-                <a href="<@spring.url '/about/_create' />">add</a>
+                <div class="action">
+                    <a href="<@spring.url '/about/_create' />">Add</a>
+                </div>
                 </#if>
  
             </div>

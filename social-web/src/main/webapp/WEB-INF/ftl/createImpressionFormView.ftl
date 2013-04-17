@@ -2,6 +2,7 @@
 <#import "siteGadgets.ftl" as site />
 <#import "userGadgets.ftl" as userGadgets />
 
+<#assign myscripts = ["/ckeditor/ckeditor.js"] in site>
 <#assign title="Impression" in site>
 
 <@site.layout>
@@ -28,6 +29,13 @@
               </li>
           </ul>
       </form>
+      <script type="text/javascript">
+          CKEDITOR.replace("content", {
+             toolbar: [
+                 { name: 'basicstyles', items: [ 'Bold', 'Italic' ] }
+             ]
+          });
+      </script>
     </div>
 
 </@site.layout>

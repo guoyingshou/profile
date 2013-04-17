@@ -86,7 +86,7 @@ public class HomeController {
         if(!form.getConfirm().equals(form.getPassword())) {
             logger.warn("confirm mis match");
 
-            result.rejectValue("confirm", "Mismatch.signupForm.confirm", "confirm mismatch");
+            result.rejectValue("confirm", "Mismatch.confirm", "confirm mismatch");
             return "signup";
         }
 
@@ -97,10 +97,10 @@ public class HomeController {
             logger.warn(exc.getMessage());
 
             if(exc.getMessage().contains("Account.username")) {
-                result.rejectValue("username", "Taken.signupForm.username", "username is already taken");
+                result.rejectValue("username", "Taken.username", "username is already taken");
             }
             if(exc.getMessage().contains("Account.email")) {
-                result.rejectValue("email", "Taken.signupForm.email", "email is already taken");
+                result.rejectValue("email", "Taken.email", "email is already taken");
             }
             return "signup";
         }

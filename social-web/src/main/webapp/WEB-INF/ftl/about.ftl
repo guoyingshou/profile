@@ -1,7 +1,9 @@
 <#import "spring.ftl" as spring />
 <#import "siteGadgets.ftl" as site />
 
+<#--
 <#assign myscripts=["/ckeditor/ckeditor.js"] in site>
+-->
 <#assign title= "about" in site>
 
 <@site.layout>

@@ -86,9 +86,9 @@
         <property name="securityMetadataSource">
             <sec:filter-security-metadata-source request-matcher="regex">
                 <sec:intercept-url pattern="/about/_create.*" access="ROLE_VIP" />
-                <sec:intercept-url pattern="/dashboard" access="ROLE_USER" />
-                <sec:intercept-url pattern="/allfeeds" access="ROLE_USER" />
-                <sec:intercept-url pattern="/friends" access="ROLE_USER" />
+                <sec:intercept-url pattern="/dashboard.*" access="ROLE_USER" />
+                <sec:intercept-url pattern="/allfeeds.*" access="ROLE_USER" />
+                <sec:intercept-url pattern="/friends.*" access="ROLE_USER" />
                 <sec:intercept-url pattern="/_.*" access="ROLE_USER" />
                 <sec:intercept-url pattern="/.*" access="ROLE_ANONYMOUS, ROLE_USER" />
             </sec:filter-security-metadata-source>

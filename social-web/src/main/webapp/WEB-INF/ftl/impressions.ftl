@@ -2,7 +2,9 @@
 <#import "siteGadgets.ftl" as site />
 <#import "userGadgets.ftl" as userGadgets />
 
+<#--
 <#assign myscripts=["/ckeditor/ckeditor.js"] in site>
+-->
 
 <#assign title = owner.displayName in site>
 
@@ -21,7 +23,7 @@
                            ${impression.content}
                        </div>
                        <div class="user">
-                           <a href="<@spring.url '/users/${impression.account.user.id?replace("#","")}/posts' />">
+                           <a class="username" href="<@spring.url '/users/${impression.account.user.id?replace("#","")}/posts' />">
                                ${impression.account.user.displayName} 
                            </a>
                        </div>

@@ -3,7 +3,9 @@
 <#import "userGadgets.ftl" as userGadgets />
 <#import "topicGadgets.ftl" as topicGadgets />
 
+<#--
 <#assign myscripts=["/ckeditor/ckeditor.js"] in site>
+-->
 <#assign title= owner.displayName in site>
 
 <@site.layout>
