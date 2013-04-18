@@ -63,9 +63,14 @@ public class OwnerService {
         return postDao.getPagedPostsByUser(userId, page, size);
     }
  
-    public Boolean isInvitable(String ownerId, Account viewerAccount) {
-        Boolean invitable = false;
-        if(viewerAccount != null && !ownerId.equals(viewerAccount.getUser().getId())) {
+    public boolean isInvitable(String ownerId, Account viewerAccount) {
+
+        if((viewerAccount == null) || viewerAccount.hasRole("ROLE_EVIL")) {
+            return false;
+        }
+
+        boolean invitable = false;
+        if(!ownerId.equals(viewerAccount.getUser().getId())) {
             int inviteLimit = viewerAccount.getUser().getInviteLimit();
             if(inviteLimit > 0) {
                 invitable = userDao.isInvitable(ownerId, viewerAccount);

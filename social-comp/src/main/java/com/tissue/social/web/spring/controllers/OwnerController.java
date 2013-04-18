@@ -60,7 +60,7 @@ public class OwnerController {
         model.put("selected", "posts");
         model.put("owner", owner);
 
-        Boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
+        boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
         model.put("invitable", invitable);
 
         List<Plan> plans = ownerService.getPlans(owner.getId());
@@ -87,7 +87,7 @@ public class OwnerController {
         model.put("selected", "status");
         model.put("owner", owner);
 
-        Boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
+        boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
         model.put("invitable", invitable);
 
         List<Plan> plans = ownerService.getPlans(owner.getId());
