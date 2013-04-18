@@ -15,8 +15,6 @@
 	       http://www.springframework.org/schema/util 
 	       http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 		   
-
-    <context:property-placeholder location="classpath:mailSender.properties" />
     <context:annotation-config />
 
     <mvc:annotation-driven conversion-service="conversionService" />
@@ -57,13 +55,6 @@
                 <bean class="com.tissue.core.spring.converters.IdToVerificationConverter" />
                 <bean class="com.tissue.social.spring.converters.IdToInvitationConverter" />
                 <bean class="com.tissue.social.spring.converters.IdToImpressionConverter" />
-                <!--
-                <ref bean="idToUserConverter" />
-                <ref bean="idToVerificationConverter" />
-                <ref bean="idToResetConverter" />
-                <ref bean="idToInvitationConverter" />
-                <ref bean="idToImpressionConverter" />
-                -->
             </set>
         </property>
     </bean>

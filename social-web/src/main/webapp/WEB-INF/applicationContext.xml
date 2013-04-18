@@ -17,18 +17,10 @@
      http://www.springframework.org/schema/util
      http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 
-    <import resource="dao.xml" />
-    <import resource="security.xml" />
-
     <context:property-placeholder location="classpath:smtp.properties, classpath:orientdb.properties" />
 
-    <bean id="dataSource" class="com.tissue.core.util.OrientDataSource" destroy-method="destroy">
-        <constructor-arg value="${db_url}" />
-        <constructor-arg value="${db_username}" />
-        <constructor-arg value="${db_password}" />
-        <constructor-arg value="${db_min}" />
-        <constructor-arg value="${db_max}" />
-    </bean>
+    <import resource="dao.xml" />
+    <import resource="security.xml" />
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="host" value="${smtp_host}" />

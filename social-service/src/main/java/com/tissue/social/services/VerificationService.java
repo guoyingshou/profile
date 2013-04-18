@@ -18,7 +18,8 @@ import java.util.Locale;
 @Component
 public class VerificationService implements MessageSourceAware {
 
-    @Value("${mail.from}")
+    @Value("${mail_from}")
+    //@Value("${systemProperties['mail_from']}")
     private String from;
 
     @Autowired
