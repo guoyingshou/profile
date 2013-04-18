@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.util.Map;
+import java.security.AccessControlException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,10 @@ public class SettingController {
     public String updateHeadline(@Valid HeadlineForm form, BindingResult result, Map model) {
 
         Account viewerAccount = viewerService.getViewerAccount();
+        if(viewerAccount.hasRole("ROLE_EVIL")) {
+            throw new AccessControlException("Evil: " + viewerAccount);
+        }
+        
         model.put("viewerAccount", viewerAccount);
 
         if(result.hasErrors()) {
@@ -75,10 +80,9 @@ public class SettingController {
     public String updateEmailForm(Map model) {
 
         Account viewerAccount = viewerService.getViewerAccount();
+
         model.put("viewerAccount", viewerAccount);
-
         model.put("selected", "email");
-
         model.put("emailForm", viewerAccount);
 
         return "updateEmailFormView";
@@ -88,6 +92,10 @@ public class SettingController {
     public String updateEmail(@Valid EmailForm form, BindingResult result, Map model) {
 
         Account viewerAccount = viewerService.getViewerAccount();
+        if(viewerAccount.hasRole("ROLE_EVIL")) {
+            throw new AccessControlException("Evil: " + viewerAccount);
+        }
+
         model.put("viewerAccount", viewerAccount);
 
         if(result.hasErrors()) {
@@ -124,6 +132,10 @@ public class SettingController {
     public String updatePassword(@Valid PasswordForm form, BindingResult result, Map model) {
 
         Account viewerAccount = viewerService.getViewerAccount();
+        if(viewerAccount.hasRole("ROLE_EVIL")) {
+            throw new AccessControlException("Evil: " + viewerAccount);
+        }
+
         model.put("viewerAccount", viewerAccount);
        
         if(result.hasErrors()) {
