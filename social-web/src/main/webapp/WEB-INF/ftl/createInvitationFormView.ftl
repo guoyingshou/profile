@@ -1,6 +1,7 @@
 <#import "spring.ftl" as spring />
 <#import "siteGadgets.ftl" as site />
 
+<#assign myscripts = ["/ckeditor/ckeditor.js"] in site>
 <#assign title="Invitation" in site>
 
 <@site.layout>
@@ -29,6 +30,13 @@
                 </li>
             </ul>
         </form>
+        <script type="text/javascript">
+            CKEDITOR.replace("content", {
+               toolbar: [
+                   { name: 'basicstyles', items: [ 'Bold', 'Italic' ] }
+               ]
+            });
+        </script>
     </div>
 
 </@site.layout>

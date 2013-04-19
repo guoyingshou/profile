@@ -33,7 +33,7 @@ public class SignupForm implements UserCommand, Serializable {
     private String displayName;
 
     @NotEmpty(message="Headline cann't by empty")
-    @Size(min=8, max=128)
+    @Size(min=8, max=256)
     private String headline;
 
     private String status;

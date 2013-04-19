@@ -30,12 +30,18 @@
                     <li>
                         <label for="displayName">
                             <@spring.message "displayName" />
+                            <span class="constraint">
+                                <@spring.message "Size.displayName" />
+                            </span>
                         </label>
                         <@spring.formInput "headlineForm.displayName" 'class="sum"' />
                     </li>
                     <li>
                         <label for="headline">
                             <@spring.message "headline" />
+                            <span class="constraint">
+                                <@spring.message "Size.headline" />
+                            </span>
                         </label>
                         <@spring.formTextarea "headlineForm.headline" 'class="sum"' />
                     </li>
