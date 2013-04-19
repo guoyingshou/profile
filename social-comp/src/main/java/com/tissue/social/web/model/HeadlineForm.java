@@ -58,4 +58,8 @@ public class HeadlineForm implements UserCommand, Serializable {
     public Account getAccount() {
         return account;
     }
+
+    public String getStatus() {
+        return null;
+    }
 }

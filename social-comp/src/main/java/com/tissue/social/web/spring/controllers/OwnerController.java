@@ -33,6 +33,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.Locale;
+import java.security.AccessControlException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,6 +55,10 @@ public class OwnerController {
     @RequestMapping(value="/users/{userId}/posts")
     public String getPosts(@PathVariable("userId") User owner, @RequestParam(value="page", required=false) Integer page, @RequestParam(value="size", required=false) Integer size, Map model) {
 
+        if(owner.getStatus() != null) {
+            throw new AccessControlException("Access denied visiting: " + owner);
+        }
+        
         Account viewerAccount = viewerService.getViewerAccount();
         model.put("viewerAccount", viewerAccount);
 
@@ -81,6 +86,10 @@ public class OwnerController {
     @RequestMapping(value="/users/{userId}/status")
     public String getFeed(@PathVariable("userId") User owner, Map model) {
 
+        if(owner.getStatus() != null) {
+            throw new AccessControlException("Access denied visiting: " + owner);
+        }
+ 
         Account viewerAccount = viewerService.getViewerAccount();
         model.put("viewerAccount", viewerAccount);
 

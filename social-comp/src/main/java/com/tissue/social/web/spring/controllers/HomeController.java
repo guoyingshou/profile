@@ -52,12 +52,13 @@ public class HomeController {
 
     @RequestMapping(value="/home")
     public String index(@RequestParam(value="s", required=false) String s, Map model) {
-        if(s != null) {
-            model.put("signout", true);
-        }
 
         if(SecurityUtil.getViewerAccountId() != null) {
             return "redirect:/dashboard";
+        }
+
+        if(s != null) {
+            model.put("signout", true);
         }
 
         List<Activity> activities = activityService.getActivitiesForNewUser(16);

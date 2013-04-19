@@ -36,6 +36,8 @@ public class SignupForm implements UserCommand, Serializable {
     @Size(min=8, max=128)
     private String headline;
 
+    private String status;
+
     /**-----------------------------*/
     public void setId(String id) {
         this.id = id;
@@ -99,5 +101,13 @@ public class SignupForm implements UserCommand, Serializable {
         account.setPassword(password);
         account.setEmail(email);
         return account;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }
