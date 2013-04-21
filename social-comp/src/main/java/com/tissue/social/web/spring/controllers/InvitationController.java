@@ -95,6 +95,8 @@ public class InvitationController {
     public String accept(@PathVariable("invitationId") Invitation invitation, Map model) {
 
         invitationService.acceptInvitation(invitation);
+
+        model.clear();
         return "redirect:/invitations";
     }
  
@@ -102,6 +104,8 @@ public class InvitationController {
     public String decline(@PathVariable("invitationId") Invitation invitation, Map model) {
 
         invitationService.declineInvitation(invitation);
+
+        model.clear();
         return "redirect:/invitations";
     }
 
@@ -116,8 +120,10 @@ public class InvitationController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
+        /**
         List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
+        */
  
         return "invitations";
     }

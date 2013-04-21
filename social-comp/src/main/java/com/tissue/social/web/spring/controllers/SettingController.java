@@ -73,6 +73,7 @@ public class SettingController {
         form.setId(viewerAccount.getUser().getId());
         viewerService.updateHeadline(form);
 
+        model.clear();
         return "redirect:/_setting";
     }
 
@@ -115,6 +116,7 @@ public class SettingController {
             return "updateEmailFormView";
         }
 
+        model.clear();
         return "redirect:/_setting";
     }
 
@@ -152,6 +154,7 @@ public class SettingController {
         form.setAccount(viewerAccount);
         accountService.updatePassword(form);
 
+        model.clear();
         return "redirect:/_setting";
     }
 }

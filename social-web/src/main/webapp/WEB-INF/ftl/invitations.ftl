@@ -13,7 +13,7 @@
         <div id="page-main">
             <div id="main-content">
                 <ul class="invitations">
-                    <#list invitationsReceived as invitation>
+                    <#list invitations as invitation>
                     <#assign target = "li.invitation-${invitation.id?replace('#','')?replace(':', '-')}">
                     <li id="${target}">
                         <div>

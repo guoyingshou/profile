@@ -67,8 +67,10 @@ public class ViewerController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
+        /**
         List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
+        */
  
         List<Activity> activities = activityService.getViewerWatchedActivities(32);
         model.put("activities", activities);
@@ -86,8 +88,10 @@ public class ViewerController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
+        /**
         List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
+        */
  
         List<Activity> activities = activityService.getActivities(32);
         model.put("activities", activities);
@@ -109,8 +113,10 @@ public class ViewerController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
+        /**
         List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
         model.put("invitationsReceived", invitations);
+        */
  
         List<User> friends = viewerService.getFriends(viewerAccount.getUser().getId());
         model.put("friends", friends);
@@ -123,6 +129,8 @@ public class ViewerController {
     public String removeFriend(@PathVariable("friendId") User friend, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
 
         viewerService.removeRelation(friend.getId(), viewerAccount.getUser().getId());
+
+        model.clear();
         return "redirect:/friends";
     }
 

@@ -54,6 +54,7 @@ public class HomeController {
     public String index(@RequestParam(value="s", required=false) String s, Map model) {
 
         if(SecurityUtil.getViewerAccountId() != null) {
+            model.clear();
             return "redirect:/dashboard";
         }
 

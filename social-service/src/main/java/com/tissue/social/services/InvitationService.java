@@ -25,12 +25,6 @@ public class InvitationService {
         return invitationDao.getInvitation(invitationId);
     }
 
-    /**
-    public List<Invitation> getInvitationsReceived(Account account) {
-        return invitationDao.getInvitationsReceived(account.getUser().getId());
-    }
-    */
-
     public List<Invitation> getViewerReceivedInvitations() {
         return invitationDao.getInvitationsReceived(SecurityUtil.getViewerAccountId());
     }

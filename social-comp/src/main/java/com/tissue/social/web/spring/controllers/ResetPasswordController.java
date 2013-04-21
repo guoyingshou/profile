@@ -51,7 +51,7 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value="/resetRequest", method=POST)
-    public String processReset(@Valid ResetRequestForm form, BindingResult result, Locale locale) {
+    public String processReset(@Valid ResetRequestForm form, BindingResult result, Locale locale, Map model) {
 
         if(result.hasErrors()) {
             return "createResetRequestFormView";
@@ -66,6 +66,8 @@ public class ResetPasswordController {
         form.setCode(UUID.randomUUID().toString());
 
         resetService.sendResetEmail(form, locale);
+
+        model.clear();
         return "redirect:/createResetRequestSuccess";
     }
 
@@ -88,7 +90,7 @@ public class ResetPasswordController {
     }
 
     @RequestMapping(value="/resetPassword", method=POST)
-    public String processReset(@Valid ResetPasswordForm form, BindingResult result, Locale locale) {
+    public String processReset(@Valid ResetPasswordForm form, BindingResult result, Locale locale, Map model) {
 
         if(result.hasErrors()) {
             return "createResetPasswordFormView";
@@ -103,6 +105,7 @@ public class ResetPasswordController {
         accountService.updatePassword(form);
         resetService.deleteReset(form.getReset().getId());
 
+        model.clear();
         return "redirect:/signin?t=r";
     }
 

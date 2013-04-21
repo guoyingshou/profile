@@ -70,6 +70,7 @@ public class AboutController {
         form.setAccount(viewerAccount);
         aboutService.createAbout(form);
 
+        model.clear();
         return "redirect:/praise";
     }
 
