@@ -26,7 +26,7 @@
             </div>
 
             <div id="main-sidebar">
-                <@spring.message 'siteFeature' />
+                <@spring.message 'Objective.site' />
             </div>
 
         </div>

@@ -6,12 +6,6 @@
 
 <@site.layout>
 
-<#--
-    <#if signout??>
-        <iframe src="/group/signout" style="display:none"></iframe>
-    </#if>
-    -->
-
     <@site.siteLogo />
 
     <div id="page-main-wrapper">
@@ -21,10 +15,14 @@
             </div>
 
             <div id="main-sidebar">
+                <@spring.message 'Feature.site' />
+
+                <#--
                 <ul class="site-objective">
                     <li>分享学习方法</li>
                     <li>交流学习经验</li>
                 </ul>
+                    -->
             </div>
         </div>
     </div>
