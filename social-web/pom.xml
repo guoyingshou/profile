@@ -125,6 +125,16 @@
       <artifactId>jcl-over-slf4j</artifactId>
     </dependency>
 
+    <dependency>
+      <groupId>com.tinkerpop.blueprints</groupId>
+      <artifactId>blueprints-orient-graph</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.tinkerpop.gremlin</groupId>
+      <artifactId>gremlin-java</artifactId>
+    </dependency>
+
  </dependencies>
 
  <build>
