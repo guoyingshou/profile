@@ -67,11 +67,6 @@ public class ViewerController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        /**
-        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
-        model.put("invitationsReceived", invitations);
-        */
- 
         List<Activity> activities = activityService.getViewerWatchedActivities(32);
         model.put("activities", activities);
 
@@ -88,12 +83,7 @@ public class ViewerController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        /**
-        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
-        model.put("invitationsReceived", invitations);
-        */
- 
-        List<Activity> activities = activityService.getActivities(32);
+        List<Activity> activities = activityService.getActivities(viewerAccount.getId(), 32);
         model.put("activities", activities);
 
         model.put("selected", "allFeeds");
@@ -112,11 +102,6 @@ public class ViewerController {
 
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
-
-        /**
-        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
-        model.put("invitationsReceived", invitations);
-        */
  
         List<User> friends = viewerService.getFriends(viewerAccount.getUser().getId());
         model.put("friends", friends);
