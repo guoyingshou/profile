@@ -11,6 +11,7 @@
     <div id="page-main-wrapper">
         <div id="page-main">
             <div id="main-content">
+                <#if friends??>
                 <ul class="friends">
                     <#list friends as friend>
                     <li>
@@ -31,6 +32,7 @@
                     </li>
                     </#list>
                 </ul>
+                </#if>
                 <@site.confirmForm />
             </div>
 

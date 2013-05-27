@@ -31,6 +31,7 @@ import javax.servlet.http.Cookie;
 import javax.validation.Valid;
 import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.UUID;
 import org.slf4j.Logger;
@@ -62,7 +63,9 @@ public class HomeController {
             model.put("signout", true);
         }
 
-        List<Activity> activities = activityService.getActivitiesForNewUser(16);
+        //List<Activity> activities = activityService.getActivitiesForNewUser(16);
+
+        List<Activity> activities = new ArrayList();
         model.put("activities", activities);
 
         return "home";
@@ -96,6 +99,7 @@ public class HomeController {
             accountId = accountService.addUser(form);
         }
         catch(Exception exc) {
+            exc.printStackTrace();
             logger.warn(exc.getMessage());
 
             if(exc.getMessage().contains("Account.username")) {
@@ -107,6 +111,7 @@ public class HomeController {
             return "signup";
         }
 
+        /**
         VerificationForm verificationForm = new VerificationForm();
         verificationForm.setCode(UUID.randomUUID().toString());
         verificationForm.setEmail(form.getEmail());
@@ -116,6 +121,7 @@ public class HomeController {
         verificationForm.setAccount(account);
 
         verificationService.sendVerificationEmail(verificationForm, locale);
+        */
 
         model.clear();
         return "redirect:/signin?t=n";

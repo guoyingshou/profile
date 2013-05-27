@@ -15,8 +15,8 @@
     <div id="page-main-wrapper">
         <div id="page-main">
            <div id="main-content">
+               <#if impressions??>
                <ul class="impressions">
-                   <#if impressions??>
                    <#list impressions as impression>
                    <li>
                        <div>
@@ -29,8 +29,8 @@
                        </div>
                    </li>
                    </#list>
-                   </#if>
                </ul>
+               </#if>
 
                <#if viewerAccount?? && !viewerAccount.hasRole('ROLE_EVIL') && isFriend>
                <a href="<@spring.url '/users/${owner.id?replace("#","")}/impressions/_create' />">

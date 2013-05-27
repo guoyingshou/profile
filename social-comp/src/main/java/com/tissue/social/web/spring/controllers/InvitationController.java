@@ -120,10 +120,8 @@ public class InvitationController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        /**
-        List<Invitation> invitations = invitationService.getViewerReceivedInvitations();
-        model.put("invitationsReceived", invitations);
-        */
+        List<Invitation> invitations = viewerService.getInvitationsReceived();
+        model.put("invitations", invitations);
  
         return "invitations";
     }

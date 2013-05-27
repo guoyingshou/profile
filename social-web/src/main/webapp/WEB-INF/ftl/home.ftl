@@ -16,13 +16,6 @@
 
             <div id="main-sidebar">
                 <@spring.message 'Feature.site' />
-
-                <#--
-                <ul class="site-objective">
-                    <li>分享学习方法</li>
-                    <li>交流学习经验</li>
-                </ul>
-                    -->
             </div>
         </div>
     </div>

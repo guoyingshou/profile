@@ -50,7 +50,6 @@ public class OwnerService {
         return userDao.isFriend(userId, viewerAccount.getUser().getId());
     }
 
-   
     public List<Plan> getPlans(String userId) {
         return planDao.getPlansByUser(userId);
     }

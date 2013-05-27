@@ -12,6 +12,7 @@
     <div id="page-main-wrapper">
         <div id="page-main">
             <div id="main-content">
+                <#if invitations??>
                 <ul class="invitations">
                     <#list invitations as invitation>
                     <#assign target = "li.invitation-${invitation.id?replace('#','')?replace(':', '-')}">
@@ -34,6 +35,7 @@
                      </li>
                      </#list>
                  </ul>
+                 </#if>
             </div>
             <div id="main-sidebar">
                 <@userGadgets.showPlansLearning/>
