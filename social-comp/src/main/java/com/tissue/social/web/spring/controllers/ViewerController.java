@@ -67,10 +67,8 @@ public class ViewerController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        /**
         List<Activity> activities = activityService.getViewerWatchedActivities(32);
         model.put("activities", activities);
-        */
 
         model.put("selected", "watchedFeeds");
         return "dashboard";
@@ -85,10 +83,8 @@ public class ViewerController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        /**
         List<Activity> activities = activityService.getActivities(viewerAccount.getId(), 32);
         model.put("activities", activities);
-        */
 
         model.put("selected", "allFeeds");
         return "dashboard";

@@ -19,19 +19,13 @@ public class ActivityService {
         return activityDao.getActivities(excludingAccountId, num);
     }
  
-    public List<Activity> getActivitiesForNewUser(int num) {
-        return activityDao.getActivitiesForNewUser(num);
+    public List<Activity> getActivities(int num) {
+        return activityDao.getActivities(num);
     }
 
     public List<Activity> getViewerWatchedActivities(int count) {
         return activityDao.getWatchedActivities(SecurityUtil.getViewerAccountId(), count);
     }
-
-    /**
-    public List<Activity> getViewerActivities(int count) {
-        return activityDao.getActivitiesByAccount(SecurityUtil.getViewerAccountId(), count);
-    }
-    */
 
     public List<Activity> getActivitiesByUser(String userId, int count) {
         return activityDao.getActivitiesByUser(userId, count);

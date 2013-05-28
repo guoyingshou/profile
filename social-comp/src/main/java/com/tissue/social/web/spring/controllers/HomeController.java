@@ -63,9 +63,7 @@ public class HomeController {
             model.put("signout", true);
         }
 
-        //List<Activity> activities = activityService.getActivitiesForNewUser(16);
-
-        List<Activity> activities = new ArrayList();
+        List<Activity> activities = activityService.getActivities(16);
         model.put("activities", activities);
 
         return "home";
