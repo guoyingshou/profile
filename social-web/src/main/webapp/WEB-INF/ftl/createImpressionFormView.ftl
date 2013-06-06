@@ -18,14 +18,14 @@
           </div>
 
           <legend>
-              <@spring.message 'impression' />
+              <@spring.message 'Legend.impressionForm' />
           </legend>
           <ul>
               <li>
                   <@spring.formTextarea "impressionForm.content" />
               </li>
               <li>
-                  <input type="submit" value="<@spring.message 'Submit.button' />" />
+                  <input type="submit" value="<@spring.message 'Text.formInput.submit' />" />
               </li>
           </ul>
       </form>

@@ -15,10 +15,20 @@
 	       http://www.springframework.org/schema/util 
 	       http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 	
+    <context:property-placeholder location="file:/home/guoyingshou/daronglu/etc/smtp.properties, 
+                                            file:/home/guoyingshou/daronglu/etc/orientdb.properties" />
+
     <context:component-scan base-package="com.tissue.core.datasources" />
     <context:component-scan base-package="com.tissue.core.dao.orient" />
     <context:component-scan base-package="com.tissue.security.dao.orient" />
     <context:component-scan base-package="com.tissue.social.dao.orient" />
     <context:component-scan base-package="com.tissue.plan.dao.orient" />
+
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host" value="${smtp_host}" />
+        <property name="port" value="${smtp_port}" />
+        <property name="username" value="${smtp_username}" />
+        <property name="password" value="${smtp_password}" />
+    </bean>
 
 </beans>

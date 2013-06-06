@@ -15,8 +15,8 @@
 	       http://www.springframework.org/schema/util 
 	       http://www.springframework.org/schema/util/spring-util-3.2.xsd">
 		   
+    <import resource="controller.xml" />
     <context:annotation-config />
-
     <mvc:annotation-driven conversion-service="conversionService" />
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 
@@ -26,7 +26,7 @@
 
     <bean id="messageSource" 
         class="org.springframework.context.support.ResourceBundleMessageSource" 
-        p:basenames="common, user, userForm, email" 
+        p:basenames="common, user, form, userForm, email" 
         p:defaultEncoding="utf-8"/>
         
     <bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
@@ -58,7 +58,4 @@
             </set>
         </property>
     </bean>
-
-    <import resource="controller.xml" />
-
 </beans>

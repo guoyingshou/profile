@@ -33,4 +33,10 @@ public class InvitationService {
         invitationDao.declineInvitation(invitation);
     }
 
+    public List<Invitation> getViewerInvitationsReceived() {
+        String viewerAccountId = SecurityUtil.getViewerAccountId();
+        
+        return viewerAccountId == null ? null: invitationDao.getInvitationsReceived(viewerAccountId);
+    }
+ 
 }

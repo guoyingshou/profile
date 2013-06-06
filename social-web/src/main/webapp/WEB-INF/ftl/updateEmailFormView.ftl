@@ -24,17 +24,17 @@
                       <@spring.showErrors "<br>" />
                     </div>
                     <legend>
-                        <@spring.message "updateEmailForm" />
+                        <@spring.message "Legend.updateEmailForm" />
                     </legend>
                     <ul>
                        <li>
                           <label for="email">
-                              <@spring.message "email" />
+                              <@spring.message "Label.formInput.email" />
                           </label>
                           <@spring.formInput "emailForm.email" 'class="sum"' />
                        </li>
                        <li>
-                           <input type="submit" value='<@spring.message "Save.button"/>'/>
+                           <input type="submit" value='<@spring.message "SaveText.formInput.submit"/>'/>
                        </li>
                     </ul>
                 </form>

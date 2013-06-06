@@ -7,7 +7,7 @@ import com.tissue.social.Invitation;
 import com.tissue.plan.Plan;
 import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.services.InvitationService;
-import com.tissue.social.services.OwnerService;
+//import com.tissue.social.services.OwnerService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -52,8 +52,10 @@ public class InvitationController {
     @Autowired
     private ViewerService viewerService;
 
+    /**
     @Autowired
     private OwnerService ownerService;
+    */
 
     @RequestMapping(value="/users/{userId}/invitations/_create")
     public String invitationViewForm(@PathVariable("userId") User owner, Map model) {
@@ -63,7 +65,7 @@ public class InvitationController {
 
         model.put("selected", "impressions"); 
         model.put("owner", owner); 
-        Boolean invitable = ownerService.isInvitable(owner.getId(), viewerAccount);
+        Boolean invitable = viewerService.isInvitable(owner.getId(), viewerAccount);
         model.put("invitable", invitable);
 
         model.put("invitationForm", new InvitationForm());
@@ -79,7 +81,7 @@ public class InvitationController {
         if(result.hasErrors()) {
             model.put("selected", "impressions"); 
             model.put("owner", owner);
-            model.put("invitable", ownerService.isInvitable(owner.getId(), viewerAccount));
+            model.put("invitable", viewerService.isInvitable(owner.getId(), viewerAccount));
             return "createInvitationFormView";
         }
 
@@ -120,7 +122,7 @@ public class InvitationController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
-        List<Invitation> invitations = viewerService.getInvitationsReceived();
+        List<Invitation> invitations = invitationService.getViewerInvitationsReceived();
         model.put("invitations", invitations);
  
         return "invitations";

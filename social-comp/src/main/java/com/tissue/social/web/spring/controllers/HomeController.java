@@ -2,6 +2,7 @@ package com.tissue.social.web.spring.controllers;
 
 import com.tissue.core.User;
 import com.tissue.core.Account;
+import com.tissue.core.Verification;
 import com.tissue.commons.services.AccountService;
 import com.tissue.commons.util.SecurityUtil;
 import com.tissue.social.Activity;
@@ -109,7 +110,6 @@ public class HomeController {
             return "signup";
         }
 
-        /**
         VerificationForm verificationForm = new VerificationForm();
         verificationForm.setCode(UUID.randomUUID().toString());
         verificationForm.setEmail(form.getEmail());
@@ -119,12 +119,21 @@ public class HomeController {
         verificationForm.setAccount(account);
 
         verificationService.sendVerificationEmail(verificationForm, locale);
-        */
 
         model.clear();
         return "redirect:/signin?t=n";
     }
 
+    @RequestMapping(value="/verifications/{code}")
+    public String verifyCode(@PathVariable("code") Verification verification, Map model) {
+
+        accountService.setVerified(verification.getAccount().getId());
+        verificationService.deleteVerification(verification.getId());
+
+        return "verificationSuccess";
+    }
+
+    /**
     @RequestMapping(value="/checkUsername", method=POST)
     public HttpEntity<?> checkUsername(@RequestParam(value="username") String username, Map model) {
 
@@ -151,5 +160,5 @@ public class HomeController {
             return HttpEntity.EMPTY;
         }
     }
-
+    */
 }

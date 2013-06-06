@@ -3,7 +3,7 @@ package com.tissue.social.services;
 import com.tissue.core.dao.ResetDao;
 import com.tissue.core.command.ResetCommand;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -15,11 +15,10 @@ import org.springframework.mail.SimpleMailMessage;
 import java.util.List;
 import java.util.Locale;
 
-@Service
+@Component
 public class ResetService implements MessageSourceAware {
 
     @Value("${mail_from}")
-    //@Value("${systemProperties['mail_from']}")
     private String from;
 
     @Autowired

@@ -14,15 +14,17 @@
             </div>
 
             <legend>
-                <@spring.message "signupForm" />
+                <@spring.message "Legend.signupForm" />
                 <span class="constraint">
                     <@spring.message "Required.signupForm" />
                </span>
             </legend>
-            <ul>
+
+            <div class="signup-main">
+            <ul class="account">
                 <li>
                     <label for="username">
-                        <@spring.message "username" />
+                        <@spring.message "Label.formInput.username" />
                         <span style="display: none" class="error">
                             <@spring.message "Taken.username" />
                         </span>
@@ -31,7 +33,7 @@
                  </li>
                  <li>
                      <label for="password">
-                         <@spring.message "password" />
+                         <@spring.message "Label.formInput.password" />
                          <span class="constraint">
                              <@spring.message "Size.password" />
                          </span>
@@ -40,22 +42,25 @@
                   </li>
                   <li>
                       <label for="confirm">
-                          <@spring.message "confirm" />
+                          <@spring.message "Label.formInput.confirm" />
                       </label>
                       <@spring.formPasswordInput "signupForm.confirm" />
                   </li>
                   <li>
                     <label for="email">
-                        <@spring.message "email" />
+                        <@spring.message "Label.formInput.email" />
                         <span style="display: none" class="error">
                             <@spring.message "Taken.email" />
                         </span>
                     </label>
                     <@spring.formInput "signupForm.email" />
                 </li>
+            </ul>
+
+            <ul class="user">
                 <li>
                      <label for="displayName">
-                         <@spring.message "displayName" />
+                         <@spring.message "Label.formInput.displayName" />
                          <span class="constraint">
                              <@spring.message "Size.displayName" />
                          </span>
@@ -64,7 +69,7 @@
                 </li>
                 <li>
                     <label for="headline">
-                         <@spring.message "headline" />
+                         <@spring.message "Label.formInput.headline" />
                          <span class="constraint">
                              <@spring.message "Size.headline" />
                          </span>
@@ -72,11 +77,11 @@
                     <@spring.formTextarea "signupForm.headline" />
                 </li>
                 <li>
-                    <input type="submit" value='<@spring.message "Signup.button" />' />
+                    <input type="submit" value='<@spring.message "SignupText.formInput.submit" />' />
                 </li>
             </ul>
+            </div>
         </form>
-
-    <div>
+    </div>
 </@site.layout>
 

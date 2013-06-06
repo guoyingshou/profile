@@ -70,12 +70,18 @@ public class ViewerController {
         List<Activity> activities = activityService.getViewerWatchedActivities(32);
         model.put("activities", activities);
 
-        model.put("selected", "watchedFeeds");
-        return "dashboard";
+        if(activities.size() == 0) {
+            return "redirect:/allfeeds";
+        }
+        else {
+            model.put("selected", "watchedFeeds");
+            return "dashboard";
+        }
     }
 
     @RequestMapping(value="/allfeeds")
     public String allfeeds(Map model) {
+        model.put("selected", "allFeeds");
 
         Account viewerAccount = viewerService.getViewerAccount();
         model.put("viewerAccount", viewerAccount);
@@ -86,7 +92,6 @@ public class ViewerController {
         List<Activity> activities = activityService.getActivities(viewerAccount.getId(), 32);
         model.put("activities", activities);
 
-        model.put("selected", "allFeeds");
         return "dashboard";
     }
 

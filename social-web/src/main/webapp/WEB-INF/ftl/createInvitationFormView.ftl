@@ -16,17 +16,17 @@
             </div>
 
             <legend>
-                <@spring.message "invitationForm" />
+                <@spring.message "Legend.invitationForm" />
             </legend>
             <ul>
                 <li>
                     <label for="letter">
-                        <@spring.message "content" />
+                        <@spring.message "Label.formInput.content" />
                     </label>
                     <@spring.formTextarea 'invitationForm.content' />
                 </li>
                 <li>
-                    <input type="submit" name="submit" value='<@spring.message "Send.button"/>' />
+                    <input type="submit" name="submit" value='<@spring.message "SendText.formInput.submit"/>' />
                 </li>
             </ul>
         </form>

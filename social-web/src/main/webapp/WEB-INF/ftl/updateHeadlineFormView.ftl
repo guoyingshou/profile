@@ -24,29 +24,29 @@
                 </div>
  
                 <legend>
-                    <@spring.message "updateHeadlineForm" />
+                    <@spring.message "Legend.updateHeadlineForm" />
                 </legend>
                 <ul>
                     <li>
                         <label for="displayName">
-                            <@spring.message "displayName" />
+                            <@spring.message "Label.formInput.displayName" />
                             <span class="constraint">
                                 <@spring.message "Size.displayName" />
                             </span>
                         </label>
-                        <@spring.formInput "headlineForm.displayName" 'class="sum"' />
+                        <@spring.formInput "headlineForm.displayName" />
                     </li>
                     <li>
                         <label for="headline">
-                            <@spring.message "headline" />
+                            <@spring.message "Label.formInput.headline" />
                             <span class="constraint">
                                 <@spring.message "Size.headline" />
                             </span>
                         </label>
-                        <@spring.formTextarea "headlineForm.headline" 'class="sum"' />
+                        <@spring.formTextarea "headlineForm.headline" />
                     </li>
                     <li>
-                        <input type="submit" value='<@spring.message "Save.button" />' />
+                        <input type="submit" value='<@spring.message "SaveText.formInput.submit" />' />
                     </li>
                  </ul>
               </form>

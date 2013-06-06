@@ -62,6 +62,7 @@ public class OwnerService {
         return postDao.getPagedPostsByUser(userId, page, size);
     }
  
+    /**
     public boolean isInvitable(String ownerId, Account viewerAccount) {
 
         if((viewerAccount == null) || viewerAccount.hasRole("ROLE_EVIL")) {
@@ -77,4 +78,5 @@ public class OwnerService {
         }
         return invitable;
     }
+    */
 }

@@ -22,23 +22,23 @@
                        <@spring.showErrors "<br>" />
                     </div>
                     <legend>
-                        <@spring.message "updatePasswordForm" />
+                        <@spring.message "Legend.updatePasswordForm" />
                     </legend>
                     <ul>
                         <li>
                            <label for="password">
-                              <@spring.message "password" />
+                              <@spring.message "Label.formInput.password" />
                            </label>
                            <@spring.formPasswordInput "passwordForm.password" 'class="sum"' />
                         </li>
                         <li>
                             <label for="confirm">
-                                <@spring.message "confirm" />
+                                <@spring.message "Label.formInput.confirm" />
                             </label>
                             <@spring.formPasswordInput "passwordForm.confirm" 'class="sum"' />
                         </li>
                         <li>
-                            <input type="submit" value='<@spring.message "Save.button" />'/>
+                            <input type="submit" value='<@spring.message "SaveText.formInput.submit" />'/>
                         </li>
                     </ul>
                 </form>

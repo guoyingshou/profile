@@ -18,22 +18,22 @@
         <div id="page-main">
             <div id="main-content">
                 <div>
-                    <@spring.message 'username' />: 
+                    <@spring.message 'Label.formInput.username' />: 
                     ${viewerAccount.username}
                 </div>
 
                 <div>
-                    <@spring.message 'email' />: 
+                    <@spring.message 'Label.formInput.email' />: 
                     ${viewerAccount.email}
                 </div>
 
                 <div>
-                    <@spring.message 'displayName' />: 
+                    <@spring.message 'Label.formInput.displayName' />: 
                     ${viewerAccount.user.displayName}
                 </div>
 
                 <div>
-                    <@spring.message 'headline' />: 
+                    <@spring.message 'Label.formInput.headline' />: 
                     ${viewerAccount.user.headline}
                 </div>
             </div>
