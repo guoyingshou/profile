@@ -29,12 +29,12 @@
                     <ul>
                        <li>
                           <label for="email">
-                              <@spring.message "Label.formInput.email" />
+                              <@spring.message "Label.email" />
                           </label>
                           <@spring.formInput "emailForm.email" 'class="sum"' />
                        </li>
                        <li>
-                           <input type="submit" value='<@spring.message "SaveText.formInput.submit"/>'/>
+                           <input type="submit" value='<@spring.message "SaveText.submit"/>'/>
                        </li>
                     </ul>
                 </form>

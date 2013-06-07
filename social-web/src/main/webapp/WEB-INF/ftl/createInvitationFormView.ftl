@@ -21,12 +21,12 @@
             <ul>
                 <li>
                     <label for="letter">
-                        <@spring.message "Label.formInput.content" />
+                        <@spring.message "Label.content" />
                     </label>
                     <@spring.formTextarea 'invitationForm.content' />
                 </li>
                 <li>
-                    <input type="submit" name="submit" value='<@spring.message "SendText.formInput.submit"/>' />
+                    <input type="submit" name="submit" value='<@spring.message "SendText.submit"/>' />
                 </li>
             </ul>
         </form>

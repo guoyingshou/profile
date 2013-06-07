@@ -24,7 +24,7 @@
             <ul class="account">
                 <li>
                     <label for="username">
-                        <@spring.message "Label.formInput.username" />
+                        <@spring.message "Label.username" />
                         <span style="display: none" class="error">
                             <@spring.message "Taken.username" />
                         </span>
@@ -33,7 +33,7 @@
                  </li>
                  <li>
                      <label for="password">
-                         <@spring.message "Label.formInput.password" />
+                         <@spring.message "Label.password" />
                          <span class="constraint">
                              <@spring.message "Size.password" />
                          </span>
@@ -42,13 +42,13 @@
                   </li>
                   <li>
                       <label for="confirm">
-                          <@spring.message "Label.formInput.confirm" />
+                          <@spring.message "Label.confirm" />
                       </label>
                       <@spring.formPasswordInput "signupForm.confirm" />
                   </li>
                   <li>
                     <label for="email">
-                        <@spring.message "Label.formInput.email" />
+                        <@spring.message "Label.email" />
                         <span style="display: none" class="error">
                             <@spring.message "Taken.email" />
                         </span>
@@ -60,7 +60,7 @@
             <ul class="user">
                 <li>
                      <label for="displayName">
-                         <@spring.message "Label.formInput.displayName" />
+                         <@spring.message "Label.displayName" />
                          <span class="constraint">
                              <@spring.message "Size.displayName" />
                          </span>
@@ -69,7 +69,7 @@
                 </li>
                 <li>
                     <label for="headline">
-                         <@spring.message "Label.formInput.headline" />
+                         <@spring.message "Label.headline" />
                          <span class="constraint">
                              <@spring.message "Size.headline" />
                          </span>
@@ -77,7 +77,7 @@
                     <@spring.formTextarea "signupForm.headline" />
                 </li>
                 <li>
-                    <input type="submit" value='<@spring.message "SignupText.formInput.submit" />' />
+                    <input type="submit" value='<@spring.message "SignupText.submit" />' />
                 </li>
             </ul>
             </div>

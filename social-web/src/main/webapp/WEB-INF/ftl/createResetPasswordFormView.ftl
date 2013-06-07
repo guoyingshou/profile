@@ -20,13 +20,13 @@
             <ul>
                 <li>
                     <label for="password">
-                        <@spring.message "Label.formInput.password" />
+                        <@spring.message "Label.password" />
                     </label>
                     <@spring.formPasswordInput "resetPasswordForm.password" />
                 </li>
                 <li>
                     <label for="confirm">
-                        <@spring.message "Label.formInput.confirm" />
+                        <@spring.message "Label.confirm" />
                     </label>
                    <@spring.formPasswordInput 'resetPasswordForm.confirm' />
                 </li>
@@ -37,7 +37,7 @@
                     -->
                 </li>
                 <li>
-                    <input type="submit" value='<@spring.message "SaveText.formInput.submit" />'/>
+                    <input type="submit" value='<@spring.message "SaveText.submit" />'/>
                 </li>
             </ul>
          </form>

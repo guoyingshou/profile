@@ -19,7 +19,7 @@
             <ul>
                 <li>
                     <label for="username">
-                        <@spring.message "Label.formInput.username" />
+                        <@spring.message "Label.username" />
                         <span style="display: none" class="error">
                             <@spring.message "Taken.username" />
                         </span>
@@ -28,7 +28,7 @@
                  </li>
                  <li>
                      <label for="password">
-                         <@spring.message "Label.formInput.password" />
+                         <@spring.message "Label.password" />
                          <span class="constraint">
                              <@spring.message "Size.password" />
                          </span>
@@ -37,7 +37,7 @@
                   </li>
                   <li>
                     <label for="email">
-                        <@spring.message "Label.formInput.email" />
+                        <@spring.message "Label.email" />
                         <span style="display: none" class="error">
                             <@spring.message "Taken.email" />
                         </span>
@@ -46,7 +46,7 @@
                 </li>
                 <li>
                      <label for="displayName">
-                         <@spring.message "Label.formInput.displayName" />
+                         <@spring.message "Label.displayName" />
                          <span class="constraint">
                              <@spring.message "Size.displayName" />
                          </span>
@@ -55,7 +55,7 @@
                 </li>
                 <li>
                     <label for="headline">
-                         <@spring.message "Label.formInput.headline" />
+                         <@spring.message "Label.headline" />
                          <span class="constraint">
                              <@spring.message "Size.headline" />
                          </span>

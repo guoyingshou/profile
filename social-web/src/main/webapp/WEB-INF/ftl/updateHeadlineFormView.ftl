@@ -29,7 +29,7 @@
                 <ul>
                     <li>
                         <label for="displayName">
-                            <@spring.message "Label.formInput.displayName" />
+                            <@spring.message "Label.displayName" />
                             <span class="constraint">
                                 <@spring.message "Size.displayName" />
                             </span>
@@ -38,7 +38,7 @@
                     </li>
                     <li>
                         <label for="headline">
-                            <@spring.message "Label.formInput.headline" />
+                            <@spring.message "Label.headline" />
                             <span class="constraint">
                                 <@spring.message "Size.headline" />
                             </span>
@@ -46,7 +46,7 @@
                         <@spring.formTextarea "headlineForm.headline" />
                     </li>
                     <li>
-                        <input type="submit" value='<@spring.message "SaveText.formInput.submit" />' />
+                        <input type="submit" value='<@spring.message "SaveText.submit" />' />
                     </li>
                  </ul>
               </form>

@@ -19,12 +19,12 @@
     <ul>
         <li>
             <label for="email">
-                <@spring.message "Label.formInput.email" />
+                <@spring.message "Label.email" />
             </label>
             <@spring.formInput 'resetRequestForm.email' />
         </li>
         <li>
-            <input type="submit" value='<@spring.message "Text.formInput.submit"/>'/>
+            <input type="submit" value='<@spring.message "Text.submit"/>'/>
         </li>
     </ul>
 </form>
