@@ -43,10 +43,10 @@ public class VerificationService implements MessageSourceAware {
         //generate and save verification code entry
         verificationDao.create(command);
 
-        String subject = messageSource.getMessage("Subject.verification", new Object[]{}, locale);
+        String subject = messageSource.getMessage("Subject.email.verification", new Object[]{}, locale);
         
         Object[] args = {command.getCode()};
-        String text = messageSource.getMessage("Text.verification", args, locale);
+        String text = messageSource.getMessage("Text.email.verification", args, locale);
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject(subject);

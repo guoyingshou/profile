@@ -41,10 +41,10 @@ public class ResetService implements MessageSourceAware {
     public void sendResetEmail(ResetCommand command, Locale locale) {
         resetDao.create(command);
 
-        String subject = messageSource.getMessage("Subject.reset", new Object[]{}, locale);
+        String subject = messageSource.getMessage("Subject.email.reset", new Object[]{}, locale);
         
         Object[] args = {command.getCode()};
-        String text = messageSource.getMessage("Text.reset", args, locale);
+        String text = messageSource.getMessage("Text.email.reset", args, locale);
 
         SimpleMailMessage msg = new SimpleMailMessage();
         msg.setSubject(subject);

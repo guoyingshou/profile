@@ -26,10 +26,10 @@
                         <div>${invitation.content}</div>
                         <div class="action">
                             <a href="<@spring.url '/invitations/${invitation.id?replace("#", "")}/_accept' />">
-                                <@spring.message "Accept.invitation" />
+                                <@spring.message "AcceptInvitationText.viewer" />
                             </a>
                             <a href="<@spring.url '/invitations/${invitation.id?replace("#","")}/_decline' />">
-                                <@spring.message "Decline.invitation" />
+                                <@spring.message "DeclineInvitationText.viewer" />
                             </a>
                         </div>
                      </li>

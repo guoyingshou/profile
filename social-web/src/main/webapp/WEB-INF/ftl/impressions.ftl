@@ -34,7 +34,7 @@
 
                <#if viewerAccount?? && !viewerAccount.hasRole('ROLE_EVIL') && isFriend>
                <a href="<@spring.url '/users/${owner.id?replace("#","")}/impressions/_create' />">
-                   <@spring.message 'Add.impression' />
+                   <@spring.message 'AddImpressionText.viewer' />
                </a>
                </#if>
            </div>

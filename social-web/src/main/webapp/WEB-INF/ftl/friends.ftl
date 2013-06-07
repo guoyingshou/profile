@@ -22,7 +22,7 @@
                                 </a>
 
                                 <a class="pop" data-form-selector="#confirmForm" data-dialog-width="320" data-action="<@spring.url '/friends/${friend.id?replace("#","")}/_remove' />" href="#">
-                                     <@spring.message "Disconnect.user" />
+                                     <@spring.message "DisconnectText.viewer" />
                                 </a>
                             </div>
                             <div class="headline">
