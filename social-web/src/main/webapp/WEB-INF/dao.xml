@@ -29,6 +29,16 @@
         <property name="port" value="${smtp_port}" />
         <property name="username" value="${smtp_username}" />
         <property name="password" value="${smtp_password}" />
+        <property name="javaMailProperties">
+            <props>
+                <prop key="mail.smtp.auth">true</prop>
+                <prop key="mail.smtp.starttls.enable">true</prop>
+                <!--
+                <prop key="mail.smtp.ssl.enable">false</prop>
+                -->
+                <prop key="mail.debug">true</prop>
+            </props>
+        </property>
     </bean>
 
 </beans>

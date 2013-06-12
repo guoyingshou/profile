@@ -116,9 +116,10 @@ public class ViewerController {
     }
 
     @RequestMapping(value="/friends/{friendId}/_remove", method=POST)
-    public String removeFriend(@PathVariable("friendId") User friend, Map model, @ModelAttribute("viewerAccount") Account viewerAccount) {
+    public String removeFriend(@PathVariable("friendId") String friendId, Map model) {
 
-        viewerService.removeRelation(friend.getId(), viewerAccount.getUser().getId());
+        Account viewerAccount = viewerService.getViewerAccount();
+        viewerService.removeRelation(friendId, viewerAccount.getUser().getId());
 
         model.clear();
         return "redirect:/friends";

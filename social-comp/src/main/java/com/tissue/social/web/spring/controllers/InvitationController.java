@@ -7,7 +7,6 @@ import com.tissue.social.Invitation;
 import com.tissue.plan.Plan;
 import com.tissue.social.web.model.InvitationForm;
 import com.tissue.social.services.InvitationService;
-//import com.tissue.social.services.OwnerService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.http.HttpEntity;
@@ -51,11 +50,6 @@ public class InvitationController {
 
     @Autowired
     private ViewerService viewerService;
-
-    /**
-    @Autowired
-    private OwnerService ownerService;
-    */
 
     @RequestMapping(value="/users/{userId}/invitations/_create")
     public String invitationViewForm(@PathVariable("userId") User owner, Map model) {
@@ -122,8 +116,10 @@ public class InvitationController {
         List<Plan> plans = viewerService.getViewerPlans();
         model.put("plans", plans);
 
+        /**
         List<Invitation> invitations = invitationService.getViewerInvitationsReceived();
         model.put("invitations", invitations);
+        */
  
         return "invitations";
     }
