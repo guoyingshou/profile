@@ -15,8 +15,12 @@ import org.springframework.mail.SimpleMailMessage;
 import java.util.List;
 import java.util.Locale;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Component
 public class VerificationService implements MessageSourceAware {
+    private static Logger logger = LoggerFactory.getLogger(VerificationService.class);
 
     @Value("#{'${mail_from}'}")
     private String from;
@@ -54,7 +58,12 @@ public class VerificationService implements MessageSourceAware {
         msg.setFrom(from);
         msg.setTo(command.getAccount().getEmail());
 
-        mailSender.send(msg);
+        try {
+            mailSender.send(msg);
+        }
+        catch(Exception exc) {
+            logger.warn(exc.getMessage());
+        }
     }
 
     public void deleteVerification(String verificationId) {
