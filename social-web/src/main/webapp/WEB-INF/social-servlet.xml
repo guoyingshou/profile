@@ -19,7 +19,16 @@
     <context:annotation-config />
     <mvc:annotation-driven conversion-service="conversionService" />
     <mvc:interceptors>
+        <!--
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" /> 
+        -->
+        <bean class="com.tissue.commons.spring.i18n.LocaleChangeInterceptor"> 
+            <property name="supportingLocales">
+                 <util:list>
+                     <value>zh_CN</value>
+                 </util:list>
+            </property>
+        </bean>
     </mvc:interceptors>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver" />
